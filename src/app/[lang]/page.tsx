@@ -4,7 +4,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <p>Home page Test</p>
     </main>
   );
 }
