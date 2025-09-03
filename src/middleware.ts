@@ -82,14 +82,14 @@ export function middleware(request: NextRequest) {
   response.headers.set(
     "Content-Security-Policy",
     "default-src 'self'; " +
-      "connect-src 'self' https://sds-strapi-1c16f892193c.herokuapp.com http://localhost:1337 https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://va.vercel-scripts.com; " +
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://va.vercel-scripts.com; " +
+      "connect-src 'self' https://ancient-compassion-c978f136b7.strapiapp.com http://localhost:1337 https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://va.vercel-scripts.com; " +
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://va.vercel-scripts.com; " +
       "style-src 'self' 'unsafe-inline' https://*.google.com https://*.gstatic.com; " +
       "img-src 'self' data: https: blob: https://*.google.com https://*.gstatic.com; " +
       "font-src 'self' data: https://*.google.com https://*.gstatic.com; " +
       "object-src 'none'; " +
       "media-src 'self'; " +
-      "frame-src 'self' https://*.google.com https://*.gstatic.com https://www.googletagmanager.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; " +
+      "frame-src 'self' https://*.google.com https://*.gstatic.com https://www.googletagmanager.com; " +
       "worker-src 'self' blob:;"
   );
   response.headers.set("X-XSS-Protection", "1; mode=block");
