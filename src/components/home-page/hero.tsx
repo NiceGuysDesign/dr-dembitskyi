@@ -10,6 +10,7 @@ export default function Hero() {
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20">
       <h1 className="text-4xl font-bold"> {t("hero.title")} </h1>
       <p className="text-lg text-gray-500"> {t("hero.description")} </p>
+      <p>Hero page Test</p>
       <Button variant="default">Test Button</Button>
       <Button variant="destructive">Test Button</Button>
       <Button variant="outline">Test Button</Button>
