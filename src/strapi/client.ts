@@ -1,6 +1,5 @@
 const STRAPI_BASE_URL =
-  process.env.NEXT_PUBLIC_STRAPI_URL ||
-  "https://ancient-compassion-c978f136b7.strapiapp.com";
+  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
