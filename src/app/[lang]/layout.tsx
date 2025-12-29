@@ -1,18 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/header/header";
 import I18nProvider from "@/components/providers/i18n-provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { manrope } from "../../fonts/manrope";
+import { inter } from "../../fonts/inter";
 
 export const metadata: Metadata = {
   title: "Dr. Dembitskyi",
@@ -31,7 +22,7 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${manrope.variable} ${inter.variable} antialiased`}
       >
         <I18nProvider>
           <Header />

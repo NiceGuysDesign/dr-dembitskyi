@@ -1,20 +1,28 @@
 "use client";
 
 import React from "react";
-import { Container } from "../ui/container";
 import LenguageSwitcher from "./lenguage-switcher";
-import Navigation from "./navigation";
+import Logo from "../../../public/icons/logo";
+import PhoneIcon from "../../../public/icons/phone-icon";
+import { Button } from "../ui/button";
 
 export default function Header() {
   return (
-    <header className="bg-gray-100 p-4 mt-3">
-      <Container
-        variant="content"
-        className="flex flex-row items-center justify-between"
-      >
-        <Navigation />
-        <LenguageSwitcher />
-      </Container>
+    <header className="fixed top-0 left-0 right-0 z-50 py-[10px] px-[20px] flex justify-between items-center">
+      <Logo />
+      <div className="flex items-center gap-4 justify-between w-[40%]">
+        <a
+          href="tel:+380635554433"
+          className="text-base font-medium text-black flex items-center gap-2"
+        >
+          <PhoneIcon />
+          +38 063 555 44 33
+        </a>
+        <div className="flex items-center gap-5">
+          <LenguageSwitcher />
+          <Button variant="menu">Меню</Button>
+        </div>
+      </div>
     </header>
   );
 }

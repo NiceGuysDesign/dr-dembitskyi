@@ -1,63 +1,69 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-// import { useTranslation } from "react-i18next";
-import { useParams } from "next/navigation";
+import React from "react";
 import { Button } from "../ui/button";
-import { getHero } from "@/strapi/hero";
-import type { HeroEntity } from "@/types/strapi";
 import Image from "next/image";
 
+const heroData = {
+  title: "Andry Dembitskyi",
+  description:
+    "Пластичний хірург із багаторічним досвідом, який поєднує професіоналізм, сучасні технології та уважне ставлення до кожного пацієнта. Моя мета – не просто змінювати зовнішність, а робити її гармонійною і здоровою.",
+  image: "/images/unnamed-2 2.png",
+  imageAlt: "Dr. Andry Dembitskyi",
+};
+
 export default function Hero() {
-  // const { t } = useTranslation();
-  const params = useParams();
-  const locale = (params?.lang as string) || "en";
-
-  const [data, setData] = useState<HeroEntity | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    getHero(locale)
-      .then((res) => {
-        if (isMounted) setData(res.data);
-      })
-      .catch(() => {
-        if (isMounted) setData(null);
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, [locale]);
-
   return (
-    <div className="font-sans flex flex-col items-center justify-center p-8 pb-20 gap-16 sm:p-20">
-      {/* <h1 className="text-4xl font-bold"> {t("hero.title")} </h1> */}
-      <div className="flex flex-col items-center justify-center gap-4">
-        {data?.image?.url && (
-          <Image
-            src={data.image.url}
-            width={100}
-            height={100}
-            alt={data.image.alternativeText || "Hero image"}
-            className="object-cover"
-            unoptimized={true}
-          />
-        )}
-        {data && (
-          <>
-            <h1 className="text-4xl font-bold"> {data.title} </h1>
-            <p className="text-lg text-gray-500"> {data.description} </p>
-          </>
-        )}
+    <section className="relative w-full min-h-screen overflow-hidden pt-[120px]">
+      {/* Main content container */}
+      <div className="relative">
+
+        <div className="relative flex justify-between items-end">
+          {/* Large heading "Andry" */}
+          <h1 className="relative font-manrope font-bold text-[19vw] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)]">
+            Andry
+            <span className="absolute left-[-7px] top-[371px] font-manrope font-bold text-[19vw] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] z-20 whitespace-nowrap">
+              Dembitskyi
+            </span>
+          </h1>
+
+          {/* Image in center */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-[-30%] z-10">
+            <Image
+              src={heroData.image}
+              width={1021}
+              height={1022}
+              alt={heroData.imageAlt}
+              className="object-cover w-full h-full"
+              unoptimized={true}
+              priority
+            />
+          </div>
+
+          {/* Description and buttons - right side */}
+          <div className="right-[60px] top-[210px] w-[460px] flex flex-col gap-6 z-30">
+            {/* Description text */}
+            <p className="font-manrope font-semibold text-base leading-[150%] tracking-[-0.03em] text-black">
+              {heroData.description}
+            </p>
+
+            {/* Buttons */}
+            <div className="flex items-center gap-4">
+              <Button
+                variant="default"
+                style={{ background: "var(--gradient-button)" }}
+                className="min-w-[242px]"
+              >
+                Консультація
+              </Button>
+              <Button variant="link" className="flex flex-col gap-2">
+                Послуги <span className="h-[2px] bg-black w-full"></span>
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex gap-4">
-        <Button variant="default">Test Button</Button>
-        <Button variant="destructive">Test Button</Button>
-        <Button variant="outline">Test Button</Button>
-        <Button variant="secondary">Test Button</Button>
-        <Button variant="ghost">Test Button</Button>
-        <Button variant="link">Test Button</Button>
-      </div>
-    </div>
+      <div className="absolute bottom-0 bg-gradient-to-t from-[var(--color-bg-light)] to-transparent w-full h-[300px] z-10"></div>
+    </section>
   );
 }
