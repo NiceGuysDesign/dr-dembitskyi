@@ -13,11 +13,24 @@ import InstagramIcon from "../../../public/icons/instagram-icon";
 import { Button } from "../ui/button";
 
 export default function Header() {
+  const [windowWidth, setWindowWidth] = useState(1440); // Default to desktop width
+
   const { t } = useTranslation();
   const params = useParams() as { lang?: string };
   const lang = params?.lang ?? "uk";
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Track window width for responsive animations
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,6 +59,12 @@ export default function Header() {
           ? "bg-[var(--color-bg-light)]/80 backdrop-blur-md"
           : "bg-transparent"
       }`}
+      style={{
+        top:
+          typeof window !== "undefined" && windowWidth >= 768
+            ? "0px"
+            : `calc(env(safe-area-inset-top, 0px))`,
+      }}
     >
       {/* Logo */}
       <div className="flex-shrink-0">
