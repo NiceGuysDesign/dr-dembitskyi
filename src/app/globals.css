@@ -68,3 +68,13 @@ body {
 .font-manrope {
   font-family: var(--font-manrope);
 }
+
+/* Прибираємо затемнення на неактивних слайдах в coverflow */
+.cases-swiper .swiper-slide {
+  opacity: 1 !important;
+}
+
+.cases-swiper .swiper-slide-shadow-left,
+.cases-swiper .swiper-slide-shadow-right {
+  display: none !important;
+}

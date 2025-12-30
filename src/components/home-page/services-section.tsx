@@ -128,7 +128,7 @@ export default function ServicesSection() {
           {/* Inner container - matches motionpath-content-inner */}
           <div className="flex justify-start items-start w-full h-full overflow-hidden">
             {/* SVG Path container - matches motionpath-content-path */}
-            <div className="w-[100vmax] h-full max-h-[45vh]">
+            <div className="w-[100vmax] h-full max-h-[55vh]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 1366 603"

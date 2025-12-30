@@ -29,7 +29,7 @@ export default function CTASection() {
 
       {/* Main content container */}
       <div className="relative px-5">
-        <div className="relative flex flex-col lg:flex-row items-center lg:items-center gap-10">
+        <div className="relative flex flex-col lg:flex-row items-center lg:items-center gap-20">
           {/* Image on the left */}
           <div className="relative w-full max-w-[823px] h-[400px] sm:h-[600px] lg:h-[823px] lg:flex-shrink-0 ml-[-20px]">
             <Image
