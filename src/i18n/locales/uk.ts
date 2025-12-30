@@ -8,6 +8,11 @@ export const uk = {
     contacts: "Контакти",
     cases: "Кейси",
   },
+  header: {
+    consultation: "Консультація",
+    language: "Мова",
+    menu: "Меню",
+  },
   hero: {
     title: "Dr. Dembitskyi",
     description: "Головна сторінка Hero секція",

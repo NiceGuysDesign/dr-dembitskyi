@@ -8,6 +8,11 @@ export const en = {
     contacts: "Contacts",
     cases: "Cases",
   },
+  header: {
+    consultation: "Consultation",
+    language: "Language",
+    menu: "Menu",
+  },
   hero: {
     title: "Dr. Dembitskyi",
     description: "Home page hero section",

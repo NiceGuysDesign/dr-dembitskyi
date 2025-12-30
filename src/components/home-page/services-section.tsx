@@ -109,7 +109,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="relative w-full">
+    <section className="relative w-full overflow-x-clip">
       {/* Section with motion path animation */}
       <div
         ref={wrapRef}
@@ -117,16 +117,16 @@ export default function ServicesSection() {
         className="w-full h-[450vh] relative"
       >
         {/* Sticky content container - matches motionpath-content */}
-        <div className="flex justify-center items-center w-full h-screen sticky top-[130px] z-10">
+        <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[130px] z-10">
           {/* Background title */}
-          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[90px] leading-[100%] tracking-[-0.05em] font-bold absolute top-[-5%] flex flex-col gap-2 w-full px-5">
+          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[8vw] md:text-[70px] lg:text-[90px] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
             Пластична хірургія
-            <span className="text-end">де головне — не форма, </span>
+            <span className="text-center">де головне — не форма, </span>
             <span className="text-start ml-[20%]">а людина</span>
           </h2>
 
           {/* Inner container - matches motionpath-content-inner */}
-          <div className="flex justify-start items-start w-full h-full overflow-hidden">
+          <div className="flex justify-start items-start w-full h-full relative">
             {/* SVG Path container - matches motionpath-content-path */}
             <div className="w-[100vmax] h-full max-h-[55vh]">
               <svg
@@ -154,7 +154,7 @@ export default function ServicesSection() {
                   className="absolute"
                 >
                   {/* Card container with white background */}
-                  <div className="relative w-[460px] h-[614px] bg-white">
+                  <div className="relative w-[300px] md:w-[460px] h-[400px] md:h-[614px] bg-white">
                     {/* Image container */}
                     <div className="absolute w-full h-full">
                       <Image

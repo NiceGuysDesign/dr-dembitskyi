@@ -63,8 +63,8 @@ export default function PackagesSection() {
     >
       {/* Main Title */}
       <Container variant="content">
-        <div className="w-full flex justify-center mb-16">
-          <h2 className="font-manrope font-bold text-[48px] sm:text-[64px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] m-0 text-center max-w-[1143px]">
+        <div className="w-full flex justify-center mb-8 md:mb-12 lg:mb-16 px-[10px] md:px-5">
+          <h2 className="font-manrope font-bold text-[8vw] sm:text-[10vw] md:text-[64px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] m-0 text-center max-w-[1143px]">
             {t("packages.title")}
           </h2>
         </div>
@@ -72,27 +72,27 @@ export default function PackagesSection() {
 
       {/* Subtitle */}
       <Container variant="content">
-        <div className="w-full flex justify-center mb-8">
-          <p className="font-manrope font-semibold text-base leading-[150%] tracking-[-0.03em] text-black m-0 text-center max-w-[413px]">
+        <div className="w-full flex justify-center mb-6 md:mb-8 px-[10px] md:px-5">
+          <p className="font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black m-0 text-center max-w-[413px]">
             {t("packages.subtitle")}
           </p>
         </div>
       </Container>
       {/* Slides container */}
-      <div className="gsap-inner w-full relative px-5">
+      <div className="gsap-inner w-full relative px-[10px] md:px-5">
         <div className="w-full">
           {packages.map((pkg) => {
             return (
               <div
                 key={pkg.slug}
-                className="slide min-h-[90vh] md:min-h-screen w-full flex items-center justify-center"
+                className="slide min-h-[80vh] md:min-h-[90vh] lg:min-h-screen w-full flex items-center justify-center"
               >
                 <div
                   className="content-wrapper w-full relative overflow-hidden"
                   style={{ perspective: "250vw" }}
                 >
                   <div
-                    className="content relative w-full h-[812px] px-5 sm:px-10 lg:px-[40px] py-5 sm:py-10 lg:py-[40px] flex flex-col justify-between"
+                    className="content relative w-full h-[600px] md:h-[700px] lg:h-[812px] px-[10px] sm:px-5 md:px-10 lg:px-[40px] py-5 md:py-8 lg:py-[40px] flex flex-col justify-between"
                     style={{
                       transformStyle: "preserve-3d",
                       transformOrigin: "50% 10%",
@@ -108,7 +108,7 @@ export default function PackagesSection() {
                     />
 
                     {/* Image - absolute right, full height */}
-                    <div className="absolute top-[40px] right-0 w-[25vw] max-w-[400px] h-full">
+                    <div className="absolute top-[20px] md:top-[30px] lg:top-[40px] right-0 w-[30vw] sm:w-[28vw] md:w-[25vw] max-w-[300px] md:max-w-[350px] lg:max-w-[400px] h-[calc(100%-40px)] md:h-[calc(100%-60px)] lg:h-full">
                       <Image
                         src={pkg.image}
                         fill
@@ -120,18 +120,18 @@ export default function PackagesSection() {
 
                     {/* Top section with titles */}
                     <div className="flex flex-col gap-0 relative z-10">
-                      <h3 className="font-manrope font-bold text-[48px] sm:text-[80px] lg:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0">
+                      <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0">
                         {pkg.title1}
                       </h3>
-                      <h3 className="font-manrope font-bold text-[48px] sm:text-[80px] lg:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0 ml-0 sm:ml-[80px] lg:ml-[157px]">
+                      <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0 ml-0 sm:ml-[40px] md:ml-[80px] lg:ml-[120px] xl:ml-[157px]">
                         {pkg.title2}
                       </h3>
                     </div>
 
                     {/* Bottom section */}
-                    <div className="flex flex-col gap-8 relative z-10">
+                    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8 relative z-10">
                       {/* Description */}
-                      <p className="font-inter font-medium text-sm sm:text-base leading-[150%] text-white m-0 max-w-[460px]">
+                      <p className="font-inter font-medium text-xs sm:text-sm md:text-base leading-[150%] text-white m-0 max-w-[280px] sm:max-w-[350px] md:max-w-[460px]">
                         {pkg.description}
                       </p>
 
@@ -143,19 +143,20 @@ export default function PackagesSection() {
                           style={{
                             background:
                               "radial-gradient(114.39% 151.52% at 50% 151.52%, #3B3D7E 0%, #FFFFFF 100%)",
-                            width: "242px",
-                            height: "66px",
+                            width: "100%",
+                            maxWidth: "242px",
+                            height: "54px",
                             minHeight: "54px",
                             borderRadius: "50px",
                             color: "#131445",
                           }}
-                          className="font-inter font-medium text-base leading-[100%] tracking-[-0.01em]"
+                          className="font-inter font-medium text-sm sm:text-base leading-[100%] tracking-[-0.01em] sm:w-[242px] sm:h-[66px]"
                         >
                           {t("packages.buttonConsultation")}
                         </Button>
 
                         {/* More details link */}
-                        <button className="flex items-center justify-center gap-[10px] h-[32px] border-b border-white text-white font-inter font-medium text-base leading-[100%] tracking-[-0.01em] bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
+                        <button className="flex items-center justify-center gap-[10px] h-[32px] border-b border-white text-white font-inter font-medium text-sm sm:text-base leading-[100%] tracking-[-0.01em] bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
                           {t("packages.buttonMore")}
                         </button>
                       </div>

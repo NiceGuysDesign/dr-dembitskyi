@@ -20,10 +20,10 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-black font-inter font-medium text-base leading-[100%] tracking-[-0.01em] hover:opacity-80",
-        menu: "bg-[var(--color-bg-menu-button)] text-[var(--color-text-menu)] font-inter font-semibold text-base leading-[100%] tracking-[-0.031em] rounded-[50px] w-[112px] h-[54px] min-h-[54px] px-0 gap-[10px] shadow-[3px_8px_7.7px_rgba(0,0,0,0.34)] hover:scale-105 transition-all duration-300 flex-none self-stretch flex-grow",
+        menu: "bg-[var(--color-bg-menu-button)] text-[var(--color-text-menu)] font-inter font-semibold text-base leading-[100%] tracking-[-0.031em] rounded-[50px] w-fit h-[54px] min-h-[54px] gap-[10px] shadow-[3px_8px_7.7px_rgba(0,0,0,0.34)] hover:scale-105 transition-all duration-300 flex-none self-stretch flex-grow",
       },
       size: {
-        default: "h-[66px] px-4 py-2 has-[>svg]:px-3",
+        default: "px-6 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
@@ -51,7 +51,7 @@ function Button({
   // Special wrapper for menu variant
   if (variant === "menu") {
     return (
-      <div className="flex flex-col items-start p-[10px] gap-[10px] min-w-[132px] min-h-[73px] bg-[var(--color-bg-menu)] rounded-[190px] shadow-[inset_3px_4px_6.1px_rgba(0,0,0,0.23)]">
+      <div className="flex flex-col items-start p-[10px] gap-[10px] min-h-[73px] bg-[var(--color-bg-menu)] rounded-[190px] shadow-[inset_3px_4px_6.1px_rgba(0,0,0,0.23)]">
         <Comp
           data-slot="button"
           className={cn(buttonVariants({ variant, size, className }))}

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
-import HeroImageSection from "@/components/home-page/hero-image-section";
 import I18nProvider from "@/components/providers/i18n-provider";
 import { manrope } from "../../fonts/manrope";
 import { inter } from "../../fonts/inter";
@@ -27,7 +26,6 @@ export default async function RootLayout({
         <I18nProvider>
           <Header />
           {children}
-          <HeroImageSection />
           <Footer />
         </I18nProvider>
       </body>
