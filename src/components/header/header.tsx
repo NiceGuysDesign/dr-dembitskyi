@@ -54,7 +54,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-[10px]  md:px-5 px-[10px] flex items-center justify-between transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 py-[10px] md:px-5 px-[10px] flex items-center justify-between transition-all duration-300 ${
         isScrolled
           ? "bg-[var(--color-bg-light)]/80 backdrop-blur-md"
           : "bg-transparent"
