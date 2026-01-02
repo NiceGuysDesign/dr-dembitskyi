@@ -1,24 +1,34 @@
-"use client";
+import CTASection2 from "@/components/services/cta-section-2";
+import PackagesSection from "@/components/home-page/packages-section";
+import ServicesPageClient from "@/components/services/services-page-client";
+import { getServices } from "@/strapi/services";
 
-import { Container } from "@/components/ui/container";
-import { useTranslation } from "react-i18next";
-import Link from "next/link";
-import React from "react";
+export default async function ServicesPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const servicesData = await getServices(lang);
 
-export default function ServicesPage() {
-  const { t } = useTranslation();
   return (
-    <Container variant="content">
-      <div>
-        <h1 className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20">
-          {t("services.title")}
+    <main className="relative w-full min-h-screen">
+      {/* Large background title */}
+      <div className="absolute top-[46px] right-0 w-fit pointer-events-none z-0">
+        <h1 className="font-manrope font-bold text-[120px] md:text-[180px] lg:text-[212px] leading-[100%] tracking-[-0.05em] text-[#353556] opacity-[0.03] text-center">
+          Послуги
         </h1>
       </div>
-      <div className="flex flex-col gap-4 items-center justify-center">
-        <Link href="/services/1">{t("services.service1")}</Link>
-        <Link href="/services/2">{t("services.service2")}</Link>
-        <Link href="/services/3">{t("services.service3")}</Link>
+
+      <div className="relative z-10 px-[10px] md:px-5 pt-[120px] pb-10 md:pb-20">
+        <ServicesPageClient servicesData={servicesData} />
       </div>
-    </Container>
+
+      {/* Packages Section */}
+      <PackagesSection />
+
+      {/* CTA Section 2 */}
+      <CTASection2 />
+    </main>
   );
 }

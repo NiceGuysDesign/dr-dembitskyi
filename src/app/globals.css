@@ -51,6 +51,32 @@
   --gradient-image: linear-gradient(179.1deg, #ffffff -21.21%, #32346b 99.23%);
 }
 
+html {
+  /* Lenis smooth scroll */
+  overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 body {
   background-color: var(--color-bg-light);
   color: var(--color-text-primary);

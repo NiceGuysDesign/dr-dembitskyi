@@ -1,19 +1,47 @@
-"use client";
-
-import { useTranslation } from "react-i18next";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getServiceBySlug } from "@/strapi/services";
+import ServicePageClient from "@/components/services/service-page-client";
 
 type ServicesPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string; lang: string }>;
 };
 
-export default function ServicePage({ params }: ServicesPageProps) {
-  const { slug } = params;
-  const { t } = useTranslation();
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1>
-        {t("services.title")}: {slug}
-      </h1>
-    </div>
-  );
+export async function generateMetadata({
+  params,
+}: ServicesPageProps): Promise<Metadata> {
+  const { slug, lang } = await params;
+  const service = await getServiceBySlug(slug, lang);
+
+  if (!service) {
+    return {
+      title: "Service Not Found",
+      description: "The requested service could not be found.",
+    };
+  }
+
+  const title = service.seo?.title || service.title;
+  const description = service.seo?.description || service.description;
+
+  return {
+    title: `${title} | Dr. Dembitskyi`, 
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+  };
+}
+
+export default async function ServicePage({ params }: ServicesPageProps) {
+  const { slug, lang } = await params;
+
+  const service = await getServiceBySlug(slug, lang);
+
+  if (!service) {
+    notFound();
+  }
+
+  return <ServicePageClient service={service}/>;
 }
