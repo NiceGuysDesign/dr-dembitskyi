@@ -68,7 +68,9 @@ export default function Header() {
     >
       {/* Logo */}
       <div className="flex-shrink-0">
-        <Logo className="fill-[#353556]" />
+        <Link href={`/${lang}`}>
+          <Logo className="fill-[#353556]" />
+        </Link>
       </div>
 
       {/* Navigation - centered, hidden on mobile */}

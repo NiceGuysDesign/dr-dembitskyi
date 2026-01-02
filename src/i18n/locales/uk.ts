@@ -66,6 +66,7 @@ export const uk = {
       liposuction: "Ліпосакція",
       mammoplasty: "Мамопластика",
     },
+    noCasesFound: "За обраними фільтрами кейсів не знайдено",
   },
   footer: {
     site: "Сайт",

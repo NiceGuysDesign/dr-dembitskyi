@@ -66,6 +66,7 @@ export const en = {
       liposuction: "Liposuction",
       mammoplasty: "Mammoplasty",
     },
+    noCasesFound: "No cases found for the selected filters",
   },
   footer: {
     site: "Site",

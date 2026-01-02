@@ -60,7 +60,7 @@ export default function Hero() {
                 variant="link"
                 className="flex flex-col gap-2 items-start sm:items-center"
               >
-                {t("navigation.services")}{" "}
+                {t("navigation.services")}
                 <span className="h-[2px] bg-black w-full"></span>
               </Button>
             </div>

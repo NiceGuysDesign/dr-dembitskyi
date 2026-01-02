@@ -1,16 +1,25 @@
-"use client";
+import { getBlogPosts } from "@/strapi/blog";
+import BlogHeader from "@/components/blog/blog-header";
+import BlogList from "@/components/blog/blog-list";
+import CTASection from "@/components/home-page/cta-section";
 
-import { Container } from "@/components/ui/container";
-import { useTranslation } from "react-i18next";
-import React from "react";
+type BlogPageProps = {
+  params: Promise<{ lang: string }>;
+};
 
-export default function BlogPage() {
-  const { t } = useTranslation()
+export default async function BlogPage({ params }: BlogPageProps) {
+  const { lang } = await params;
+  const posts = await getBlogPosts(lang);
+
   return (
-    <Container variant="content">
-      <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-        <h1> {t("blog.title")} </h1>
+    <main className="relative w-full">
+      <div className="relative z-10 pt-24 md:pt-30 pb-16 md:pb-[60px]">
+        <div className="px-[10px] md:px-5">
+          <BlogHeader />
+          <BlogList posts={posts} />
+        </div>
       </div>
-    </Container>
+      <CTASection />
+    </main>
   );
 }

@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { ServiceData } from "@/strapi/services";
+import { Case } from "@/strapi/cases";
 import CTASection2 from "./cta-section-2";
 import CasesSection from "../home-page/cases-section";
 import RichText from "../ui/rich-text";
@@ -10,9 +11,13 @@ import { useLenis } from "../providers/lenis-context";
 
 interface ServicePageClientProps {
   service: ServiceData;
+  casesData?: Case[];
 }
 
-export default function ServicePageClient({ service }: ServicePageClientProps) {
+export default function ServicePageClient({
+  service,
+  casesData,
+}: ServicePageClientProps) {
   const { lenis } = useLenis();
 
   const handleNavClick = (
@@ -170,7 +175,7 @@ export default function ServicePageClient({ service }: ServicePageClientProps) {
 
         <div id="cases">
           {/* Cases Slider - Using CasesSection component */}
-          <CasesSection />
+          <CasesSection casesData={casesData} />
         </div>
         {/* CTA Section */}
         <CTASection2 />

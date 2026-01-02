@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getServiceBySlug } from "@/strapi/services";
+import { getCases } from "@/strapi/cases";
 import ServicePageClient from "@/components/services/service-page-client";
 
 type ServicesPageProps = {
@@ -24,7 +25,7 @@ export async function generateMetadata({
   const description = service.seo?.description || service.description;
 
   return {
-    title: `${title} | Dr. Dembitskyi`, 
+    title: `${title} | Dr. Dembitskyi`,
     description,
     openGraph: {
       title,
@@ -43,5 +44,7 @@ export default async function ServicePage({ params }: ServicesPageProps) {
     notFound();
   }
 
-  return <ServicePageClient service={service}/>;
+  const cases = await getCases(lang);
+
+  return <ServicePageClient service={service} casesData={cases} />;
 }

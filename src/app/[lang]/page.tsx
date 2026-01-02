@@ -4,15 +4,23 @@ import ServicesSection from "@/components/home-page/services-section";
 import PackagesSection from "@/components/home-page/packages-section";
 import CasesSection from "@/components/home-page/cases-section";
 import CTASection from "@/components/home-page/cta-section";
+import { getCases } from "@/strapi/cases";
 
-export default function Home() {
+type HomePageProps = {
+  params: Promise<{ lang: string }>;
+};
+
+export default async function Home({ params }: HomePageProps) {
+  const { lang } = await params;
+  const cases = await getCases(lang);
+
   return ( 
     <main>
       <Hero />
       <ServicesSection />
       <CTASection />
       <PackagesSection />
-      <CasesSection />
+      <CasesSection casesData={cases} />
       <HeroImageSection />
     </main>
   );
