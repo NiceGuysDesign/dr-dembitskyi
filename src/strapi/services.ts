@@ -172,24 +172,6 @@ function parseRichText(richText: RichTextNode[] | null | undefined): string {
     .join("\n\n");
 }
 
-// Helper function to extract paragraphs from Rich Text
-function extractParagraphs(
-  richText: RichTextNode[] | null | undefined
-): string[] {
-  if (!richText || !Array.isArray(richText)) return [];
-
-  return richText
-    .filter((node) => node.type === "paragraph")
-    .map((node) => {
-      if (!node.children || node.children.length === 0) return "";
-      return node.children
-        .map((child) => (child.text || "").trim())
-        .filter(Boolean)
-        .join(" ");
-    })
-    .filter(Boolean);
-}
-
 // Transform Strapi service to ServiceData format
 function transformStrapiService(
   strapiService: StrapiService,
@@ -247,7 +229,7 @@ function transformStrapiService(
 }
 
 // Export Rich Text parsing functions for use in components
-export { parseRichText, extractParagraphs };
+export { parseRichText };
 
 // Fetch services from Strapi
 export async function getServices(

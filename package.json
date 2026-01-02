@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "analyze:unused": "ts-prune",
+    "analyze:deps": "depcheck",
+    "analyze:duplicates": "jscpd src --min-lines 5 --min-tokens 50 --format console",
+    "analyze:all": "npm run analyze:unused && npm run analyze:deps && npm run analyze:duplicates"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -16,10 +20,8 @@
     "i18next": "^25.4.2",
     "i18next-browser-languagedetector": "^8.2.0",
     "lenis": "^1.3.17",
-    "lucide-react": "^0.542.0",
     "motion": "^12.23.26",
     "next": "15.5.9",
-    "next-intl": "^4.3.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-i18next": "^15.7.3",
@@ -32,9 +34,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "depcheck": "^1.4.7",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "jscpd": "^4.0.5",
     "tailwindcss": "^4",
+    "ts-prune": "^0.10.3",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
   }

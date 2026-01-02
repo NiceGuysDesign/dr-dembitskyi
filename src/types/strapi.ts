@@ -40,33 +40,3 @@ export interface StrapiImage {
   updatedAt: string;
   publishedAt?: string;
 }
-
-export interface HeroLocalization {
-  id: StrapiID;
-  documentId: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  locale: string;
-}
-
-export interface HeroEntity {
-  id: StrapiID;
-  documentId: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  locale: string;
-  image: StrapiImage | null;
-  video: unknown | null;
-  localizations?: HeroLocalization[];
-}
-
-export interface StrapiSingleResponse<T> {
-  data: T;
-  meta: Record<string, unknown>;
-}

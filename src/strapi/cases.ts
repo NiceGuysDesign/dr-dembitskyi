@@ -1,8 +1,6 @@
 import { strapiFetch } from "./client";
 import { StrapiImage } from "./services";
 import type {
-  BlogHeadingBlock,
-  BlogTextBlock,
   BlogBeforeAfterBlock,
   BlogImageBlock,
   BlogVideoBlock,
@@ -10,15 +8,7 @@ import type {
   StrapiContentBlock,
 } from "./blog";
 
-// Re-export content block types for cases (same structure as blog)
-export type {
-  BlogHeadingBlock as CaseHeadingBlock,
-  BlogTextBlock as CaseTextBlock,
-  BlogBeforeAfterBlock as CaseBeforeAfterBlock,
-  BlogImageBlock as CaseImageBlock,
-  BlogVideoBlock as CaseVideoBlock,
-  BlogContentBlock as CaseContentBlock,
-};
+// Content block types are available from blog.ts if needed in the future
 
 // Strapi types for cases (same structure as blog)
 export interface StrapiCase {
