@@ -5,6 +5,8 @@ import PackagesSection from "@/components/home-page/packages-section";
 import CasesSection from "@/components/home-page/cases-section";
 import CTASection from "@/components/home-page/cta-section";
 import { getCases } from "@/strapi/cases";
+import { getHero } from "@/strapi/hero";
+import { getPackageServices } from "@/strapi/package-service";
 
 type HomePageProps = {
   params: Promise<{ lang: string }>;
@@ -13,13 +15,19 @@ type HomePageProps = {
 export default async function Home({ params }: HomePageProps) {
   const { lang } = await params;
   const cases = await getCases(lang);
+  const heroData = await getHero(lang);
+  const packagesData = await getPackageServices(lang);
 
-  return ( 
+  if (!heroData) {
+    return <div>Дані Hero не знайдено</div>;
+  }
+
+  return (
     <main>
-      <Hero />
+      <Hero heroData={heroData} />
       <ServicesSection />
       <CTASection />
-      <PackagesSection />
+      <PackagesSection packagesData={packagesData} />
       <CasesSection casesData={cases} />
       <HeroImageSection />
     </main>

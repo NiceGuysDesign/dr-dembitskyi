@@ -2,16 +2,40 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { useParams } from "next/navigation";
 import { Button } from "../ui/button";
 import { Container } from "../ui/container";
-import { packages } from "@/data/packages";
+import { ServiceData } from "@/strapi/package-service";
 import { initEffect031 } from "@/animations/sections/effect031";
 import { useConsultation } from "../consultation/consultation-provider";
 
-export default function PackagesSection() {
+interface PackagesSectionProps {
+  packagesData?: ServiceData[];
+}
+
+// Helper function to split title into title1 and title2
+function splitTitle(title: string): { title1: string; title2: string } {
+  const words = title.split(" ");
+  if (words.length <= 1) {
+    return { title1: title, title2: "" };
+  }
+  // Split roughly in half
+  const mid = Math.ceil(words.length / 2);
+  return {
+    title1: words.slice(0, mid).join(" "),
+    title2: words.slice(mid).join(" "),
+  };
+}
+
+export default function PackagesSection({
+  packagesData = [],
+}: PackagesSectionProps) {
   const { t } = useTranslation();
   const { openConsultation } = useConsultation();
+  const params = useParams() as { lang?: string };
+  const lang = params?.lang ?? "uk";
 
   useEffect(() => {
     // Невелика затримка для забезпечення того, що DOM оновився
@@ -83,7 +107,8 @@ export default function PackagesSection() {
       {/* Slides container */}
       <div className="gsap-inner w-full relative px-[10px] md:px-5">
         <div className="w-full">
-          {packages.map((pkg) => {
+          {packagesData.map((pkg) => {
+            const { title1, title2 } = splitTitle(pkg.title);
             return (
               <div
                 key={pkg.slug}
@@ -114,7 +139,7 @@ export default function PackagesSection() {
                       <Image
                         src={pkg.image}
                         fill
-                        alt={pkg.imageAlt}
+                        alt={pkg.title}
                         className="object-contain"
                         unoptimized
                       />
@@ -123,11 +148,13 @@ export default function PackagesSection() {
                     {/* Top section with titles */}
                     <div className="flex flex-col gap-0 relative z-10">
                       <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0">
-                        {pkg.title1}
+                        {title1}
                       </h3>
-                      <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0 ml-0 sm:ml-[40px] md:ml-[80px] lg:ml-[120px] xl:ml-[157px]">
-                        {pkg.title2}
-                      </h3>
+                      {title2 && (
+                        <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0 ml-0 sm:ml-[40px] md:ml-[80px] lg:ml-[120px] xl:ml-[157px]">
+                          {title2}
+                        </h3>
+                      )}
                     </div>
 
                     {/* Bottom section */}
@@ -159,9 +186,12 @@ export default function PackagesSection() {
                         </Button>
 
                         {/* More details link */}
-                        <button className="flex items-center justify-center gap-[10px] h-[32px] border-b border-white text-white font-inter font-medium text-sm sm:text-base leading-[100%] tracking-[-0.01em] bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
+                        <Link
+                          href={`/${lang}/package-service/${pkg.slug}`}
+                          className="flex items-center justify-center gap-[10px] h-[32px] border-b border-white text-white font-inter font-medium text-sm sm:text-base leading-[100%] tracking-[-0.01em] bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                        >
                           {t("packages.buttonMore")}
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

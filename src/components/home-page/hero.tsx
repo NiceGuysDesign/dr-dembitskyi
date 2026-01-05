@@ -7,29 +7,31 @@ import Image from "next/image";
 import { useConsultation } from "../consultation/consultation-provider";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { HeroData } from "@/strapi/hero";
 
-const heroData = {
-  title: "Andry Dembitskyi",
-  description:
-    "Пластичний хірург із багаторічним досвідом, який поєднує професіоналізм, сучасні технології та уважне ставлення до кожного пацієнта. Моя мета – не просто змінювати зовнішність, а робити її гармонійною і здоровою.",
-  image: "/images/unnamed-2 2.png",
-  imageAlt: "Dr. Andry Dembitskyi",
-};
+interface HeroProps {
+  heroData: HeroData;
+}
 
-export default function Hero() {
+export default function Hero({ heroData }: HeroProps) {
   const { t } = useTranslation();
   const { openConsultation } = useConsultation();
   const params = useParams() as { lang?: string };
   const lang = params?.lang ?? "uk";
+
+  // Split title into first and last name
+  const titleParts = heroData.title.split(" ");
+  const firstName = titleParts[0] || "";
+  const lastName = titleParts.slice(1).join(" ") || "";
   return (
     <section className="relative w-full h-[100vh] md:h-[90vh] lg:h-screen overflow-hidden pt-[100px] md:pt-[120px]">
       {/* Main content container */}
       <div className="relative px-[10px] md:px-5 h-full">
         <div className="relative flex flex-col md:flex-row justify-start items-center md:items-start gap-8 md:gap-0 h-full">
-          {/* Large heading "Andry" */}
+          {/* Large heading */}
           <h1 className="relative font-manrope font-bold leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] text-[18vw] md:text-[18vw] xl:text-[19vw] flex flex-col md:mt-20 xl:mt-0">
-            Andry
-            <span className="relative z-20">Dembitskyi</span>
+            {firstName}
+            {lastName && <span className="relative z-20">{lastName}</span>}
           </h1>
 
           {/* Image in center */}
@@ -63,10 +65,11 @@ export default function Hero() {
                 {t("header.consultation")}
               </Button>
 
-              <Link
-                href={`/${lang}/services`}
-              >
-                <Button variant="link" className="flex flex-col gap-2 items-start sm:items-center">
+              <Link href={`/${lang}/services`}>
+                <Button
+                  variant="link"
+                  className="flex flex-col gap-2 items-start sm:items-center"
+                >
                   {t("navigation.services")}
                   <span className="h-[2px] bg-black w-full"></span>
                 </Button>

@@ -55,7 +55,7 @@ export interface StrapiAdvantagesSection {
   advantages?: StrapiAdvantage[];
 }
 
-export interface StrapiService {
+export interface StrapiPackageService {
   id: number;
   documentId: string;
   slug: string;
@@ -81,8 +81,8 @@ export interface StrapiService {
   }>;
 }
 
-export interface StrapiServicesResponse {
-  data: StrapiService[];
+export interface StrapiPackageServicesResponse {
+  data: StrapiPackageService[];
   meta: {
     pagination: {
       page: number;
@@ -190,52 +190,53 @@ function parseRichText(richText: RichTextNode[] | null | undefined): string {
 }
 
 // Transform Strapi service to ServiceData format
-function transformStrapiService(
-  strapiService: StrapiService,
+function transformStrapiPackageService(
+  strapiPackageService: StrapiPackageService,
   currentLocale: string = "uk"
 ): ServiceData {
   const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
   // Map category string to internal category
-  const mappedCategory = categoryMap[strapiService.category] || "surgical";
+  const mappedCategory =
+    categoryMap[strapiPackageService.category] || "surgical";
 
   return {
-    slug: strapiService.slug,
-    title: strapiService.title,
-    description: strapiService.description,
-    image: getImageUrl(strapiService.image, baseUrl),
+    slug: strapiPackageService.slug,
+    title: strapiPackageService.title,
+    description: strapiPackageService.description,
+    image: getImageUrl(strapiPackageService.image, baseUrl),
     category: mappedCategory,
     detailSection: {
-      textblock: strapiService.detailSection?.textblock || [],
+      textblock: strapiPackageService.detailSection?.textblock || [],
     },
-    result: strapiService.result || [],
-    symptoms: strapiService.symptoms || [],
+    result: strapiPackageService.result || [],
+    symptoms: strapiPackageService.symptoms || [],
     advantagesSection: {
-      advantages: (strapiService.advantagesSection?.advantages || []).map(
-        (advantage) => ({
-          id: advantage.id.toString(),
-          title: advantage.title || "",
-          description: advantage.description || "",
-        })
-      ),
+      advantages: (
+        strapiPackageService.advantagesSection?.advantages || []
+      ).map((advantage) => ({
+        id: advantage.id.toString(),
+        title: advantage.title || "",
+        description: advantage.description || "",
+      })),
     },
-    seo: strapiService.seo
+    seo: strapiPackageService.seo
       ? {
-          title: strapiService.seo.title,
-          description: strapiService.seo.description,
-          opengraphImage: strapiService.seo.opengraphImage
-            ? getImageUrl(strapiService.seo.opengraphImage, baseUrl)
+          title: strapiPackageService.seo.title,
+          description: strapiPackageService.seo.description,
+          opengraphImage: strapiPackageService.seo.opengraphImage
+            ? getImageUrl(strapiPackageService.seo.opengraphImage, baseUrl)
             : undefined,
         }
       : undefined,
     localizations: [
       // Додаємо поточний slug для поточної мови
       {
-        slug: strapiService.slug,
+        slug: strapiPackageService.slug,
         locale: currentLocale,
       },
       // Додаємо інші локалізації (фільтруємо поточну, щоб уникнути дублікатів)
-      ...(strapiService.localizations || [])
+      ...(strapiPackageService.localizations || [])
         .filter((loc) => loc.locale !== currentLocale)
         .map((loc) => ({
           slug: loc.slug,
@@ -249,12 +250,12 @@ function transformStrapiService(
 export { parseRichText };
 
 // Fetch services from Strapi
-export async function getServices(
+export async function getPackageServices(
   locale: string = "uk"
 ): Promise<ServiceData[]> {
   try {
-    const response = await strapiFetch<StrapiServicesResponse>(
-      `/api/services?populate=deep&publicationState=live`,
+    const response = await strapiFetch<StrapiPackageServicesResponse>(
+      `/api/package-services?populate=deep&publicationState=live`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
@@ -262,7 +263,7 @@ export async function getServices(
     );
 
     return response.data.map((service) =>
-      transformStrapiService(service, locale)
+      transformStrapiPackageService(service, locale)
     );
   } catch {
     return [];
@@ -270,13 +271,13 @@ export async function getServices(
 }
 
 // Fetch single service by slug
-export async function getServiceBySlug(
+export async function getPackageServiceBySlug(
   slug: string,
   locale: string = "uk"
 ): Promise<ServiceData | null> {
   try {
-    const response = await strapiFetch<StrapiServicesResponse>(
-      `/api/services?filters[slug][$eq]=${slug}&populate=deep&publicationState=live`,
+    const response = await strapiFetch<StrapiPackageServicesResponse>(
+      `/api/package-services?filters[slug][$eq]=${slug}&populate=deep&publicationState=live`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
@@ -287,7 +288,7 @@ export async function getServiceBySlug(
       return null;
     }
 
-    return transformStrapiService(response.data[0], locale);
+    return transformStrapiPackageService(response.data[0], locale);
   } catch {
     return null;
   }
