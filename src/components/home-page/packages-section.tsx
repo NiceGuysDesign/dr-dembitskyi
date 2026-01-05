@@ -151,9 +151,9 @@ export default function PackagesSection({
                         {title1}
                       </h3>
                       {title2 && (
-                        <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0 ml-0 sm:ml-[40px] md:ml-[80px] lg:ml-[120px] xl:ml-[157px]">
+                      <h3 className="font-manrope font-bold text-[10vw] sm:text-[12vw] md:text-[80px] lg:text-[120px] xl:text-[162px] leading-[100%] tracking-[-0.05em] text-white m-0 ml-0 sm:ml-[40px] md:ml-[80px] lg:ml-[120px] xl:ml-[157px]">
                           {title2}
-                        </h3>
+                      </h3>
                       )}
                     </div>
 

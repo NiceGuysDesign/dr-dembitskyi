@@ -21,7 +21,7 @@ const serviceCategories: ServiceCategory[] = [
 ];
 
 export default function ServicesPageClient({
-  servicesData: initialServices,
+    servicesData: initialServices,
 }: ServicesPageClientProps) {
   // Мапимо дані до формату ServiceItem
   const services: ServiceItem[] = initialServices.map((service) => {

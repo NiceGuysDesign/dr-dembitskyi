@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import LenguageSwitcher from "./lenguage-switcher";
-import MobileMenu from "./mobile-menu";
 import Logo from "../../../public/icons/logo";
+import { useMobileMenu } from "./mobile-menu-provider";
 import WhatsAppIcon from "../../../public/icons/whatsapp-icon";
 import TelegramIcon from "../../../public/icons/telegram-icon";
 import InstagramIcon from "../../../public/icons/instagram-icon";
@@ -14,25 +14,12 @@ import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
 
 export default function Header() {
-  const [windowWidth, setWindowWidth] = useState(1440); // Default to desktop width
-
   const { t } = useTranslation();
   const params = useParams() as { lang?: string };
   const lang = params?.lang ?? "uk";
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openMenu } = useMobileMenu();
   const { openConsultation } = useConsultation();
-  // Track window width for responsive animations
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
-      const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,16 +43,15 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-[10px] md:px-5 px-[10px] flex items-center justify-between transition-all duration-300 ${
+      className={`fixed left-0 right-0 z-50 md:px-5 px-[10px] flex items-center justify-between transition-all duration-300 ${
         isScrolled
           ? "bg-[var(--color-bg-light)]/80 backdrop-blur-md"
           : "bg-transparent"
       }`}
       style={{
-        top:
-          typeof window !== "undefined" && windowWidth >= 768
-            ? "0px"
-            : `calc(env(safe-area-inset-top, 0px))`,
+        top: "env(safe-area-inset-top, 0px)",
+        paddingTop: "calc(10px + env(safe-area-inset-top, 0px))",
+        paddingBottom: "10px",
       }}
     >
       {/* Logo */}
@@ -130,7 +116,7 @@ export default function Header() {
       {/* Mobile Menu Button */}
       <div className="lg:hidden flex-shrink-0">
         <button
-          onClick={() => setIsMobileMenuOpen(true)}
+          onClick={openMenu}
           className="flex flex-col items-start p-[10px] gap-[10px] min-h-[73px] bg-[var(--color-bg-menu)] rounded-[190px] shadow-[inset_3px_4px_6.1px_rgba(0,0,0,0.23)] cursor-pointer hover:opacity-80 transition-opacity"
         >
           <span className="bg-[var(--color-bg-menu-button)] text-[var(--color-text-menu)] font-inter font-semibold text-base leading-[100%] tracking-[-0.031em] rounded-[50px] w-fit h-[54px] min-h-[54px] px-6 flex items-center justify-center shadow-[3px_8px_7.7px_rgba(0,0,0,0.34)]">
@@ -138,12 +124,6 @@ export default function Header() {
           </span>
         </button>
       </div>
-
-      {/* Mobile Menu */}
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-      />
     </header>
   );
 }

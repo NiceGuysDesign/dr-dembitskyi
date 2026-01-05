@@ -73,33 +73,40 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
       {/* Close Button - Top Right */}
       <button
         onClick={onClose}
-        className="absolute top-[53px] right-[10px] md:right-[30px] w-[60px] h-[60px] flex items-center justify-center rounded-full border-[1.5px] border-black hover:opacity-70 transition-opacity z-10"
+        className="absolute top-[43px] right-[10px] md:right-[30px] w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] flex items-center justify-center hover:opacity-70 transition-opacity z-10"
         aria-label="Close"
       >
         <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
+          width="60"
+          height="60"
+          viewBox="0 0 60 60"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <line
-            x1="6"
-            y1="6"
-            x2="18"
-            y2="18"
+          <rect
+            x="0.75"
+            y="0.75"
+            width="58.5"
+            height="58.5"
+            rx="29.25"
             stroke="black"
             strokeWidth="1.5"
-            strokeLinecap="round"
           />
           <line
-            x1="18"
-            y1="6"
-            x2="6"
-            y2="18"
+            x1="39.7883"
+            y1="19.7275"
+            x2="19.7375"
+            y2="39.7889"
             stroke="black"
             strokeWidth="1.5"
-            strokeLinecap="round"
+          />
+          <line
+            x1="40.2667"
+            y1="39.7844"
+            x2="20.2053"
+            y2="19.7336"
+            stroke="black"
+            strokeWidth="1.5"
           />
         </svg>
       </button>
@@ -108,7 +115,7 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
       <div className="flex-1 overflow-y-auto">
         <div className="px-[10px] md:px-5">
           {/* Title */}
-          <h2 className="font-manrope font-bold text-[60px] md:text-[80px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[#353556] py-10">
+          <h2 className="font-manrope font-bold text-[32px] md:text-[80px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[#353556] py-10">
             {t("consultation.title") || "Консультація"}
           </h2>
 

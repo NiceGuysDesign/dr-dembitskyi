@@ -4,6 +4,8 @@ import Footer from "@/components/footer/footer";
 import I18nProvider from "@/components/providers/i18n-provider";
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider";
 import ConsultationProvider from "@/components/consultation/consultation-provider";
+import { MobileMenuProvider } from "@/components/header/mobile-menu-provider";
+import MobileMenu from "@/components/header/mobile-menu";
 import PageLoader from "@/components/ui/page-loader";
 
 export const metadata: Metadata = {
@@ -25,11 +27,14 @@ export default async function LangLayout({
       <PageLoader />
       <SmoothScrollProvider>
         <I18nProvider>
-          <ConsultationProvider>
-            <Header />
-            {children}
-            <Footer />
-          </ConsultationProvider>
+          <MobileMenuProvider>
+            <ConsultationProvider>
+              <Header />
+              <MobileMenu />
+              {children}
+              <Footer />
+            </ConsultationProvider>
+          </MobileMenuProvider>
         </I18nProvider>
       </SmoothScrollProvider>
     </>
