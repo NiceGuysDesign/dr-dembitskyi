@@ -7,9 +7,11 @@ import { Button } from "../ui/button";
 import { Container } from "../ui/container";
 import { packages } from "@/data/packages";
 import { initEffect031 } from "@/animations/sections/effect031";
+import { useConsultation } from "../consultation/consultation-provider";
 
 export default function PackagesSection() {
   const { t } = useTranslation();
+  const { openConsultation } = useConsultation();
 
   useEffect(() => {
     // Невелика затримка для забезпечення того, що DOM оновився
@@ -140,6 +142,7 @@ export default function PackagesSection() {
                         {/* Consultation button */}
                         <Button
                           variant="default"
+                          onClick={openConsultation}
                           style={{
                             background:
                               "radial-gradient(114.39% 151.52% at 50% 151.52%, #3B3D7E 0%, #FFFFFF 100%)",

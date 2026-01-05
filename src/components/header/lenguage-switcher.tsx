@@ -53,7 +53,7 @@ export default function LanguageSwitcher() {
     >
       {/* Current language button */}
       <button className="w-[40px] h-[40px] cursor-pointer rounded-full border border-black flex items-center justify-center font-manrope font-semibold text-sm leading-[130%] tracking-[-0.02em] text-[#353556] hover:opacity-80 transition-opacity">
-        {currentLang === "uk" ? "UK" : "US"}
+        {currentLang === "uk" ? "UK" : "EN"}
       </button>
 
       {/* Popup menu */}
@@ -77,7 +77,7 @@ export default function LanguageSwitcher() {
                 : "bg-transparent text-[#353556] hover:bg-[#353556]/10"
             }`}
           >
-            US
+            EN
           </button>
         </div>
       )}

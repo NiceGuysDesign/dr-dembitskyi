@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useConsultation } from "../consultation/consultation-provider";
 
 const ctaData = {
   title1: "Все починається",
@@ -15,6 +16,8 @@ const ctaData = {
 };
 
 export default function CTASection2() {
+  const { openConsultation } = useConsultation();
+
   return (
     <section className="relative w-full overflow-hidden">
       {/* Background gradient blur effect - lower z-index */}
@@ -41,6 +44,7 @@ export default function CTASection2() {
               {/* Button */}
               <div>
                 <Button
+                  onClick={openConsultation}
                   className="w-full sm:w-[327px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-base leading-[100%] tracking-[-0.01em] text-white"
                   style={{
                     background:

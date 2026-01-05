@@ -4,6 +4,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { useConsultation } from "../consultation/consultation-provider";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const heroData = {
   title: "Andry Dembitskyi",
@@ -15,7 +18,9 @@ const heroData = {
 
 export default function Hero() {
   const { t } = useTranslation();
-
+  const { openConsultation } = useConsultation();
+  const params = useParams() as { lang?: string };
+  const lang = params?.lang ?? "uk";
   return (
     <section className="relative w-full h-[100vh] md:h-[90vh] lg:h-screen overflow-hidden pt-[100px] md:pt-[120px]">
       {/* Main content container */}
@@ -53,16 +58,19 @@ export default function Hero() {
                 variant="default"
                 style={{ background: "var(--gradient-button)" }}
                 className="min-w-[242px] sm:w-auto"
+                onClick={openConsultation}
               >
                 {t("header.consultation")}
               </Button>
-              <Button
-                variant="link"
-                className="flex flex-col gap-2 items-start sm:items-center"
+
+              <Link
+                href={`/${lang}/services`}
               >
-                {t("navigation.services")}
-                <span className="h-[2px] bg-black w-full"></span>
-              </Button>
+                <Button variant="link" className="flex flex-col gap-2 items-start sm:items-center">
+                  {t("navigation.services")}
+                  <span className="h-[2px] bg-black w-full"></span>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

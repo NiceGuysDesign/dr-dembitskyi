@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useConsultation } from "../consultation/consultation-provider";
 
 const ctaData = {
   title1: "Все починається",
@@ -15,6 +16,8 @@ const ctaData = {
 };
 
 export default function CTASection() {
+  const { openConsultation } = useConsultation();
+
   return (
     <section className="relative w-full bg-[var(--color-bg-light)] overflow-hidden h-[90vh] lg:min-h-screen py-0 lg:h-screen flex items-center">
       {/* Background decorative element */}
@@ -61,6 +64,7 @@ export default function CTASection() {
             <div className="mt-4 md:mt-6">
               <Button
                 variant="default"
+                onClick={openConsultation}
                 style={{ background: "var(--gradient-button)" }}
                 className="w-full sm:w-auto sm:min-w-[280px] md:min-w-[327px] h-[54px] md:h-[66px] min-h-[54px] text-sm md:text-base"
               >

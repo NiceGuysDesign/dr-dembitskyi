@@ -81,4 +81,17 @@ export const uk = {
       viber: "Viber",
     },
   },
+  consultation: {
+    title: "Консультація",
+    name: "Ім'я",
+    namePlaceholder: "Введіть ваше ім'я",
+    phone: "Телефон",
+    phonePlaceholder: "+38 (0XX) XXX XX XX",
+    email: "Email",
+    emailPlaceholder: "your.email@example.com",
+    message: "Повідомлення",
+    messagePlaceholder: "Опишіть ваше питання...",
+    submit: "Відправити",
+    cancel: "Скасувати",
+  },
 };

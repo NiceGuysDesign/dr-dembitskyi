@@ -11,6 +11,7 @@ import WhatsAppIcon from "../../../public/icons/whatsapp-icon";
 import TelegramIcon from "../../../public/icons/telegram-icon";
 import InstagramIcon from "../../../public/icons/instagram-icon";
 import { Button } from "../ui/button";
+import { useConsultation } from "../consultation/consultation-provider";
 
 export default function Header() {
   const [windowWidth, setWindowWidth] = useState(1440); // Default to desktop width
@@ -20,6 +21,7 @@ export default function Header() {
   const lang = params?.lang ?? "uk";
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openConsultation } = useConsultation();
   // Track window width for responsive animations
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -120,7 +122,9 @@ export default function Header() {
         <LenguageSwitcher />
 
         {/* Consultation Button - Desktop only */}
-        <Button variant="menu">{t("header.consultation")}</Button>
+        <Button variant="menu" onClick={openConsultation}>
+          {t("header.consultation")}
+        </Button>
       </div>
 
       {/* Mobile Menu Button */}

@@ -4,6 +4,7 @@ import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import I18nProvider from "@/components/providers/i18n-provider";
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider";
+import ConsultationProvider from "@/components/consultation/consultation-provider";
 import { manrope } from "../../fonts/manrope";
 import { inter } from "../../fonts/inter";
 
@@ -26,9 +27,11 @@ export default async function RootLayout({
       <body className={`${manrope.variable} ${inter.variable} antialiased`}>
         <SmoothScrollProvider>
           <I18nProvider>
-            <Header />
-            {children}
-            <Footer />
+            <ConsultationProvider>
+              <Header />
+              {children}
+              <Footer />
+            </ConsultationProvider>
           </I18nProvider>
         </SmoothScrollProvider>
       </body>

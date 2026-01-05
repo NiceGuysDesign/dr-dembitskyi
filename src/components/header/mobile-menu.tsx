@@ -10,6 +10,7 @@ import WhatsAppIcon from "../../../public/icons/whatsapp-icon";
 import TelegramIcon from "../../../public/icons/telegram-icon";
 import InstagramIcon from "../../../public/icons/instagram-icon";
 import { Button } from "../ui/button";
+import { useConsultation } from "../consultation/consultation-provider";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const { openConsultation } = useConsultation();
+
   // Block body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -154,7 +157,14 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </div>
 
               {/* Consultation Button */}
-              <Button variant="menu" onClick={onClose} className="w-full">
+              <Button
+                variant="menu"
+                onClick={() => {
+                  onClose();
+                  openConsultation();
+                }}
+                className="w-full"
+              >
                 {t("header.consultation")}
               </Button>
             </div>

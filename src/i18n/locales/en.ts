@@ -82,4 +82,17 @@ export const en = {
       viber: "Viber",
     },
   },
+  consultation: {
+    title: "Consultation",
+    name: "Name",
+    namePlaceholder: "Enter your name",
+    phone: "Phone",
+    phonePlaceholder: "+38 (0XX) XXX XX XX",
+    email: "Email",
+    emailPlaceholder: "your.email@example.com",
+    message: "Message",
+    messagePlaceholder: "Describe your question...",
+    submit: "Submit",
+    cancel: "Cancel",
+  },
 };
