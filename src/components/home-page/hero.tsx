@@ -55,7 +55,7 @@ export default function Hero({ heroData }: HeroProps) {
             </p>
 
             {/* Buttons */}
-            <div className="flex flex-row items-stretch sm:items-center gap-4">
+            <div className="flex flex-row items-center gap-4">
               <Button
                 variant="default"
                 style={{ background: "var(--gradient-button)" }}
