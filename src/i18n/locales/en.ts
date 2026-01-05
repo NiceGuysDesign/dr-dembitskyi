@@ -19,6 +19,27 @@ export const en = {
   },
   about: {
     title: "About the doctor",
+    doctorName: "Dembitsky Andriy Ruslanovych",
+    doctorTitle: "DMedN, surgeon, founder of DARIS center",
+    sectionTitle: "About the doctor",
+    description:
+      "We use modern, predominantly minimally invasive methods – from laser ablation and sclerotherapy to stenting and shunting – thanks to which patients receive effective treatment without prolonged hospitalization. All decisions are made after detailed diagnostics and a calm explanation of possible options, with a focus on safety, comfort, and long-term results.",
+    education: {
+      title: "Education",
+      certificate: "Certificate",
+      course1: {
+        name: "Course name",
+        location: "City, country, year",
+      },
+      course2: {
+        name: "Course name",
+        location: "City, country, year",
+      },
+      course3: {
+        name: "Course name",
+        location: "City, country, year",
+      },
+    },
   },
   blog: {
     title: "Blog",
@@ -84,15 +105,18 @@ export const en = {
   },
   consultation: {
     title: "Consultation",
-    name: "Name",
-    namePlaceholder: "Enter your name",
+    description:
+      "Leave your name and phone number and we will contact you soon",
+    name: "Name, surname",
+    namePlaceholder: "Enter your name and surname",
     phone: "Phone",
     phonePlaceholder: "+38 (0XX) XXX XX XX",
-    email: "Email",
-    emailPlaceholder: "your.email@example.com",
-    message: "Message",
-    messagePlaceholder: "Describe your question...",
     submit: "Submit",
-    cancel: "Cancel",
+    submitting: "Submitting...",
+    successTitle: "Thank you for your application!",
+    successMessage:
+      "Your message has been successfully sent. We will contact you soon.",
+    errorMessage: "Error sending. Please try again.",
+    close: "Close",
   },
 };
