@@ -165,7 +165,7 @@ export default function PackagesSection({
                       </p>
 
                       {/* Buttons */}
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-[10px]">
+                      <div className="flex flex-row items-center gap-[10px]">
                         {/* Consultation button */}
                         <Button
                           variant="default"

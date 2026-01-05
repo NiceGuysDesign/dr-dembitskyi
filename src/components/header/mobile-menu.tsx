@@ -110,37 +110,37 @@ export default function MobileMenu() {
                 </p>
                 <ul className="flex items-center gap-[10px]">
                   <li>
-                    <a
-                      href="#"
-                      className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
-                      aria-label="WhatsApp"
-                      referrerPolicy="no-referrer"
-                      target="_blank"
+                    <a  
+                    href="#"
+                    className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+                    aria-label="WhatsApp"
+                    referrerPolicy="no-referrer"
+                    target="_blank"
                     >
                       <WhatsAppIcon />
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
-                      aria-label="Instagram"
-                      referrerPolicy="no-referrer"
-                      target="_blank"
-                    >
-                      <InstagramIcon />
-                    </a>
+                  <a
+                    href="#"
+                    className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+                    aria-label="Instagram"
+                    referrerPolicy="no-referrer"
+                    target="_blank"
+                  >
+                    <InstagramIcon />
+                  </a>
                   </li>
                   <li>
                     <a
-                      href="#"
-                      className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
-                      aria-label="Telegram"
-                      referrerPolicy="no-referrer"
-                      target="_blank"
-                    >
-                      <TelegramIcon />
-                    </a>
+                    href="#"
+                    className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+                    aria-label="Telegram"
+                    referrerPolicy="no-referrer"
+                    target="_blank"
+                  >
+                    <TelegramIcon />
+                  </a>
                   </li>
                 </ul>
               </div>

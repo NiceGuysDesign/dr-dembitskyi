@@ -125,9 +125,9 @@ export default function ServicePageClient({
             <CasesSection casesData={casesData} />
           </div>
         )}
-        {/* CTA Section */}
-        <CTASection2 />
       </div>
+      {/* CTA Section */}
+      <CTASection2 />
     </main>
   );
 }
