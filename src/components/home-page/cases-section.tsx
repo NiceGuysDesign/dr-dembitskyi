@@ -109,7 +109,7 @@ export default function CasesSection({ casesData }: CasesSectionProps = {}) {
             backgroundClip: "text",
           }}
         >
-          Кейси
+          {t("cases.title")}
         </h2>
       )}
 

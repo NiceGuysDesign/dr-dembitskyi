@@ -19,34 +19,19 @@ export const en = {
   },
   about: {
     title: "About the doctor",
-    doctorName: "Dembitsky Andriy Ruslanovych",
-    doctorTitle: "DMedN, surgeon, founder of DARIS center",
-    sectionTitle: "About the doctor",
-    description:
-      "We use modern, predominantly minimally invasive methods – from laser ablation and sclerotherapy to stenting and shunting – thanks to which patients receive effective treatment without prolonged hospitalization. All decisions are made after detailed diagnostics and a calm explanation of possible options, with a focus on safety, comfort, and long-term results.",
-    education: {
-      title: "Education",
-      certificate: "Certificate",
-      course1: {
-        name: "Course name",
-        location: "City, country, year",
-      },
-      course2: {
-        name: "Course name",
-        location: "City, country, year",
-      },
-      course3: {
-        name: "Course name",
-        location: "City, country, year",
-      },
-    },
+    aboutDoctor: "About the doctor",
+    education: "Education",
+    certificate: "Certificate",
   },
   blog: {
     title: "Blog",
     post: "Blog post",
+    before: "BEFORE",
+    after: "AFTER",
   },
   contacts: {
     title: "Contacts",
+    address: "Address",
   },
   patients: {
     title: "For patients",
@@ -74,6 +59,7 @@ export const en = {
     buttonMore: "Learn more",
   },
   cases: {
+    title: "Cases",
     title1: "Care,",
     title2: "visible",
     title3: "in the result",
@@ -118,5 +104,12 @@ export const en = {
       "Your message has been successfully sent. We will contact you soon.",
     errorMessage: "Error sending. Please try again.",
     close: "Close",
+  },
+  ctaSection: {
+    title1: "It all starts",
+    title2: "with a conversation",
+    description:
+      "A plastic surgeon with years of experience who combines professionalism, modern technologies, and a careful approach to each patient. My goal is not just to change the appearance but to make it harmonious and healthy.",
+    buttonText: "Book a video consultation",
   },
 };

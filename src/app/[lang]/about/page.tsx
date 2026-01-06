@@ -10,7 +10,13 @@ export default async function AboutPage({ params }: AboutPageProps) {
   const aboutData = await getAbout(lang);
 
   if (!aboutData) {
-    return <div>Дані про лікаря не знайдено</div>;
+    return (
+      <div>
+        {lang === "en"
+          ? "Doctor information not found"
+          : "Дані про лікаря не знайдено"}
+      </div>
+    );
   }
 
   return <AboutPageClient aboutData={aboutData} />;

@@ -3,12 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { AboutData } from "@/strapi/about";
+import { useTranslation } from "react-i18next";
 
 interface AboutPageClientProps {
   aboutData: AboutData;
 }
 
 export default function AboutPageClient({ aboutData }: AboutPageClientProps) {
+  const { t } = useTranslation()
   return (
     <main className="relative w-full min-h-screen bg-[#F4F4F5]">
       <div className="grid grid-cols-1 lg:grid-cols-[45%_55%] gap-0">
@@ -58,7 +60,7 @@ export default function AboutPageClient({ aboutData }: AboutPageClientProps) {
             {/* About Doctor Section */}
             <section className="flex flex-col gap-4 md:gap-6 mt-5">
               <h2 className="font-manrope font-bold text-[24px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-                Про лікаря
+                {t("about.aboutDoctor")}
               </h2>
               <p className="font-manrope font-semibold text-[16px] leading-[150%] tracking-[-0.03em] text-black opacity-80">
                 {aboutData.description}
@@ -68,7 +70,7 @@ export default function AboutPageClient({ aboutData }: AboutPageClientProps) {
             {/* Education Section */}
             <section className="flex flex-col gap-6 md:gap-8 mt-10">
               <h2 className="font-manrope font-bold text-[24px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-                Навчання
+                {t("about.education")}
               </h2>
               <div className="flex flex-col gap-6 md:gap-8">
                 {aboutData.education.map((course) => (
@@ -84,9 +86,9 @@ export default function AboutPageClient({ aboutData }: AboutPageClientProps) {
                       </div>
                       <button
                         className="px-6 py-[18px] rounded-full border-1 border-[#353556] font-inter font-medium text-[16px] leading-[120%] tracking-[-0.02em] text-[#353556] hover:bg-[#353556] hover:text-white transition-colors cursor-pointer w-full md:w-auto md:min-w-[150px]"
-                        aria-label={`Сертифікат - ${course.title}`}
+                        aria-label={`${t("about.certificate")} - ${course.title}`}
                       >
-                        Сертифікат
+                        {t("about.certificate")}
                       </button>
                     </div>
                     <div className="w-full h-[1px] bg-[#353556] opacity-40"></div>

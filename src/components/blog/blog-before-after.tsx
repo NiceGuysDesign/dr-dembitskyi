@@ -4,12 +4,14 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { BlogBeforeAfterBlock } from "@/strapi/blog";
 import GlassSurface from "../ui/glass-surface";
+import { useTranslation } from "react-i18next";
 
 interface BlogBeforeAfterProps {
   block: BlogBeforeAfterBlock;
 }
 
 export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
+  const { t } = useTranslation();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,7 +88,7 @@ export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
         <div className="absolute inset-0">
           <Image
             src={block.beforeImage}
-            alt="ДО"
+            alt={t("blog.before")}
             fill
             className="object-cover pointer-events-none"
             priority
@@ -94,7 +96,7 @@ export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
           {/* Before Label */}
           <div className="absolute top-6 left-6 z-20">
             <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-[var(--color-text-heading)] text-base font-semibold">
-              ДО
+              {t("blog.before")}
             </span>
           </div>
         </div>
@@ -106,7 +108,7 @@ export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
         >
           <Image
             src={block.afterImage}
-            alt="ПІСЛЯ"
+            alt={t("blog.after")}
             fill
             className="object-cover pointer-events-none"
             priority
@@ -116,7 +118,7 @@ export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
         {/* After Label - outside clipped area */}
         <div className="absolute top-6 right-6 z-20">
           <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-[var(--color-text-heading)] text-base font-semibold">
-            ПІСЛЯ
+            {t("blog.after")}
           </span>
         </div>
 

@@ -80,7 +80,7 @@ export default function ContactsPageClient() {
           {/* Address Section */}
           <div className="flex flex-col gap-[18px]">
             <p className="font-inter font-medium text-sm leading-[120%] tracking-[-0.02em] text-[#353556] opacity-50 m-0">
-              Адреса
+              {t("contacts.address")}
             </p>
             <p className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-[#353556] uppercase m-0">
               {address}

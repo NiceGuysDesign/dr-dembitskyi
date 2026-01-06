@@ -5,19 +5,25 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
 
-const ctaData = {
-  title1: "Все починається",
-  title2: "з розмови",
-  description:
-    "Пластичний хірург із багаторічним досвідом, який поєднує професіоналізм, сучасні технології та уважне ставлення до кожного пацієнта. Моя мета – не просто змінювати зовнішність, а робити її гармонійною і здоровою.",
-  buttonText: "Записатись на відео-консультацію",
-  image: "/images/0655537E-4939-4EA3-AC61-75FE37A2B3BE-Photoroom 1.png",
-  imageAlt: "Dr. Dembitskyi",
-};
+import { useTranslation } from "react-i18next";
+
+function useCTAData() {
+  const { t } = useTranslation();
+
+  return {
+    title1: t("ctaSection.title1"),
+    title2: t("ctaSection.title2"),
+    description: t("ctaSection.description"),
+    buttonText: t("ctaSection.buttonText"),
+    image: "/images/0655537E-4939-4EA3-AC61-75FE37A2B3BE-Photoroom 1.png",
+    imageAlt: "Dr. Dembitskyi",
+  };
+}
 
 export default function CTASection() {
   const { openConsultation } = useConsultation();
-
+  const ctaData = useCTAData();
+  
   return (
     <section className="relative w-full bg-[var(--color-bg-light)] overflow-hidden h-[90vh] lg:min-h-screen py-0 lg:h-screen flex items-center">
       {/* Background decorative element */}
