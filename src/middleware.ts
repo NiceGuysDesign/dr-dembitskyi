@@ -19,6 +19,16 @@ const ipRequests = new Map<string, { count: number; timestamp: number }>();
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const hostname = request.headers.get("host") || request.nextUrl.hostname;
+
+  // Skip locale redirection for robots.txt and sitemap.xml
+  if (pathname === "/robots.txt" || pathname === "/sitemap.xml") {
+    return NextResponse.next();
+  }
+
+  // Check if this is localhost
+  const isLocalhost =
+    hostname?.startsWith("localhost") || hostname?.startsWith("127.0.0.1");
 
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
@@ -26,7 +36,11 @@ export function middleware(request: NextRequest) {
 
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
+    // For localhost, ensure we use HTTP protocol
+    const redirectUrl = isLocalhost
+      ? new URL(`/${locale}${pathname}`, `http://${hostname}`)
+      : new URL(`/${locale}${pathname}`, request.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
   // Get client IP
