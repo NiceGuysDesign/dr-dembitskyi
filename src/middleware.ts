@@ -96,13 +96,13 @@ export function middleware(request: NextRequest) {
   response.headers.set(
     "Content-Security-Policy",
     "default-src 'self'; " +
-      "connect-src 'self' https://ancient-compassion-c978f136b7.strapiapp.com http://localhost:1337 https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://va.vercel-scripts.com; " +
+      "connect-src 'self' https://ancient-compassion-c978f136b7.strapiapp.com http://localhost:1337 https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://va.vercel-scripts.com https://*.cloudinary.com; " +
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.googletagmanager.com https://va.vercel-scripts.com; " +
       "style-src 'self' 'unsafe-inline' https://*.google.com https://*.gstatic.com; " +
-      "img-src 'self' data: https: blob: https://*.google.com https://*.gstatic.com; " +
+      "img-src 'self' data: https: blob: https://*.google.com https://*.gstatic.com https://*.cloudinary.com; " +
       "font-src 'self' data: https://*.google.com https://*.gstatic.com; " +
       "object-src 'none'; " +
-      "media-src 'self'; " +
+      "media-src 'self' https://*.cloudinary.com; " +
       "frame-src 'self' https://*.google.com https://*.gstatic.com https://www.googletagmanager.com; " +
       "worker-src 'self' blob:;"
   );

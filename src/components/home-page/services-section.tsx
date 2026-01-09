@@ -1,30 +1,35 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
-
-const servicesData = [
-  {
-    id: 1,
-    title: "Флебологія",
-    image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1 (1).png",
-    imageAlt: "Флебологія",
-  },
-  {
-    id: 2,
-    title: "Пластична хірургія",
-    image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1.png",
-    imageAlt: "Пластична хірургія",
-  },
-  {
-    id: 3,
-    title: "Інʼєкційна косметологія",
-    image: "/images/image 40 (Traced).png",
-    imageAlt: "Інʼєкційна косметологія",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export default function ServicesSection() {
+  const { t } = useTranslation();
+
+  const servicesData = useMemo(
+    () => [
+      {
+        id: 1,
+        title: t("servicesSection.services.phlebology.title"),
+        image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1 (1).png",
+        imageAlt: t("servicesSection.services.phlebology.imageAlt"),
+      },
+      {
+        id: 2,
+        title: t("servicesSection.services.plasticSurgery.title"),
+        image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1.png",
+        imageAlt: t("servicesSection.services.plasticSurgery.imageAlt"),
+      },
+      {
+        id: 3,
+        title: t("servicesSection.services.injectionCosmetology.title"),
+        image: "/images/image 40 (Traced).png",
+        imageAlt: t("servicesSection.services.injectionCosmetology.imageAlt"),
+      },
+    ],
+    [t]
+  );
   const wrapRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
 
@@ -120,9 +125,11 @@ export default function ServicesSection() {
         <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[130px] z-10">
           {/* Background title */}
           <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[8vw] md:text-[70px] lg:text-[90px] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
-            Пластична хірургія
-            <span className="text-center">де головне — не форма, </span>
-            <span className="text-start ml-[20%]">а людина</span>
+            {t("servicesSection.title")}
+            <span className="text-center">{t("servicesSection.subtitle")}</span>
+            <span className="text-start ml-[20%]">
+              {t("servicesSection.subtitle2")}
+            </span>
           </h2>
 
           {/* Inner container - matches motionpath-content-inner */}

@@ -49,8 +49,8 @@ export const en = {
   },
   packages: {
     subtitle:
-      "A comprehensive approach for your comfort: from consultation to full support and rehabilitation — everything is thought through to the smallest detail.",
-    title: "Package solutions — more than just services",
+      "An integrated approach designed for your comfort: from the initial consultation to full support and post-procedure recovery — every detail thoughtfully planned.",
+    title: "Comprehensive Packages — More Than Just Services",
     title1: "Mommy",
     title2: "makeover",
     description:
@@ -61,10 +61,10 @@ export const en = {
   cases: {
     title: "Cases",
     title1: "Care,",
-    title2: "visible",
+    title2: "You Can See",
     title3: "in the result",
     description:
-      "We share the stories of our patients — surgical, injection, and cosmetology cases, where the main thing is not only external changes but also a feeling of confidence within.",
+      "We share our patients’ stories — surgical, injectable, and phlebology cases — where the focus is not only on visible changes but also on the renewed sense of confidence within.",
     buttonAllCases: "All cases",
     filters: {
       all: "All",
@@ -109,7 +109,26 @@ export const en = {
     title1: "It all starts",
     title2: "with a conversation",
     description:
-      "A plastic surgeon with years of experience who combines professionalism, modern technologies, and a careful approach to each patient. My goal is not just to change the appearance but to make it harmonious and healthy.",
+      "During your consultation, we discuss your goals, possibilities, and expectations. You receive an honest professional opinion and a clear understanding of the next steps — without rush or pressure.",
     buttonText: "Book a video consultation",
+  },
+  servicesSection: {
+    title: "Plastic surgery",
+    subtitle: "where the main thing is not the form,",
+    subtitle2: "but the person",
+    services: {
+      phlebology: {
+        title: "Phlebology",
+        imageAlt: "Phlebology",
+      },
+      plasticSurgery: {
+        title: "Plastic surgery",
+        imageAlt: "Plastic surgery",
+      },
+      injectionCosmetology: {
+        title: "Injection cosmetology",
+        imageAlt: "Injection cosmetology",
+      },
+    },
   },
 };
