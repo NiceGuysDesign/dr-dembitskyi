@@ -2,10 +2,14 @@
 
 import React, { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { useParams } from "next/navigation";
 
 export default function ServicesSection() {
   const { t } = useTranslation();
+  const params = useParams();
+  const lang = (params?.lang as string) || "uk";
 
   const servicesData = useMemo(
     () => [
@@ -14,18 +18,21 @@ export default function ServicesSection() {
         title: t("servicesSection.services.phlebology.title"),
         image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1 (1).png",
         imageAlt: t("servicesSection.services.phlebology.imageAlt"),
+        categoryKey: "phlebology",
       },
       {
         id: 2,
         title: t("servicesSection.services.plasticSurgery.title"),
         image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1.png",
         imageAlt: t("servicesSection.services.plasticSurgery.imageAlt"),
+        categoryKey: "surgical",
       },
       {
         id: 3,
         title: t("servicesSection.services.injectionCosmetology.title"),
         image: "/images/image 40 (Traced).png",
         imageAlt: t("servicesSection.services.injectionCosmetology.imageAlt"),
+        categoryKey: "cosmetology",
       },
     ],
     [t]
@@ -119,12 +126,12 @@ export default function ServicesSection() {
       <div
         ref={wrapRef}
         data-motionpath="wrap"
-        className="w-full h-[450vh] relative"
+        className="w-full min-h-[300vh] h-[calc(100vh*3.5)] relative"
       >
         {/* Sticky content container - matches motionpath-content */}
-        <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[130px] z-10">
+        <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[140px] z-10">
           {/* Background title */}
-          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[8vw] md:text-[70px] lg:text-[90px] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
+          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[8vw] md:text-[70px] lg:text-[4vw] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
             {t("servicesSection.title")}
             <span className="text-center">{t("servicesSection.subtitle")}</span>
             <span className="text-start ml-[20%]">
@@ -133,7 +140,7 @@ export default function ServicesSection() {
           </h2>
 
           {/* Inner container - matches motionpath-content-inner */}
-          <div className="flex justify-start items-start w-full h-full relative">
+          <div className="flex justify-start items-start w-full h-full relative overflow-hidden">
             {/* SVG Path container - matches motionpath-content-path */}
             <div className="w-[100vmax] h-full max-h-[55vh]">
               <svg
@@ -153,15 +160,18 @@ export default function ServicesSection() {
             </div>
 
             {/* Services cards container - matches motionpath-content-wrap */}
-            <div className="z-[1] absolute top-[40vh]">
+            <div className="z-[1] absolute top-[30vh] md:top-[35vh] lg:top-[40vh]">
               {servicesData.map((service) => (
                 <div
                   key={service.id}
                   data-motionpath="item"
                   className="absolute"
                 >
-                  {/* Card container with white background */}
-                  <div className="relative w-[300px] md:w-[460px] h-[400px] md:h-[614px] bg-white">
+                  {/* Card container with white background - wrapped in Link */}
+                  <Link
+                    href={`/${lang}/services#category-${service.categoryKey}`}
+                    className="block relative w-[300px] h-[400px] lg:w-[320px] lg:h-[414px] xl:w-[430px] xl:h-[540px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
+                  >
                     {/* Image container */}
                     <div className="absolute w-full h-full">
                       <Image
@@ -181,7 +191,7 @@ export default function ServicesSection() {
                         {service.title}
                       </h3>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               ))}
             </div>

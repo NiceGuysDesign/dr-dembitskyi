@@ -109,14 +109,23 @@ function transformStrapiAbout(strapiAbout: StrapiAbout): AboutData {
     position: strapiAbout.position,
     description: strapiAbout.description,
     image: getImageUrl(strapiAbout.image, baseUrl),
-    education: strapiAbout.education.map((edu) => ({
-      id: edu.id.toString(),
-      title: edu.title,
-      city: edu.city,
-      country: edu.country,
-      year: edu.year,
-      location: `${edu.city}, ${edu.country}, ${edu.year}`,
-    })),
+    education: strapiAbout.education.map((edu) => {
+      // Filter out null/undefined values when building location string
+      const locationParts = [
+        edu.city,
+        edu.country,
+        edu.year,
+      ].filter((part) => part != null && part !== "");
+
+      return {
+        id: edu.id.toString(),
+        title: edu.title,
+        city: edu.city,
+        country: edu.country,
+        year: edu.year,
+        location: locationParts.length > 0 ? locationParts.join(", ") : "",
+      };
+    }),
   };
 }
 

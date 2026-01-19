@@ -113,7 +113,6 @@ export interface ServiceData {
   slug: string;
   title: string;
   description: string;
-  image: string;
   category: ServiceCategory;
   detailSection: {
     textblock: RichTextNode[];
@@ -203,7 +202,6 @@ function transformStrapiService(
     slug: strapiService.slug,
     title: strapiService.title,
     description: strapiService.description,
-    image: getImageUrl(strapiService.image, baseUrl),
     category: mappedCategory,
     detailSection: {
       textblock: strapiService.detailSection?.textblock || [],

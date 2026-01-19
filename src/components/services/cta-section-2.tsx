@@ -19,12 +19,12 @@ export default function CTASection2() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section className="relative h-[70vh] md:h-[100vh] w-full overflow-hidden">
+    <section className="relative h-[70vh] md:h-[80vh] lg:h-[100vh] w-full overflow-hidden">
       {/* Background gradient blur effect - lower z-index */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#F4F4F5] to-transparent w-full h-[50vh] md:h-[300px] z-[30]"></div>
 
       {/* Right side - Image (absolute positioned, fixed to bottom of section) */}
-      <div className="absolute right-0 bottom-0 md:z-20 z-0 w-full h-[70vh] sm:h-[80vh] md:h-[600px] lg:w-[1021px] lg:h-[922px] pointer-events-none lg:pointer-events-auto">
+      <div className="absolute right-0 bottom-0 md:z-20 z-0 w-full h-[70vh] sm:h-[80vh] md:w-[400px] md:h-[600px] lg:w-[700px] lg:h-[760px] xl:w-[1021px] xl:h-[100vh] pointer-events-none lg:pointer-events-auto">
         <Image
           src={ctaData.image}
           alt={ctaData.imageAlt}
@@ -39,9 +39,9 @@ export default function CTASection2() {
           {/* Left side - Content */}
           <div className="flex flex-col  gap-6 lg:gap-8">
             {/* Title 1 */}
-            <h2 className="relative z-10 md:z-[-1] font-manrope font-bold text-[10vw] md:text-[120px] lg:text-[179px] leading-[100%] tracking-[-0.05em] text-[#353556] flex flex-col">
+            <h2 className="relative z-10 md:z-[-1] font-manrope font-bold text-[10vw] md:text-[84px] lg:text-[122px] xl:text-[179px] leading-[100%] tracking-[-0.05em] text-[#353556] flex flex-col">
               {ctaData.title1}
-              <span className="text-start md:ml-[10%]">{ctaData.title2}</span>
+              <span className="text-start md:ml-[10%] lg:ml-[0%] xl:ml-[10%]">{ctaData.title2}</span>
             </h2>
           </div>
         </div>

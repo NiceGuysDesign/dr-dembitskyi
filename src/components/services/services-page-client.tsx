@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import ServicesList from "@/components/services/services-list";
 import { ServiceItem } from "@/components/services/service-card";
 import { ServiceData, ServiceCategory } from "@/strapi/services";
+import { useLenis } from "@/components/providers/lenis-context";
 
 interface ServicesPageClientProps {
   servicesData: ServiceData[];
@@ -23,6 +25,8 @@ const serviceCategories: ServiceCategory[] = [
 export default function ServicesPageClient({
     servicesData: initialServices,
 }: ServicesPageClientProps) {
+  const { lenis } = useLenis();
+
   // Мапимо дані до формату ServiceItem
   const services: ServiceItem[] = initialServices.map((service) => {
     return {
@@ -31,7 +35,6 @@ export default function ServicesPageClient({
       categoryKey: service.category,
       title: service.title,
       description: service.description,
-      image: service.image,
     };
   });
 
@@ -41,6 +44,35 @@ export default function ServicesPageClient({
     categoryKey: cat,
     services: services.filter((s) => s.categoryKey === cat),
   }));
+
+  // Scroll to anchor after page load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Wait for DOM to be ready
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 120; // Match the offset from smooth-scroll-provider
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - offset;
+
+          // Use smooth scroll if Lenis is available, otherwise use native scroll
+          if (lenis) {
+            lenis.scrollTo(offsetPosition, {
+              duration: 1.2,
+              easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
+          } else {
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            });
+          }
+        }
+      }, 100);
+    }
+  }, [lenis]);
 
   return (
     <>

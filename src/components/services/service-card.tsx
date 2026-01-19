@@ -10,7 +10,6 @@ export interface ServiceItem {
   categoryKey?: string;
   title: string;
   description: string;
-  image: string;
 }
 
 interface ServiceCardProps {
