@@ -63,7 +63,7 @@ export default function Header() {
 
       {/* Navigation - centered, hidden on mobile */}
       <nav className="hidden lg:flex flex-1 justify-center">
-        <ul className="flex flex-row items-center gap-[12px] xl:gap-[38px]">
+        <ul className="flex flex-row items-center gap-[12px] xl:gap-[28px] 2xl:gap-[38px]">
           {navigationItems.map((item) => (
             <li key={item.key}>
               <Link

@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        "2xl": "1300px",
+      },
       fontFamily: {
         inter: ["var(--font-inter)"],
         manrope: ["var(--font-manrope)"],
