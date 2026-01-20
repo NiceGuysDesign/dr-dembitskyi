@@ -109,7 +109,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom section - License and Privacy - full width */}
-        <div className="w-full flex flex-row justify-between items-center gap-4">
+        <div className="w-full flex flex-row justify-between items-end gap-4">
           <p className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-white uppercase opacity-40 m-0">
             {t("footer.license")}
           </p>

@@ -27,7 +27,7 @@ export default function CTASection() {
   return (
     <section className="relative w-full bg-[var(--color-bg-light)] overflow-hidden h-[90vh] lg:min-h-screen py-0 lg:h-screen flex items-center">
       {/* Background decorative element */}
-      <div className="absolute left-[-20%] md:left-[-10%] top-0 h-[20vh] md:h-[25vh] lg:h-[30vh] w-full">
+      <div className="absolute left-[0%] md:left-[-10%] top-0 h-[20vh] md:h-[25vh] lg:h-[30vh] w-full">
         <Image
           src="/images/image 42 (Traced).png"
           fill
@@ -38,9 +38,9 @@ export default function CTASection() {
 
       {/* Main content container */}
       <div className="relative px-[10px] md:px-5 w-full">
-        <div className="relative flex flex-col lg:flex-row items-start lg:items-center gap-8 md:gap-12 lg:gap-20">
+        <div className="relative flex flex-col lg:flex-row items-start lg:items-center gap-2 md:gap-12 lg:gap-20">
           {/* Image on the left */}
-          <div className="relative w-full max-w-[70vw] md:max-w-[60vw] lg:max-w-[50vw] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[823px] lg:flex-shrink-0 ml-[-20px]">
+          <div className="relative w-full max-w-[60vw] md:max-w-[60vw] lg:max-w-[50vw] h-[200px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[823px] lg:flex-shrink-0 ml-[-20px]">
             <Image
               src={ctaData.image}
               width={823}
@@ -54,7 +54,7 @@ export default function CTASection() {
           {/* Content on the right */}
           <div className="flex flex-col gap-3 md:gap-4 w-full lg:max-w-[50%]">
             {/* Title 1 */}
-            <h2 className="font-manrope font-bold text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] xl:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] flex flex-col gap-1">
+            <h2 className="font-manrope font-bold text-[11vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] xl:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] flex flex-col gap-1">
               {ctaData.title1}
               <span className="text-center ml-0 lg:text-start md:ml-[-15%] lg:ml-[-20%]">
                 {ctaData.title2}

@@ -50,7 +50,7 @@ export default function LogoLoader({ className, onComplete }: LogoLoaderProps) {
   return (
     <div
       ref={containerRef}
-      className={`flex items-center justify-center ${className || ""}`}
+      className={`flex items-center max-w-[90%] mx-auto md:max-w-none justify-center ${className || ""}`}
     >
       <svg
         width="442"

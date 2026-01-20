@@ -32,7 +32,7 @@ export default function ServicesList({ groupedServices }: ServicesListProps) {
             <div className="">
               {/* Mobile Category Title */}
               <div className="lg:hidden py-6">
-                <h3 className="font-manrope font-bold text-[60px] md:text-[80px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+                <h3 className="font-manrope font-bold text-[13vw] md:text-[80px] leading-[100%] tracking-[-0.05em] text-[#353556]">
                   {group.category}
                 </h3>
               </div>

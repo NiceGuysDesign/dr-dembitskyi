@@ -18,11 +18,11 @@ export default function ContactsPageClient() {
   const address = "м. Київ, вул. Саксаганського, 155а";
 
   return (
-    <main className="relative w-full">
+    <main className="relative w-full mb-10 md:mb-0">
       {/* Content Grid - 2 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Left Column - Image */}
-        <div className="relative w-full h-[100vh] ml-[-30px]">
+        <div className="relative hidden md:block w-full h-[100vh] ml-[-30px]">
           <Image
             src="/images/0655537E-4939-4EA3-AC61-75FE37A2B3BE-Photoroom 1.png"
             alt="Armchair with laptop"
@@ -32,7 +32,7 @@ export default function ContactsPageClient() {
         </div>
 
         {/* Right Column - Title and Contact Information */}
-        <div className="flex flex-col gap-0 h-full mt-[15%]">
+        <div className="flex flex-col gap-0 h-full mt-[120px] md:mt-[15%] px-[10px]">
           {/* Title */}
           <h1 className="font-manrope font-bold text-[60px] md:text-[80px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[#353556] mb-[60px]">
             {t("contacts.title")}

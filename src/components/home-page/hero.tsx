@@ -24,7 +24,7 @@ export default function Hero({ heroData }: HeroProps) {
   const firstName = titleParts[0] || "";
   const lastName = titleParts.slice(1).join(" ") || "";
   return (
-    <section className="relative w-full h-[90vh] md:h-[90vh] lg:h-screen overflow-hidden pt-[100px] md:pt-[120px]">
+    <section className="relative w-full h-[100vh] md:h-[90vh] lg:h-screen overflow-hidden pt-[100px] md:pt-[120px]">
       {/* Main content container */}
       <div className="relative px-[10px] md:px-5 h-full">
         <div className="relative flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-0 h-full">
@@ -34,12 +34,12 @@ export default function Hero({ heroData }: HeroProps) {
             {lastName && <span className="relative z-20">{lastName}</span>}
           </h1>
 
-          <h1 className="relative z-30 md:hidden font-manrope font-bold leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] text-[18vw] md:text-[18vw] xl:text-[19vw] flex flex-col md:mt-20 xl:mt-0">
+          <h1 className="mb-10 relative z-30 md:hidden font-manrope font-bold leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] text-[17vw] md:text-[18vw] xl:text-[19vw] flex flex-col md:mt-20 xl:mt-0">
             {heroData.title}
           </h1>
 
           {/* Image in center */}
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-0 z-10 w-[650px] lg:w-[1021px] h-auto max-h-[calc(100vh-120px)] md:max-h-[calc(90vh-120px)] lg:max-h-[calc(100vh-60px)]">
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-20 z-10 w-[460px] lg:w-[1021px] h-auto max-h-[calc(100vh-120px)] md:max-h-[calc(90vh-120px)] lg:max-h-[calc(100vh-60px)]">
             <Image
               src={heroData.image}
               width={1021}
@@ -82,7 +82,7 @@ export default function Hero({ heroData }: HeroProps) {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 bg-gradient-to-t from-[var(--color-bg-light)] to-transparent w-full h-[60vh] md:h-[300px] z-10"></div>
+      <div className="absolute bottom-20 bg-gradient-to-t from-[var(--color-bg-light)] to-transparent w-full h-[60vh] md:h-[300px] z-10"></div>
     </section>
   );
 }

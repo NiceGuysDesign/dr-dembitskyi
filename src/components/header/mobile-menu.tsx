@@ -82,8 +82,8 @@ export default function MobileMenu() {
               </div>
 
               {/* Navigation */}
-              <nav className="flex-1 mb-8">
-                <ul className="flex flex-col gap-6">
+              <nav className="flex-1 md:mb-8">
+                <ul className="flex flex-col md:gap-6 gap-2">
                   {navigationItems.map((item, index) => (
                     <motion.li
                       key={item.key}

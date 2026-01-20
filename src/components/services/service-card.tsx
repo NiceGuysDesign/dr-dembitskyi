@@ -26,8 +26,8 @@ export default function ServiceCard({
     <div className="relative">
       <div className="relative flex flex-col lg:flex-row items-start gap-6 lg:gap-8 py-6 lg:py-8">
         {/* Service Content */}
-        <div className="flex-1 flex flex-row items-end justify-between gap-4 lg:gap-6">
-          <div className="flex-1 flex flex-col gap-4 lg:gap-6 max-w-[60%]">
+        <div className="flex-1 flex flex-col md:flex-row items-start md:items-end justify-between gap-6 lg:gap-6">
+          <div className="flex-1 flex flex-col gap-4 lg:gap-6 md:max-w-[60%]">
             {/* Service Title */}
             <h4 className="font-manrope font-bold text-[32px] md:text-[36px] lg:text-[40px] leading-[100%] tracking-[-0.05em] text-[#353556] flex items-end">
               {service.title}
@@ -40,9 +40,9 @@ export default function ServiceCard({
           </div>
 
           {/* Button */}
-          <Link href={`/${lang}/services/${service.slug}`}>
+          <Link href={`/${lang}/services/${service.slug}`} className="w-full md:w-auto">
             <Button
-              className="w-[174px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-base leading-[100%] tracking-[-0.01em] text-white"
+              className="w-full md:w-[174px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-base leading-[100%] tracking-[-0.01em] text-white"
               style={{
                 background:
                   "radial-gradient(114.39% 151.52% at 50% 151.52%, #000000 0%, #3A3A45 100%)",

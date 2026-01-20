@@ -131,7 +131,7 @@ export default function ServicesSection() {
         {/* Sticky content container - matches motionpath-content */}
         <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[140px] z-10">
           {/* Background title */}
-          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[8vw] md:text-[70px] lg:text-[4vw] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
+          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[7vw] md:text-[70px] lg:text-[4vw] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
             {t("servicesSection.title")}
             <span className="text-center">{t("servicesSection.subtitle")}</span>
             <span className="text-start ml-[20%]">
@@ -160,7 +160,7 @@ export default function ServicesSection() {
             </div>
 
             {/* Services cards container - matches motionpath-content-wrap */}
-            <div className="z-[1] absolute top-[30vh] md:top-[35vh] lg:top-[25vh] 2xl:top-[30vh]">
+            <div className="z-[1] absolute top-[25vh] md:top-[35vh] lg:top-[25vh] 2xl:top-[30vh]">
               {servicesData.map((service) => (
                 <div
                   key={service.id}
@@ -170,7 +170,7 @@ export default function ServicesSection() {
                   {/* Card container with white background - wrapped in Link */}
                   <Link
                     href={`/${lang}/services#category-${service.categoryKey}`}
-                    className="block relative w-[300px] h-[400px] lg:w-[320px] lg:h-[414px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
+                    className="block relative w-[240px] h-[320px] lg:w-[320px] lg:h-[414px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
                   >
                     {/* Image container */}
                     <div className="absolute w-full h-full">
@@ -185,9 +185,9 @@ export default function ServicesSection() {
                     {/* Title at bottom */}
                     <div
                       data-motionpath="item-details"
-                      className="absolute bottom-[32px] left-[26px] right-[105.09px] h-[80px] flex items-end"
+                      className="absolute bottom-[10px] left-[10px] lg:bottom-[32px] lg:left-[26px] right-[105.09px] h-[80px] flex items-end"
                     >
-                      <h3 className="font-manrope font-bold text-[40px] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] m-0">
+                      <h3 className="font-manrope font-bold text-[34px] md:text-[40px] leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] m-0">
                         {service.title}
                       </h3>
                     </div>
