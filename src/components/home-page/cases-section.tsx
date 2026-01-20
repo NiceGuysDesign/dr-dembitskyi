@@ -100,7 +100,7 @@ export default function CasesSection({ casesData }: CasesSectionProps = {}) {
       {/* Background text "Кейси" - показуємо тільки на сторінці послуги */}
       {isOnServicePage && (
         <h2
-          className="font-manrope font-bold text-[289px] leading-[100%] tracking-[-0.05em] opacity-40 absolute right-0"
+          className="font-manrope font-bold text-[21vw] sm:text-[8vw] md:text-[64px] lg:text-[289px] leading-[100%] tracking-[-0.05em] opacity-40 absolute right-0 top-[-4px] md:top-[-4px]"
           style={{
             background:
               "linear-gradient(180deg, rgba(53, 53, 86, 0.2) 0%, rgba(116, 116, 188, 0.1) 100%)",

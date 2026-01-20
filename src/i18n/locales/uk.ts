@@ -130,4 +130,10 @@ export const uk = {
       },
     },
   },
+  servicePage: {
+    procedureMain: "Основне про процедуру",
+    results: "Результати",
+    indications: "Коли варто задуматися про процедуру",
+    process: "Як проходить весь шлях",
+  },
 };

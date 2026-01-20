@@ -131,4 +131,10 @@ export const en = {
       },
     },
   },
+  servicePage: {
+    procedureMain: "Key points about the procedure",
+    results: "Results",
+    indications: "When to consider the procedure",
+    process: "How the whole journey looks",
+  },
 };

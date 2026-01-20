@@ -21,10 +21,10 @@ export default function CTASection2() {
   return (
     <section className="relative h-[100vh] md:h-[80vh] lg:h-[100vh] w-full overflow-hidden">
       {/* Background gradient blur effect - lower z-index */}
-      <div className="absolute bottom-40 left-0 right-0 bg-gradient-to-t from-[#F4F4F5] to-transparent w-full h-[50vh] md:h-[300px] z-[30]"></div>
+      <div className="absolute bottom-40 md:bottom-0 left-0 right-0 bg-gradient-to-t from-[#F4F4F5] to-transparent w-full h-[50vh] md:h-[300px] z-[30]"></div>
 
       {/* Right side - Image (absolute positioned, fixed to bottom of section) */}
-      <div className="absolute right-0 bottom-40 md:z-20 z-0 w-full h-[70vh] sm:h-[80vh] md:w-[400px] md:h-[600px] lg:w-[700px] lg:h-[760px] 2xl:w-[1021px] 2xl:h-[100vh] pointer-events-none lg:pointer-events-auto">
+      <div className="absolute right-0 bottom-40 md:bottom-0 md:z-20 z-0 w-full h-[70vh] sm:h-[80vh] md:w-[400px] md:h-[600px] lg:w-[700px] lg:h-[760px] 2xl:w-[1021px] 2xl:h-[100vh] pointer-events-none lg:pointer-events-auto">
         <Image
           src={ctaData.image}
           alt={ctaData.imageAlt}

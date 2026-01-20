@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ServiceData } from "@/strapi/services";
 import { Case } from "@/strapi/cases";
 import CTASection2 from "./cta-section-2";
@@ -18,6 +19,8 @@ export default function ServicePageClient({
   casesData,
   showCases = true,
 }: ServicePageClientProps) {
+  const { t } = useTranslation();
+
   return (
     <main className="relative w-full bg-[#F4F4F5] min-h-screen">
       <div className="px-[10px] md:px-5">
@@ -26,7 +29,7 @@ export default function ServicePageClient({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Title */}
             <div>
-              <h1 className="font-manrope font-bold text-[60px] lg:text-[72px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+              <h1 className="font-manrope font-bold text-[10vw] lg:text-[72px] leading-[100%] tracking-[-0.05em] text-[#353556]">
                 {service.title}
               </h1>
             </div>
@@ -46,8 +49,8 @@ export default function ServicePageClient({
         <section id="procedure">
           {/* Основне про процедуру */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
-            <h2 className="font-manrope font-bold text-[32px] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-              Основне про процедуру
+            <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+              {t("servicePage.procedureMain")}
             </h2>
             <div className="flex flex-col gap-6">
               <RichText content={service.detailSection?.textblock || []} />
@@ -61,8 +64,8 @@ export default function ServicePageClient({
             id="results"
             className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
           >
-            <h2 className="font-manrope font-bold text-[32px] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-              Результати
+            <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+              {t("servicePage.results")}
             </h2>
             <div>
               <RichText content={service.result || []} />
@@ -76,8 +79,8 @@ export default function ServicePageClient({
             id="indications"
             className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
           >
-            <h2 className="font-manrope font-bold text-[32px] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-              Коли варто задуматися про процедуру
+            <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+              {t("servicePage.indications")}
             </h2>
             <div>
               <RichText content={service.symptoms || []} />
@@ -94,8 +97,8 @@ export default function ServicePageClient({
           id="process"
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
         >
-          <h2 className="font-manrope font-bold text-[32px] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-            Як проходить весь шлях
+          <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+            {t("servicePage.process")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[10px]">
             {service.advantagesSection?.advantages?.map((advantage, index) => (
