@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import LenisContext from "./lenis-context";
 
 export default function SmoothScrollProvider({
@@ -10,6 +11,7 @@ export default function SmoothScrollProvider({
   children: React.ReactNode;
 }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const lenisInstance = new Lenis({
@@ -71,6 +73,33 @@ export default function SmoothScrollProvider({
       document.documentElement.classList.remove("lenis-smooth");
     };
   }, []);
+
+  useLayoutEffect(() => {
+    // Reset scroll position on route change.
+    // This prevents Next.js/Lenis from keeping the previous scroll offset.
+    if (!pathname) return;
+
+    // If Lenis isn't ready yet, fallback to native.
+    if (!lenis) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      return;
+    }
+
+    // Ensure no visible "jump/animation" after route change.
+    // Lenis has `immediate` option, use it to avoid tweening.
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    lenis.scrollTo(0, { immediate: true, programmatic: true });
+
+    // `stop()`-like operations can leave Lenis in a stopped state.
+    // Restart it on the next frame so the whole site scrolls again.
+    requestAnimationFrame(() => {
+      try {
+        lenis.start();
+      } catch {
+        // noop
+      }
+    });
+  }, [pathname, lenis]);
 
   return (
     <LenisContext.Provider value={{ lenis }}>{children}</LenisContext.Provider>

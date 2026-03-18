@@ -50,25 +50,10 @@ export default function ServicePageClient({
           {/* Основне про процедуру */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
             <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-              {t("servicePage.procedureMain")}
+              {t("packageServicePage.procedureMain")}
             </h2>
             <div className="flex flex-col gap-6">
               <RichText content={service.detailSection?.textblock || []} />
-            </div>
-          </div>
-
-          <div className="h-[1px] w-full bg-[#1B1661] opacity-40 mb-16" />
-
-          {/* Результати */}
-          <div
-            id="results"
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
-          >
-            <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-              {t("servicePage.results")}
-            </h2>
-            <div>
-              <RichText content={service.result || []} />
             </div>
           </div>
 
@@ -80,10 +65,23 @@ export default function ServicePageClient({
             className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
           >
             <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-              {t("servicePage.indications")}
+              {t("packageServicePage.indications")}
             </h2>
             <div>
               <RichText content={service.symptoms || []} />
+            </div>
+          </div>
+          <div className="h-[1px] w-full bg-[#1B1661] opacity-40 mb-16" />
+          {/* Результати */}
+          <div
+            id="results"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
+          >
+            <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
+              {t("packageServicePage.results")}
+            </h2>
+            <div>
+              <RichText content={service.result || []} />
             </div>
           </div>
         </section>
@@ -98,7 +96,7 @@ export default function ServicePageClient({
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
         >
           <h2 className="font-manrope font-bold text-[7vw] lg:text-[48px] leading-[100%] tracking-[-0.05em] text-[#353556]">
-            {t("servicePage.process")}
+            {t("packageServicePage.process")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[10px]">
             {service.advantagesSection?.advantages?.map((advantage, index) => (

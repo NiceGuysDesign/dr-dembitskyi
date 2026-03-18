@@ -137,4 +137,10 @@ export const en = {
     indications: "When to consider the procedure",
     process: "How the whole journey looks",
   },
+  packageServicePage: {
+    procedureMain: "What is included in the package",
+    results: "Results you will notice",
+    indications: "When to consider the package",
+    process: "Benefits of the package approach",
+  },
 };

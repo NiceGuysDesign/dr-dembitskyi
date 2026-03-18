@@ -109,9 +109,11 @@ export default function PackagesSection({
         <div className="w-full">
           {packagesData.map((pkg) => {
             const { title1, title2 } = splitTitle(pkg.title);
+            const packageHref = `/${lang}/package-service/${pkg.slug}`;
             return (
-              <div
+              <Link
                 key={pkg.slug}
+                href={packageHref}
                 className="slide min-h-[80vh] md:min-h-[90vh] lg:min-h-screen w-full flex items-center justify-center"
               >
                 <div
@@ -169,7 +171,12 @@ export default function PackagesSection({
                         {/* Consultation button */}
                         <Button
                           variant="default"
-                          onClick={openConsultation}
+                          onClick={(e) => {
+                            // Prevent navigation to the package page when clicking the consultation CTA.
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openConsultation();
+                          }}
                           style={{
                             background:
                               "radial-gradient(114.39% 151.52% at 50% 151.52%, #3B3D7E 0%, #FFFFFF 100%)",
@@ -186,17 +193,14 @@ export default function PackagesSection({
                         </Button>
 
                         {/* More details link */}
-                        <Link
-                          href={`/${lang}/package-service/${pkg.slug}`}
-                          className="flex items-center justify-center gap-[10px] h-[32px] border-b border-white text-white font-inter font-medium text-sm sm:text-base leading-[100%] tracking-[-0.01em] bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
-                        >
+                        <span className="flex items-center justify-center gap-[10px] h-[32px] border-b border-white text-white font-inter font-medium text-sm sm:text-base leading-[100%] tracking-[-0.01em] bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
                           {t("packages.buttonMore")}
-                        </Link>
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
