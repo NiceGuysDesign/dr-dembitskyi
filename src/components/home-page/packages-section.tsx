@@ -39,37 +39,15 @@ export default function PackagesSection({
 
   useEffect(() => {
     // Невелика затримка для забезпечення того, що DOM оновився
+    let cleanupFn: (() => void) | undefined;
     const timer = setTimeout(async () => {
       try {
         const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-        const { gsap } = await import("gsap");
+        cleanupFn = initEffect031();
 
-        const cleanup = initEffect031();
-        if (cleanup) {
-          // Оновлюємо ScrollTrigger після ініціалізації
+        // Оновлюємо ScrollTrigger після ініціалізації
+        if (cleanupFn) {
           ScrollTrigger.refresh();
-
-          // Додаткова перевірка: переконуємося, що всі картки видимі
-          setTimeout(() => {
-            const contents = document.querySelectorAll<HTMLElement>(
-              "#effect031 .content"
-            );
-            contents.forEach((content) => {
-              // Якщо картка прихована, показуємо її
-              const computedStyle = window.getComputedStyle(content);
-              if (
-                computedStyle.opacity === "0" ||
-                computedStyle.visibility === "hidden"
-              ) {
-                gsap.set(content, {
-                  opacity: 1,
-                  visibility: "visible",
-                  immediateRender: true,
-                });
-              }
-            });
-            ScrollTrigger.refresh();
-          }, 50);
         }
       } catch (error) {
         console.warn("GSAP not installed. Please run: npm install gsap", error);
@@ -78,7 +56,7 @@ export default function PackagesSection({
 
     return () => {
       clearTimeout(timer);
-      // Cleanup буде виконано через killAnimations в GSAPInit
+      cleanupFn?.();
     };
   }, []);
 
@@ -114,6 +92,7 @@ export default function PackagesSection({
               <Link
                 key={pkg.slug}
                 href={packageHref}
+                prefetch={false}
                 className="slide min-h-[80vh] md:min-h-[90vh] lg:min-h-screen w-full flex items-center justify-center"
               >
                 <div
