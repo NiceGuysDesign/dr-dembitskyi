@@ -1,5 +1,6 @@
 import { strapiFetch } from "./client";
 import { StrapiImage } from "./services";
+import { defaultLocale, locales } from "@/i18n/config";
 import type {
   BlogBeforeAfterBlock,
   BlogImageBlock,
@@ -204,23 +205,6 @@ export async function getCases(locale: string = "uk"): Promise<Case[]> {
       transformStrapiCase(caseItem, locale)
     );
 
-    // Якщо кейсів менше 10, дублюємо їх до 10
-    if (cases.length > 0 && cases.length < 10) {
-      const duplicatedCases: Case[] = [...cases];
-      const originalCase = cases[0];
-
-      while (duplicatedCases.length < 10) {
-        const index = duplicatedCases.length;
-        duplicatedCases.push({
-          ...originalCase,
-          slug: `${originalCase.slug}-${index}`,
-          title: `${originalCase.title} ${index > 1 ? `(${index})` : ""}`,
-        });
-      }
-
-      return duplicatedCases;
-    }
-
     return cases;
   } catch {
     return [];
@@ -233,9 +217,11 @@ export async function getCaseBySlug(
   locale: string = "uk"
 ): Promise<Case | null> {
   try {
+    const encodedSlug = encodeURIComponent(slug);
+
     // Спочатку шукаємо в поточній мові
     let response = await strapiFetch<StrapiCasesResponse>(
-      `/api/cases?filters[slug][$eq]=${slug}&populate[localizations][fields][0]=slug&populate[localizations][fields][1]=locale&populate=deep&publicationState=live`,
+      `/api/cases?filters[slug][$eq]=${encodedSlug}&populate=deep&publicationState=live`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
@@ -246,7 +232,7 @@ export async function getCaseBySlug(
     if (response.data.length === 0) {
       const otherLocale = locale === "uk" ? "en" : "uk";
       response = await strapiFetch<StrapiCasesResponse>(
-        `/api/cases?filters[slug][$eq]=${slug}&populate[localizations][fields][0]=slug&populate[localizations][fields][1]=locale&populate=deep&publicationState=live`,
+        `/api/cases?filters[slug][$eq]=${encodedSlug}&populate=deep&publicationState=live`,
         otherLocale,
         {
           next: { revalidate: 60 },
@@ -290,8 +276,9 @@ export async function getCaseBySlug(
 
       // Якщо є локалізація для поточної мови, шукаємо кейс за правильним slug
       if (targetLocalization) {
+        const encodedTargetSlug = encodeURIComponent(targetLocalization.slug);
         const localizedResponse = await strapiFetch<StrapiCasesResponse>(
-          `/api/cases?filters[slug][$eq]=${targetLocalization.slug}&populate=deep&publicationState=live`,
+          `/api/cases?filters[slug][$eq]=${encodedTargetSlug}&populate=deep&publicationState=live`,
           locale,
           {
             next: { revalidate: 60 },
@@ -310,4 +297,88 @@ export async function getCaseBySlug(
     console.error("Error fetching case by slug:", error);
     return null;
   }
+}
+
+type StrapiCaseI18nLink = {
+  id: number;
+  slug: string;
+  locale?: string;
+  localizations?: Array<{
+    id: number;
+    slug: string;
+    locale: string;
+  }>;
+};
+
+type StrapiCaseI18nLinkResponse = {
+  data: StrapiCaseI18nLink[];
+};
+
+async function getCaseI18nLinksBySlug(
+  slug: string,
+  locale: string
+): Promise<StrapiCaseI18nLink | null> {
+  try {
+    const encodedSlug = encodeURIComponent(slug);
+    const query =
+      `/api/cases?filters[slug][$eq]=${encodedSlug}` +
+      `&fields[0]=slug&fields[1]=locale` +
+      `&populate[localizations][fields][0]=slug` +
+      `&populate[localizations][fields][1]=locale` +
+      `&publicationState=live`;
+
+    const response = await strapiFetch<StrapiCaseI18nLinkResponse>(query, locale, {
+      next: { revalidate: 60 },
+    });
+
+    return response.data?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function getCaseBySlugInOtherLocales(
+  slug: string,
+  targetLocale: string
+): Promise<{ link: StrapiCaseI18nLink; caseLocale: string } | null> {
+  const otherLocales = locales.filter((l) => l !== targetLocale);
+  for (const locale of otherLocales) {
+    const link = await getCaseI18nLinksBySlug(slug, locale);
+    if (link) return { link, caseLocale: locale };
+  }
+  return null;
+}
+
+export type ResolveCaseSlugResult =
+  | { kind: "found"; slug: string }
+  | { kind: "fallback"; slug: string; locale: string }
+  | { kind: "missing" };
+
+export async function resolveCaseSlugForLocale(
+  slug: string,
+  targetLocale: string
+): Promise<ResolveCaseSlugResult> {
+  const direct = await getCaseBySlug(slug, targetLocale);
+  if (direct) return { kind: "found", slug: direct.slug };
+
+  const other = await getCaseBySlugInOtherLocales(slug, targetLocale);
+  if (!other) return { kind: "missing" };
+
+  const localizedSlug =
+    other.link.locale === targetLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === targetLocale)?.slug ??
+        null;
+  if (localizedSlug) return { kind: "found", slug: localizedSlug };
+
+  const fallbackSlug =
+    other.link.locale === defaultLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === defaultLocale)?.slug ??
+        null;
+  if (fallbackSlug) {
+    return { kind: "fallback", slug: fallbackSlug, locale: defaultLocale };
+  }
+
+  return { kind: "missing" };
 }

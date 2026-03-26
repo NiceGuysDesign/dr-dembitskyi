@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { getCaseBySlug, getCases } from "@/strapi/cases";
+import { getCaseBySlug, getCases, resolveCaseSlugForLocale } from "@/strapi/cases";
 import CasePostClient from "@/components/cases/case-post-client";
 import CasesList from "@/components/cases/cases-list";
 import CTASection2 from "@/components/services/cta-section-2";
@@ -13,7 +13,12 @@ export async function generateMetadata({
   params,
 }: CasePageProps): Promise<Metadata> {
   const { slug, lang } = await params;
-  const caseItem = await getCaseBySlug(slug, lang);
+  const resolved = await resolveCaseSlugForLocale(slug, lang);
+  const effectiveSlug =
+    resolved.kind === "found" || resolved.kind === "fallback"
+      ? resolved.slug
+      : slug;
+  const caseItem = await getCaseBySlug(effectiveSlug, lang);
 
   if (!caseItem) {
     return {
@@ -72,27 +77,26 @@ export async function generateMetadata({
 
 export default async function CasePage({ params }: CasePageProps) {
   const { slug, lang } = await params;
-  const caseItem = await getCaseBySlug(slug, lang);
+  const resolved = await resolveCaseSlugForLocale(slug, lang);
+
+  if (resolved.kind === "fallback") {
+    redirect(`/${resolved.locale}/cases/${resolved.slug}`);
+  }
+
+  if (resolved.kind === "found" && resolved.slug !== slug) {
+    redirect(`/${lang}/cases/${resolved.slug}`);
+  }
+
+  const caseItem =
+    resolved.kind === "found" ? await getCaseBySlug(resolved.slug, lang) : null;
 
   if (!caseItem) {
     notFound();
   }
 
-  // Перевіряємо, чи поточний slug відповідає локалізації для поточної мови
-  // Якщо ні - перенаправляємо на правильний slug
-  if (caseItem.localizations && caseItem.localizations.length > 0) {
-    const currentLocalization = caseItem.localizations.find(
-      (loc) => loc.locale === lang
-    );
-    // Якщо поточний slug не відповідає локалізації для поточної мови
-    if (currentLocalization && currentLocalization.slug !== slug) {
-      redirect(`/${lang}/cases/${currentLocalization.slug}`);
-    }
-  }
-
   // Get other cases (excluding current)
   const allCases = await getCases(lang);
-  const otherCases = allCases.filter((c) => c.slug !== slug).slice(0, 3);
+  const otherCases = allCases.filter((c) => c.slug !== caseItem.slug).slice(0, 3);
 
   return (
     <main className="relative w-full min-h-screen">

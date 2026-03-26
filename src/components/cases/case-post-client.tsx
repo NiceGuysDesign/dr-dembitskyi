@@ -16,7 +16,7 @@ export default function CasePostClient({ caseItem }: CasePostClientProps) {
       <CasePostMeta caseItem={caseItem} />
 
       {/* Case Content */}
-      <div className="mt-6 md:mt-8 lg:mt-12 max-w-[1440px] mx-auto">
+      <div className="mt-6 md:mt-8 lg:mt-12 max-w-[1100px] mx-auto">
         <CaseContent content={caseItem.content} />
       </div>
     </>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import type { AnimationItem } from "lottie-web";
-import animationData from "../../../dembutskyi-preloader-animation.json";
+import animationData from "../../../Dembutskyi Preloader Animation.json";
 
 interface LogoLoaderProps {
   className?: string;
