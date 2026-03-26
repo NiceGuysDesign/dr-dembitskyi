@@ -117,6 +117,14 @@ export const en = {
       "During your consultation, we discuss your goals, possibilities, and expectations. You receive an honest professional opinion and a clear understanding of the next steps — without rush or pressure.",
     buttonText: "Book a video consultation",
   },
+  serviceCtaSection: {
+    title1: "It all starts",
+    title2: "with a conversation",
+    description:
+      "A plastic surgeon with years of experience who combines professionalism, modern technologies, and attentive care for every patient. My goal is not just to change appearance, but to make it harmonious and healthy.",
+    buttonText: "Book a video consultation",
+    imageAlt: "Dr. Dembitskyi",
+  },
   servicesSection: {
     title: "Plastic surgery",
     subtitle: "where the main thing is not the form,",

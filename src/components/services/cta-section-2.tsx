@@ -2,21 +2,13 @@
 
 import React from "react";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
 
-const ctaData = {
-  title1: "Все починається",
-  title2: "з розмови",
-  description:
-    "Пластичний хірург із багаторічним досвідом, який поєднує професіоналізм, сучасні технології та уважне ставлення до кожного пацієнта. Моя мета – не просто змінювати зовнішність, а робити її гармонійною і здоровою.",
-  buttonText: "Записатись на відео-консультацію",
-  image: "/images/unnamed-2 2.png",
-  imageAlt: "Dr. Dembitskyi",
-};
-
 export default function CTASection2() {
   const { openConsultation } = useConsultation();
+  const { t } = useTranslation();
 
   return (
     <section className="relative h-[100vh] md:h-[80vh] lg:h-[100vh] w-full overflow-hidden">
@@ -26,8 +18,8 @@ export default function CTASection2() {
       {/* Right side - Image (absolute positioned, fixed to bottom of section) */}
       <div className="absolute right-0 bottom-40 md:bottom-0 md:z-20 z-0 w-full h-[70vh] sm:h-[80vh] md:w-[400px] md:h-[600px] lg:w-[700px] lg:h-[760px] 2xl:w-[1021px] 2xl:h-[100vh] pointer-events-none lg:pointer-events-auto">
         <Image
-          src={ctaData.image}
-          alt={ctaData.imageAlt}
+          src="/images/unnamed-2 2.png"
+          alt={t("serviceCtaSection.imageAlt")}
           fill
           className="object-cover md:object-contain object-bottom"
           unoptimized
@@ -40,8 +32,10 @@ export default function CTASection2() {
           <div className="flex flex-col gap-6 lg:gap-8">
             {/* Title 1 */}
             <h2 className="relative z-10 md:z-[-1] font-manrope font-bold text-[10vw] md:text-[84px] lg:text-[122px] xl:text-[122px] 2xl:text-[179px] leading-[100%] tracking-[-0.05em] text-[#353556] flex flex-col">
-              {ctaData.title1}
-              <span className="text-start md:ml-[10%] lg:ml-[0%] xl:ml-[0%] 2xl:ml-[10%]">{ctaData.title2}</span>
+              {t("serviceCtaSection.title1")}
+              <span className="text-start md:ml-[10%] lg:ml-[0%] xl:ml-[0%] 2xl:ml-[10%]">
+                {t("serviceCtaSection.title2")}
+              </span>
             </h2>
           </div>
         </div>
@@ -52,7 +46,7 @@ export default function CTASection2() {
         <div className="flex flex-col gap-6 lg:gap-8 md:pl-[10%]">
           <div className="max-w-[460px]">
             <p className="font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black">
-              {ctaData.description}
+              {t("serviceCtaSection.description")}
             </p>
           </div>
 
@@ -66,7 +60,7 @@ export default function CTASection2() {
                   "radial-gradient(114.39% 151.52% at 50% 151.52%, #000000 0%, #3A3A45 100%)",
               }}
             >
-              {ctaData.buttonText}
+              {t("serviceCtaSection.buttonText")}
             </Button>
           </div>
         </div>
