@@ -83,21 +83,21 @@ export default function Header() {
         <div className="hidden xl:flex items-center gap-[10px]">
           <a
             href="#"
-            className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+            className="flex items-center justify-center hover:opacity-80 transition-opacity"
             aria-label="WhatsApp"
           >
             <WhatsAppIcon />
           </a>
           <a
             href="#"
-            className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
-            aria-label="Viber"
+            className="flex items-center justify-center hover:opacity-80 transition-opacity"
+            aria-label="Instagram"
           >
             <InstagramIcon />
           </a>
           <a
             href="#"
-            className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+            className="flex items-center justify-center hover:opacity-80 transition-opacity"
             aria-label="Telegram"
           >
             <TelegramIcon />

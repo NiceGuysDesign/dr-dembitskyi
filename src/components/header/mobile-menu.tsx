@@ -112,7 +112,7 @@ export default function MobileMenu() {
                   <li>
                     <a  
                     href="#"
-                    className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+                    className="flex items-center justify-center hover:opacity-80 transition-opacity"
                     aria-label="WhatsApp"
                     referrerPolicy="no-referrer"
                     target="_blank"
@@ -123,7 +123,7 @@ export default function MobileMenu() {
                   <li>
                   <a
                     href="#"
-                    className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+                    className="flex items-center justify-center hover:opacity-80 transition-opacity"
                     aria-label="Instagram"
                     referrerPolicy="no-referrer"
                     target="_blank"
@@ -134,7 +134,7 @@ export default function MobileMenu() {
                   <li>
                     <a
                     href="#"
-                    className="w-[40px] h-[40px] rounded-full border border-black flex items-center justify-center hover:opacity-80 transition-opacity"
+                    className="flex items-center justify-center hover:opacity-80 transition-opacity"
                     aria-label="Telegram"
                     referrerPolicy="no-referrer"
                     target="_blank"
