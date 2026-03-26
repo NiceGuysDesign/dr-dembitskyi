@@ -34,6 +34,24 @@ function getBaseUrl(): string {
   return "http://localhost:3000";
 }
 
+function parseSitemapDate(value?: string): Date {
+  if (!value) return new Date();
+
+  // Handle already parseable formats (ISO, RFC, etc.)
+  const direct = new Date(value);
+  if (!Number.isNaN(direct.getTime())) return direct;
+
+  // Handle "DD.MM.YYYY" used by transformed CMS data
+  const match = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  if (match) {
+    const [, dd, mm, yyyy] = match;
+    const normalized = new Date(`${yyyy}-${mm}-${dd}T00:00:00.000Z`);
+    if (!Number.isNaN(normalized.getTime())) return normalized;
+  }
+
+  return new Date();
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
 
@@ -117,7 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (const caseItem of uniqueCases) {
         casePages.push({
           url: `${baseUrl}/${locale}/cases/${caseItem.slug}`,
-          lastModified: new Date(caseItem.publishedAt),
+          lastModified: parseSitemapDate(caseItem.publishedAt),
           changeFrequency: "monthly",
           priority: 0.7,
         });
@@ -135,7 +153,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (const post of blogPosts) {
         blogPages.push({
           url: `${baseUrl}/${locale}/blog/${post.slug}`,
-          lastModified: new Date(post.publishedAt),
+          lastModified: parseSitemapDate(post.publishedAt),
           changeFrequency: "weekly",
           priority: 0.7,
         });
