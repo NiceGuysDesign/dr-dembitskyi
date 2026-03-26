@@ -1,6 +1,10 @@
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { getCaseBySlug, getCases, resolveCaseSlugForLocale } from "@/strapi/cases";
+import {
+  getCaseBySlug,
+  getCases,
+  resolveCaseSlugForLocale,
+} from "@/strapi/cases";
 import CasePostClient from "@/components/cases/case-post-client";
 import CasesList from "@/components/cases/cases-list";
 import CTASection2 from "@/components/services/cta-section-2";
@@ -30,7 +34,7 @@ export async function generateMetadata({
   const title = caseItem.seo?.title || caseItem.title;
   const description = caseItem.seo?.description || caseItem.description || "";
 
-  const baseUrl = process.env .NEXT_PUBLIC_SITE_URL
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     ? process.env.NEXT_PUBLIC_SITE_URL
     : process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
@@ -39,7 +43,7 @@ export async function generateMetadata({
   return {
     title: `${title} | Dr. Dembitskyi`,
     description,
-    openGraph: {  
+    openGraph: {
       title,
       description,
       url: `${baseUrl}/${lang}/cases/${slug}`,
@@ -94,9 +98,13 @@ export default async function CasePage({ params }: CasePageProps) {
     notFound();
   }
 
+  const otherCasesTitle = lang === "uk" ? "Інші кейси" : "Other cases";
+
   // Get other cases (excluding current)
   const allCases = await getCases(lang);
-  const otherCases = allCases.filter((c) => c.slug !== caseItem.slug).slice(0, 3);
+  const otherCases = allCases
+    .filter((c) => c.slug !== caseItem.slug)
+    .slice(0, 3);
 
   return (
     <main className="relative w-full min-h-screen">
@@ -112,9 +120,9 @@ export default async function CasePage({ params }: CasePageProps) {
 
           {/* Other Cases Section */}
           {otherCases.length > 0 && (
-            <div className="mt-12 md:mt-16 lg:mt-24">   
+            <div className="mt-12 md:mt-16 lg:mt-24">
               <h4 className="font-manrope font-bold text-[11vw] md:text-[48px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-text-heading)] mb-6 md:mb-8">
-                Інші кейси
+                {otherCasesTitle}
               </h4>
               <CasesList cases={otherCases} activeFilter="all" />
             </div>

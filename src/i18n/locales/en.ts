@@ -111,15 +111,15 @@ export const en = {
     close: "Close",
   },
   ctaSection: {
-    title1: "It all starts",
-    title2: "with a conversation",
+    title1: "Let's Start",
+    title2: "a Conversation",
     description:
       "During your consultation, we discuss your goals, possibilities, and expectations. You receive an honest professional opinion and a clear understanding of the next steps — without rush or pressure.",
     buttonText: "Book a video consultation",
   },
   serviceCtaSection: {
-    title1: "It all starts",
-    title2: "with a conversation",
+    title1: "Let's Start",
+    title2: "a Conversation",
     description:
       "A plastic surgeon with years of experience who combines professionalism, modern technologies, and attentive care for every patient. My goal is not just to change appearance, but to make it harmonious and healthy.",
     buttonText: "Book a video consultation",
