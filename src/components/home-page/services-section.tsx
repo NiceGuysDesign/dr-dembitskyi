@@ -160,7 +160,7 @@ export default function ServicesSection() {
             </div>
 
             {/* Services cards container - matches motionpath-content-wrap */}
-            <div className="z-[1] absolute top-[25vh] md:top-[35vh] lg:top-[25vh] 2xl:top-[30vh]">
+            <div className="z-[1] absolute top-[25vh] md:top-[35vh] lg:top-[20vh] 2xl:top-[30vh]">
               {servicesData.map((service) => (
                 <div
                   key={service.id}
@@ -170,7 +170,7 @@ export default function ServicesSection() {
                   {/* Card container with white background - wrapped in Link */}
                   <Link
                     href={`/${lang}/services#category-${service.categoryKey}`}
-                    className="block relative w-[240px] h-[320px] lg:w-[320px] lg:h-[414px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
+                    className="block relative w-[240px] h-[320px] lg:w-[320px] lg:h-[344px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
                   >
                     {/* Image container */}
                     <div className="absolute w-full h-full">
