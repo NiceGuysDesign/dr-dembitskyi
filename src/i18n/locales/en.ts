@@ -4,7 +4,7 @@ export const en = {
     blog: "Blog",
     services: "Services",
     patients: "For patients",
-    about: "About the doctor",
+    about: "About",
     contacts: "Contacts",
     cases: "Cases",
   },
