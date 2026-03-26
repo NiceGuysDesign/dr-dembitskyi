@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import ServicesList from "@/components/services/services-list";
 import { ServiceItem } from "@/components/services/service-card";
 import { ServiceData, ServiceCategory } from "@/strapi/services";
@@ -9,12 +10,6 @@ import { useLenis } from "@/components/providers/lenis-context";
 interface ServicesPageClientProps {
   servicesData: ServiceData[];
 }
-
-const categoryLabels: Record<ServiceCategory, string> = {
-  surgical: "Пластична хірургія",
-  phlebology: "Флебологія",
-  cosmetology: "Ін'єкційна косметологія",
-};
 
 const serviceCategories: ServiceCategory[] = [
   "surgical",
@@ -26,12 +21,19 @@ export default function ServicesPageClient({
     servicesData: initialServices,
 }: ServicesPageClientProps) {
   const { lenis } = useLenis();
+  const { t } = useTranslation();
+
+  const categoryLabels: Record<ServiceCategory, string> = {
+    surgical: t("services.categories.surgical"),
+    phlebology: t("services.categories.phlebology"),
+    cosmetology: t("services.categories.cosmetology"),
+  };
 
   // Мапимо дані до формату ServiceItem
   const services: ServiceItem[] = initialServices.map((service) => {
     return {
       slug: service.slug,
-      category: categoryLabels[service.category] || "Пластична хірургія",
+      category: categoryLabels[service.category] || categoryLabels.surgical,
       categoryKey: service.category,
       title: service.title,
       description: service.description,

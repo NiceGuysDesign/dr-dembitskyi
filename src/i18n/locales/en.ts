@@ -41,6 +41,11 @@ export const en = {
     service1: "Service 1",
     service2: "Service 2",
     service3: "Service 3",
+    categories: {
+      surgical: "Plastic surgery",
+      phlebology: "Phlebology",
+      cosmetology: "Injection cosmetology",
+    },
   },
   notFound: {
     title: "Not found",
@@ -61,7 +66,7 @@ export const en = {
   cases: {
     title: "Cases",
     title1: "Care,",
-    title2: "You Can See",
+    title2: "you can see",
     title3: "in the result",
     description:
       "We share our patients’ stories — surgical, injectable, and phlebology cases — where the focus is not only on visible changes but also on the renewed sense of confidence within.",

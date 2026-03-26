@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export interface ServiceItem {
   slug: string;
@@ -21,6 +22,7 @@ export default function ServiceCard({
   service,
   showDivider = false,
 }: ServiceCardProps) {
+  const { t } = useTranslation();
   const { lang } = useParams();
   return (
     <div className="relative">
@@ -48,7 +50,7 @@ export default function ServiceCard({
                   "radial-gradient(114.39% 151.52% at 50% 151.52%, #000000 0%, #3A3A45 100%)",
               }}
             >
-              Детальніше
+              {t("packages.buttonMore")}
             </Button>
           </Link>
         </div>

@@ -41,6 +41,11 @@ export const uk = {
     service1: "Послуга 1",
     service2: "Послуга 2",
     service3: "Послуга 3",
+    categories: {
+      surgical: "Пластична хірургія",
+      phlebology: "Флебологія",
+      cosmetology: "Ін'єкційна косметологія",
+    },
   },
   notFound: {
     title: "Не знайдено",
