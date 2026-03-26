@@ -61,6 +61,21 @@ export function initEffect031(): (() => void) | undefined {
   const triggers: ScrollTrigger[] = [];
   const tweens: gsap.core.Tween[] = [];
 
+  /** Pin на `.content-wrapper` без фіксованої висоти розтягує блок на viewport. Тримаємо висоту = `.slide`. */
+  function lockWrapperToSlideHeight(
+    slideEl: HTMLElement,
+    wrapper: HTMLElement
+  ) {
+    const h = slideEl.offsetHeight;
+    wrapper.style.height = `${h}px`;
+    wrapper.style.maxHeight = `${h}px`;
+  }
+
+  function unlockWrapperHeight(wrapper: HTMLElement) {
+    wrapper.style.removeProperty("height");
+    wrapper.style.removeProperty("max-height");
+  }
+
   // Анімація для кожного слайда
   slides.forEach((slide, index) => {
     const contentWrapper = slide.querySelector<HTMLElement>(".content-wrapper");
@@ -85,19 +100,23 @@ export function initEffect031(): (() => void) | undefined {
       return;
     }
 
-    // Основна анімація: 3D трансформації з pin
+    lockWrapperToSlideHeight(slide, contentWrapper);
+
+    // Основна анімація: 3D трансформації з pin на content-wrapper (як було задумано).
+    // Висота wrapper зафіксована відносно `.slide`, щоб фон не займав весь екран.
     const mainTween = gsap.to(content, {
       rotationZ: (Math.random() - 0.5) * 10, // RotationZ between -5 and 5 degrees
       scale: 0.7, // Slight reduction of the content
       rotationX: 40,
       ease: "power1.in", // Starts gradually
       scrollTrigger: {
-        pin: contentWrapper, // contentWrapper is pinned during the animation
-        trigger: slide, // Listens to the slide's position
-        start: "top 5%", // Starts when its top reaches the top of the viewport
+        pin: contentWrapper,
+        trigger: slide,
+        start: "top 10%", // Starts when its top reaches the top of the viewport
         end: `+=${window.innerHeight}`, // Ends 100vh later
         scrub: true, // Progresses with the scroll
-        invalidateOnRefresh: true, // Оновлює позиції при refresh
+        invalidateOnRefresh: true,
+        onRefresh: () => lockWrapperToSlideHeight(slide, contentWrapper),
       },
     });
     tweens.push(mainTween);
@@ -109,11 +128,11 @@ export function initEffect031(): (() => void) | undefined {
       filter: "blur(20px)", // Додаємо blur коли картка йде на другий план
       ease: "power1.in", // Starts gradually
       scrollTrigger: {
-        trigger: content, // Listens to the position of content
-        start: "top -40%", // Starts when наступна картка видна на 50%
+        trigger: content,
+        start: "top -40%",
         end: `+=${0.3 * window.innerHeight}`, // Ends 30% later для плавності
         scrub: true, // Progresses with the scroll
-        invalidateOnRefresh: true, // Оновлює позиції при refresh
+        invalidateOnRefresh: true,
       },
     });
     tweens.push(fadeTween);
@@ -124,5 +143,9 @@ export function initEffect031(): (() => void) | undefined {
   return () => {
     triggers.forEach((trigger) => trigger.kill());
     tweens.forEach((tween) => tween.kill());
+    slides.forEach((slide) => {
+      const wrapper = slide.querySelector<HTMLElement>(".content-wrapper");
+      if (wrapper) unlockWrapperHeight(wrapper);
+    });
   };
 }

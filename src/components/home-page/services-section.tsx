@@ -23,14 +23,14 @@ export default function ServicesSection() {
       {
         id: 2,
         title: t("servicesSection.services.plasticSurgery.title"),
-        image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1.png",
+        image: "/images/plastic-surgery.svg",
         imageAlt: t("servicesSection.services.plasticSurgery.imageAlt"),
         categoryKey: "surgical",
       },
       {
         id: 3,
         title: t("servicesSection.services.injectionCosmetology.title"),
-        image: "/images/image 40 (Traced).png",
+        image: "/images/A900FD68-082B-4E85-94C5-42B6773A7A44 1.png",
         imageAlt: t("servicesSection.services.injectionCosmetology.imageAlt"),
         categoryKey: "cosmetology",
       },

@@ -10,10 +10,26 @@ import { Container } from "../ui/container";
 import { ServiceData } from "@/strapi/package-service";
 import { initEffect031 } from "@/animations/sections/effect031";
 import { useConsultation } from "../consultation/consultation-provider";
+import { cn } from "@/lib/utils";
 
 interface PackagesSectionProps {
   packagesData?: ServiceData[];
 }
+
+/**
+ * Розміри карток: висота задається лише батьківському `.slide` (Link).
+ * Внутрішні `.content-wrapper` / `.content` заповнюють доступну висоту (flex).
+ */
+const PACKAGE_CARD_LAYOUT = {
+  /** Відступ між картками у списку слайдів */
+  slideList: "flex flex-col gap-12 md:gap-16 lg:gap-24",
+  /** Фіксована висота слайду (Link). Нижче `lg` — нижче; з `lg` — вище. */
+  slide:
+    "h-[700px] md:h-[400px] lg:h-[620px] xl:h-[760px]",
+  /** Лише відступи всередині картки — без `h-*` */
+  contentPadding:
+    "px-[10px] sm:px-5 md:px-10 lg:px-[40px] py-3 md:py-5 lg:py-10",
+} as const;
 
 // Helper function to split title into title1 and title2
 function splitTitle(title: string): { title1: string; title2: string } {
@@ -84,7 +100,7 @@ export default function PackagesSection({
       </Container>
       {/* Slides container */}
       <div className="gsap-inner w-full relative px-[10px] md:px-5">
-        <div className="w-full">
+        <div className={cn("w-full", PACKAGE_CARD_LAYOUT.slideList)}>
           {packagesData.map((pkg) => {
             const { title1, title2 } = splitTitle(pkg.title);
             const packageHref = `/${lang}/package-service/${pkg.slug}`;
@@ -93,14 +109,20 @@ export default function PackagesSection({
                 key={pkg.slug}
                 href={packageHref}
                 prefetch={false}
-                className="slide min-h-[80vh] md:min-h-[90vh] lg:min-h-screen w-full flex items-center justify-center"
+                className={cn(
+                  "slide flex w-full min-h-0 flex-col items-stretch",
+                  PACKAGE_CARD_LAYOUT.slide
+                )}
               >
                 <div
-                  className="content-wrapper w-full relative overflow-hidden"
+                  className="content-wrapper relative flex min-h-0 w-full flex-1 flex-col overflow-hidden"
                   style={{ perspective: "250vw" }}
                 >
                   <div
-                    className="content relative w-full h-[600px] md:h-[700px] lg:h-[812px] px-[10px] sm:px-5 md:px-10 lg:px-[40px] py-5 md:py-8 lg:py-[40px] flex flex-col justify-between"
+                    className={cn(
+                      "content relative flex min-h-0 w-full flex-1 flex-col justify-between",
+                      PACKAGE_CARD_LAYOUT.contentPadding
+                    )}
                     style={{
                       transformStyle: "preserve-3d",
                       transformOrigin: "50% 10%",
@@ -116,7 +138,7 @@ export default function PackagesSection({
                     />
 
                     {/* Image - absolute right, full height */}
-                    <div className="absolute top-[20px] md:top-[30px] lg:top-[40px] right-0 w-[30vw] sm:w-[28vw] md:w-[25vw] max-w-[300px] md:max-w-[350px] lg:max-w-[400px] h-[calc(100%-40px)] md:h-[calc(100%-60px)] lg:h-full">
+                    <div className="absolute top-0 right-0 w-full lg:w-[50%] h-full">
                       <Image
                         src={pkg.image}
                         fill

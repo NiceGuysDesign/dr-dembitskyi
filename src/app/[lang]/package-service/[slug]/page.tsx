@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { getPackageServiceBySlug } from "@/strapi/package-service";
+import {
+  getPackageServiceBySlug,
+  resolvePackageServiceSlugForLocale,
+} from "@/strapi/package-service";
 import { getCases } from "@/strapi/cases";
 import ServicePageClient from "@/components/services/service-page-client";
 import { ServiceData } from "@/strapi/services";
@@ -13,7 +16,13 @@ export async function generateMetadata({
   params,
 }: PackageServicePageProps): Promise<Metadata> {
   const { slug, lang } = await params;
-  const packageService = await getPackageServiceBySlug(slug, lang);
+  const resolved = await resolvePackageServiceSlugForLocale(slug, lang);
+  const effectiveSlug =
+    resolved.kind === "found" || resolved.kind === "fallback"
+      ? resolved.slug
+      : slug;
+
+  const packageService = await getPackageServiceBySlug(effectiveSlug, lang);
 
   if (!packageService) {
     return {
@@ -42,24 +51,24 @@ export default async function PackageServicePage({
 }: PackageServicePageProps) {
   const { slug, lang } = await params;
 
-  const packageService = await getPackageServiceBySlug(slug, lang);
   const cases = await getCases(lang);
 
-  if (!packageService) {
-    notFound();
+  const resolved = await resolvePackageServiceSlugForLocale(slug, lang);
+
+  if (resolved.kind === "fallback") {
+    redirect(`/${resolved.locale}/package-service/${resolved.slug}`);
   }
 
-  // Перевіряємо, чи поточний slug відповідає локалізації для поточної мови
-  // Якщо ні - перенаправляємо на правильний slug
-  if (packageService.localizations && packageService.localizations.length > 0) {
-    const currentLocalization = packageService.localizations.find(
-      (loc) => loc.locale === lang
-    );
-    // Якщо поточний slug не відповідає локалізації для поточної мови
-    if (currentLocalization && currentLocalization.slug !== slug) {
-      redirect(`/${lang}/package-service/${currentLocalization.slug}`);
-    }
+  if (resolved.kind === "found" && resolved.slug !== slug) {
+    redirect(`/${lang}/package-service/${resolved.slug}`);
   }
+
+  const packageService =
+    resolved.kind === "found"
+      ? await getPackageServiceBySlug(resolved.slug, lang)
+      : null;
+
+  if (!packageService) notFound();
 
   // Type assertion для сумісності типів (структури даних ідентичні)
   const serviceData = packageService as ServiceData;

@@ -1,4 +1,5 @@
 import { strapiFetch } from "./client";
+import { defaultLocale, locales } from "@/i18n/config";
 
 // Rich Text types
 export interface RichTextImage {
@@ -137,7 +138,7 @@ export interface ServiceData {
 // Helper function to get image URL
 function getImageUrl(
   image: StrapiImage | null | undefined,
-  baseUrl?: string
+  baseUrl?: string,
 ): string {
   if (!image) return "";
   const base =
@@ -192,7 +193,7 @@ function parseRichText(richText: RichTextNode[] | null | undefined): string {
 // Transform Strapi service to ServiceData format
 function transformStrapiPackageService(
   strapiPackageService: StrapiPackageService,
-  currentLocale: string = "uk"
+  currentLocale: string = "uk",
 ): ServiceData {
   const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
@@ -251,7 +252,7 @@ export { parseRichText };
 
 // Fetch services from Strapi
 export async function getPackageServices(
-  locale: string = "uk"
+  locale: string = "uk",
 ): Promise<ServiceData[]> {
   try {
     const response = await strapiFetch<StrapiPackageServicesResponse>(
@@ -259,11 +260,11 @@ export async function getPackageServices(
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
 
     return response.data.map((service) =>
-      transformStrapiPackageService(service, locale)
+      transformStrapiPackageService(service, locale),
     );
   } catch {
     return [];
@@ -273,7 +274,7 @@ export async function getPackageServices(
 // Fetch single service by slug
 export async function getPackageServiceBySlug(
   slug: string,
-  locale: string = "uk"
+  locale: string = "uk",
 ): Promise<ServiceData | null> {
   try {
     const response = await strapiFetch<StrapiPackageServicesResponse>(
@@ -281,7 +282,7 @@ export async function getPackageServiceBySlug(
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
 
     if (response.data.length === 0) {
@@ -292,4 +293,90 @@ export async function getPackageServiceBySlug(
   } catch {
     return null;
   }
+}
+
+type StrapiPackageServiceI18nLink = {
+  id: number;
+  slug: string;
+  locale?: string;
+  localizations?: Array<{
+    id: number;
+    slug: string;
+    locale: string;
+  }>;
+};
+
+type StrapiPackageServiceI18nLinkResponse = {
+  data: StrapiPackageServiceI18nLink[];
+};
+
+async function getPackageServiceI18nLinksBySlug(
+  slug: string,
+  locale: string,
+): Promise<StrapiPackageServiceI18nLink | null> {
+  try {
+    const query =
+      `/api/package-services?filters[slug][$eq]=${slug}` +
+      `&fields[0]=slug&fields[1]=locale` +
+      `&populate[localizations][fields][0]=slug` +
+      `&populate[localizations][fields][1]=locale` +
+      `&publicationState=live`;
+
+    const response = await strapiFetch<StrapiPackageServiceI18nLinkResponse>(
+      query,
+      locale,
+      { next: { revalidate: 60 } },
+    );
+
+    return response.data?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function getPackageServiceBySlugInOtherLocales(
+  slug: string,
+  targetLocale: string,
+): Promise<{
+  link: StrapiPackageServiceI18nLink;
+  serviceLocale: string;
+} | null> {
+  const otherLocales = locales.filter((l) => l !== targetLocale);
+  for (const locale of otherLocales) {
+    const link = await getPackageServiceI18nLinksBySlug(slug, locale);
+    if (link) return { link, serviceLocale: locale };
+  }
+  return null;
+}
+
+export type ResolvePackageServiceSlugResult =
+  | { kind: "found"; slug: string }
+  | { kind: "fallback"; slug: string; locale: string }
+  | { kind: "missing" };
+
+export async function resolvePackageServiceSlugForLocale(
+  slug: string,
+  targetLocale: string,
+): Promise<ResolvePackageServiceSlugResult> {
+  const direct = await getPackageServiceBySlug(slug, targetLocale);
+  if (direct) return { kind: "found", slug: direct.slug };
+
+  const other = await getPackageServiceBySlugInOtherLocales(slug, targetLocale);
+  if (!other) return { kind: "missing" };
+
+  const localizedSlug =
+    other.link.locale === targetLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === targetLocale)?.slug ??
+        null;
+  if (localizedSlug) return { kind: "found", slug: localizedSlug };
+
+  const defaultSlug =
+    other.link.locale === defaultLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === defaultLocale)?.slug ??
+        null;
+  if (defaultSlug) return { kind: "fallback", slug: defaultSlug, locale: defaultLocale };
+
+  return { kind: "missing" };
 }

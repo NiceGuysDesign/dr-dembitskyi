@@ -16,7 +16,7 @@ interface RequestOptions {
 export async function strapiFetch<T>(
   path: string,
   locale?: string,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Promise<T> {
   const url = new URL(path, STRAPI_BASE_URL);
   if (locale) {
@@ -54,12 +54,12 @@ export async function strapiFetch<T>(
     if (error instanceof Error) {
       if (error.name === "AbortError" || error.message.includes("timeout")) {
         throw new Error(
-          `Strapi request timeout after ${timeout}ms: ${url.toString()}`
+          `Strapi request timeout after ${timeout}ms: ${url.toString()}`,
         );
       }
       if (error.message.includes("HeadersTimeoutError")) {
         throw new Error(
-          `Strapi request headers timeout: ${url.toString()}. The server may be slow or unreachable.`
+          `Strapi request headers timeout: ${url.toString()}. The server may be slow or unreachable.`,
         );
       }
     }

@@ -56,6 +56,15 @@ export default function PageLoader() {
   const [isAnimating, setIsAnimating] = useState(true);
   const pathname = usePathname();
   const isFirstMount = useRef(true);
+  const fadeOutTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  function handleAnimationComplete() {
+    setIsAnimating(false);
+    if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
+    fadeOutTimerRef.current = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  }
 
   useEffect(() => {
     // Mark that navigation has occurred (after first mount)
@@ -72,15 +81,7 @@ export default function PageLoader() {
       // Always show loader on home page reload
       setIsLoading(true);
       setIsAnimating(true);
-
-      const timer = setTimeout(() => {
-        setIsAnimating(false);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-      }, 2500);
-
-      return () => clearTimeout(timer);
+      return;
     }
 
     // For other pages, check if already visited
@@ -100,17 +101,13 @@ export default function PageLoader() {
 
     // Mark page as visited immediately
     addVisitedPage(pathname);
-
-    // Hide loader after animation
-    const timer = setTimeout(() => {
-      setIsAnimating(false);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500); // Wait for fade out animation
-    }, 2500); // Show loader for 2.5 seconds (2s animation + 0.5s delay)
-
-    return () => clearTimeout(timer);
   }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
+    };
+  }, []);
 
   if (!isLoading) return null;
 
@@ -121,7 +118,7 @@ export default function PageLoader() {
       }`}
     >
       <div className="w-[442px] h-[120px] text-[#353556]">
-        <LogoLoader />
+        <LogoLoader onComplete={handleAnimationComplete} />
       </div>
     </div>
   );

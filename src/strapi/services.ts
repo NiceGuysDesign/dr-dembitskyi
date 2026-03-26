@@ -1,4 +1,5 @@
 import { strapiFetch } from "./client";
+import { defaultLocale, locales } from "@/i18n/config";
 
 // Rich Text types
 export interface RichTextImage {
@@ -58,6 +59,7 @@ export interface StrapiAdvantagesSection {
 export interface StrapiService {
   id: number;
   documentId: string;
+  locale?: string;
   slug: string;
   title: string;
   description: string;
@@ -136,7 +138,7 @@ export interface ServiceData {
 // Helper function to get image URL
 function getImageUrl(
   image: StrapiImage | null | undefined,
-  baseUrl?: string
+  baseUrl?: string,
 ): string {
   if (!image) return "";
   const base =
@@ -191,7 +193,7 @@ function parseRichText(richText: RichTextNode[] | null | undefined): string {
 // Transform Strapi service to ServiceData format
 function transformStrapiService(
   strapiService: StrapiService,
-  currentLocale: string = "uk"
+  currentLocale: string = "uk",
 ): ServiceData {
   const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
@@ -214,7 +216,7 @@ function transformStrapiService(
           id: advantage.id.toString(),
           title: advantage.title || "",
           description: advantage.description || "",
-        })
+        }),
       ),
     },
     seo: strapiService.seo
@@ -248,7 +250,7 @@ export { parseRichText };
 
 // Fetch services from Strapi
 export async function getServices(
-  locale: string = "uk"
+  locale: string = "uk",
 ): Promise<ServiceData[]> {
   try {
     const response = await strapiFetch<StrapiServicesResponse>(
@@ -256,11 +258,11 @@ export async function getServices(
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
 
     return response.data.map((service) =>
-      transformStrapiService(service, locale)
+      transformStrapiService(service, locale),
     );
   } catch {
     return [];
@@ -270,7 +272,7 @@ export async function getServices(
 // Fetch single service by slug
 export async function getServiceBySlug(
   slug: string,
-  locale: string = "uk"
+  locale: string = "uk",
 ): Promise<ServiceData | null> {
   try {
     const response = await strapiFetch<StrapiServicesResponse>(
@@ -278,7 +280,7 @@ export async function getServiceBySlug(
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
 
     if (response.data.length === 0) {
@@ -289,4 +291,105 @@ export async function getServiceBySlug(
   } catch {
     return null;
   }
+}
+
+type StrapiServiceI18nLink = {
+  id: number;
+  attributes?: never;
+  slug: string;
+  locale?: string;
+  localizations?: Array<{
+    id: number;
+    slug: string;
+    locale: string;
+  }>;
+};
+
+type StrapiServiceI18nLinkResponse = {
+  data: StrapiServiceI18nLink[];
+};
+
+async function getServiceI18nLinksBySlug(
+  slug: string,
+  locale: string,
+): Promise<StrapiServiceI18nLink | null> {
+  try {
+    const query =
+      `/api/services?filters[slug][$eq]=${slug}` +
+      `&fields[0]=slug&fields[1]=locale` +
+      `&populate[localizations][fields][0]=slug` +
+      `&populate[localizations][fields][1]=locale` +
+      `&publicationState=live`;
+
+    const response = await strapiFetch<StrapiServiceI18nLinkResponse>(
+      query,
+      locale,
+      { next: { revalidate: 60 } },
+    );
+
+    const first = response.data?.[0] ?? null;
+    return first;
+  } catch {
+    return null;
+  }
+}
+
+async function getServiceBySlugInOtherLocales(
+  slug: string,
+  targetLocale: string,
+): Promise<{ link: StrapiServiceI18nLink; serviceLocale: string } | null> {
+  const otherLocales = locales.filter((l) => l !== targetLocale);
+  for (const locale of otherLocales) {
+    const link = await getServiceI18nLinksBySlug(slug, locale);
+    if (link) {
+      return { link, serviceLocale: locale };
+    }
+  }
+  return null;
+}
+
+export type ResolveServiceSlugResult =
+  | { kind: "found"; slug: string }
+  | { kind: "fallback"; slug: string; locale: string }
+  | { kind: "missing" };
+
+/**
+ * Resolves a service slug for a target locale using Strapi `localizations`.
+ * Intended for server-side redirects when a user lands on a wrong-locale slug.
+ */
+export async function resolveServiceSlugForLocale(
+  slug: string,
+  targetLocale: string,
+): Promise<ResolveServiceSlugResult> {
+  // First try the obvious: slug exists in requested locale
+  const direct = await getServiceBySlug(slug, targetLocale);
+  if (direct) {
+    return { kind: "found", slug: direct.slug };
+  }
+
+  // Otherwise, try to find the entry in other supported locales, then map via localizations.
+  const other = await getServiceBySlugInOtherLocales(slug, targetLocale);
+  if (!other) {
+    return { kind: "missing" };
+  }
+
+  const localizedSlug =
+    other.link.locale === targetLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === targetLocale)?.slug ??
+        null;
+  if (localizedSlug) {
+    return { kind: "found", slug: localizedSlug };
+  }
+
+  const defaultSlug =
+    other.link.locale === defaultLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === defaultLocale)?.slug ??
+        null;
+  if (defaultSlug) {
+    return { kind: "fallback", slug: defaultSlug, locale: defaultLocale };
+  }
+
+  return { kind: "missing" };
 }
