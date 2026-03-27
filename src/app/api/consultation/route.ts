@@ -12,23 +12,62 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Log the form data (in production, you would save this to a database)
-    console.log("Consultation form submission:", {
+    const strapiBaseUrl =
+      process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+    const source =
+      typeof body.source === "string" && body.source.trim().length > 0
+        ? body.source.trim()
+        : "consultation-form";
+
+    const leadPayload = {
       name: body.name,
       phone: body.phone,
-      email: body.email || "Not provided",
-      message: body.message || "Not provided",
-      timestamp: new Date().toISOString(),
-    });
+      source,
+    };
 
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    const token = process.env.STRAPI_API_TOKEN;
+    const baseHeaders: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      baseHeaders.Authorization = `Bearer ${token}`;
+    }
 
-    // In production, you would:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Integrate with CRM system
-    // etc.
+    // Try both payload shapes:
+    // 1) plain object (custom endpoints/controllers)
+    // 2) { data: ... } (default Strapi content API create format)
+    const payloadVariants = [leadPayload, { data: leadPayload }];
+    let lastErrorText = "";
+    let lastStatus = 500;
+    let sent = false;
+
+    for (const payload of payloadVariants) {
+      const upstream = await fetch(`${strapiBaseUrl}/api/leads`, {
+        method: "POST",
+        headers: baseHeaders,
+        body: JSON.stringify(payload),
+      });
+
+      if (upstream.ok) {
+        sent = true;
+        break;
+      }
+
+      lastStatus = upstream.status;
+      lastErrorText = await upstream.text();
+    }
+
+    if (!sent) {
+      return NextResponse.json(
+        {
+          message:
+            lastErrorText ||
+            "Помилка відправки заявки в CRM. Спробуйте ще раз.",
+          upstreamStatus: lastStatus,
+        },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json(
       {

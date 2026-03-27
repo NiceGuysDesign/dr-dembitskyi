@@ -32,7 +32,10 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          source: "consultation-form",
+        }),
       });
 
       if (response.ok) {
