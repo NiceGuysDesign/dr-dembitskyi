@@ -25,7 +25,7 @@ const PACKAGE_CARD_LAYOUT = {
   slideList: "flex flex-col gap-12 md:gap-16 lg:gap-24",
   /** Фіксована висота слайду (Link). Нижче `lg` — нижче; з `lg` — вище. */
   slide:
-    "h-[700px] md:h-[80vh] lg:h-[620px] xl:h-[760px]",
+    "h-[700px] md:h-[80vh] lg:h-[620px] xl:h-[600px] 2xl:h-[760px]",
   /** Лише відступи всередині картки — без `h-*` */
   contentPadding:
     "px-[10px] sm:px-5 md:px-10 lg:px-[40px] py-3 md:py-5 lg:py-10",
