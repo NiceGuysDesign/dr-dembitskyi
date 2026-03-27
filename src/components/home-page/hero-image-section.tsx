@@ -50,7 +50,11 @@ export default function HeroImageSection() {
         <p className="text-white font-inter text-[16px] leading-[150%] tracking-[-0.03em] font-medium max-w-[460px] mt-[12px] mb-[20px]">
           {t("heroYoutube.description")}
         </p>
-        <a href="https://www.youtube.com/@dr_dembitskyi">
+        <a
+          href="https://www.youtube.com/@dr_dembitskyi"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Button
             variant="default"
             style={{
