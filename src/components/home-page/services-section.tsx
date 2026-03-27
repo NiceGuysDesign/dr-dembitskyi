@@ -170,7 +170,7 @@ export default function ServicesSection() {
                   {/* Card container with white background - wrapped in Link */}
                   <Link
                     href={`/${lang}/services#category-${service.categoryKey}`}
-                    className="block relative w-[240px] h-[320px] md:w-[320px] md:h-[460px] lg:w-[320px] lg:h-[344px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
+                    className="block relative w-[240px] h-[320px] md:w-[320px] md:h-[460px] lg:w-[320px] lg:h-[344px] xl:w-[320px] xl:h-[364px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
                   > 
                     {/* Image container */}
                     <div className="absolute w-full h-full">
