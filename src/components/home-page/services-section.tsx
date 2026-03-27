@@ -129,9 +129,9 @@ export default function ServicesSection() {
         className="w-full min-h-[300vh] h-[calc(100vh*3.5)] relative"
       >
         {/* Sticky content container - matches motionpath-content */}
-        <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[140px] z-10">
+        <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[100px] z-10">
           {/* Background title */}
-          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[7vw] md:text-[70px] lg:text-[4vw] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 md:top-[-5%] flex flex-col gap-2 w-full px-5">
+          <h2 className="z-10 text-[var(--color-text-heading)] m-0 font-manrope text-[7vw] md:text-[70px] lg:text-[4vw] leading-[100%] tracking-[-0.05em] font-bold absolute top-0 flex flex-col gap-1 xl:gap-2 w-full px-5">
             {t("servicesSection.title")}
             <span className="text-center">{t("servicesSection.subtitle")}</span>
             <span className="text-start ml-[20%]">
@@ -170,8 +170,8 @@ export default function ServicesSection() {
                   {/* Card container with white background - wrapped in Link */}
                   <Link
                     href={`/${lang}/services#category-${service.categoryKey}`}
-                    className="block relative w-[240px] h-[320px] lg:w-[320px] lg:h-[344px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
-                  >
+                    className="block relative w-[240px] h-[320px] md:w-[320px] md:h-[460px] lg:w-[320px] lg:h-[344px] xl:w-[400px] xl:h-[500px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
+                  > 
                     {/* Image container */}
                     <div className="absolute w-full h-full">
                       <Image

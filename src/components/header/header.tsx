@@ -9,9 +9,11 @@ import Logo from "../../../public/icons/logo";
 import { useMobileMenu } from "./mobile-menu-provider";
 import WhatsAppIcon from "../../../public/icons/whatsapp-icon";
 import TelegramIcon from "../../../public/icons/telegram-icon";
-import InstagramIcon from "../../../public/icons/instagram-icon";
+import YoutubeIcon from "../../../public/icons/youtube-icon";
 import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
+import InstagramIcon from "../../../public/icons/instagram-icon";
+import ViberIcon from "../../../public/icons/viber-icon";
 
 export default function Header() {
   const { t } = useTranslation();
@@ -82,25 +84,49 @@ export default function Header() {
         {/* Social Media Icons */}
         <div className="hidden xl:flex items-center gap-[10px]">
           <a
-            href="#"
+            href="https://wa.me/380988800688"
             className="flex items-center justify-center hover:opacity-80 transition-opacity"
             aria-label="WhatsApp"
+            target="_blank"
+            referrerPolicy="no-referrer"
           >
             <WhatsAppIcon />
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com/dr_dembitskyi_/"
             className="flex items-center justify-center hover:opacity-80 transition-opacity"
             aria-label="Instagram"
+            target="_blank"
+            referrerPolicy="no-referrer"
           >
             <InstagramIcon />
           </a>
           <a
-            href="#"
+            href="https://t.me/dembitskyi_surgery?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnvYF0gOIMlvnVIdGNeBjMAofM2HrcPhEgPteUVkqk6c9EgXoVO7ClcBdgvfk_aem_9oX9RAhWebk8jNi2hi21eA"
             className="flex items-center justify-center hover:opacity-80 transition-opacity"
             aria-label="Telegram"
+            target="_blank"
+            referrerPolicy="no-referrer"
           >
             <TelegramIcon />
+          </a>
+          <a
+            href="viber://chat?number=%2B380988800688"
+            className="flex items-center justify-center hover:opacity-80 transition-opacity"
+            aria-label="Viber"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ViberIcon />
+          </a>
+          <a
+            href="https://www.youtube.com/@dr_dembitskyi"
+            className="flex items-center justify-center hover:opacity-80 transition-opacity"
+            aria-label="Youtube"
+            target="_blank"
+            referrerPolicy="no-referrer"
+          >
+            <YoutubeIcon />
           </a>
         </div>
 

@@ -17,6 +17,14 @@ export const uk = {
     title: "Dr. Dembitskyi",
     description: "Головна сторінка Hero секція",
   },
+  heroYoutube: {
+    title: "YouTube",
+    avatarAlt: "Аватар",
+    name: "Andrii Dembitskyi",
+    description:
+      "Можливість побачити мій підхід до роботи ще до запису на прийом. Без маркетингових обіцянок: лише реальні огляди, сучасні методи та чесні пояснення.",
+    buttonText: "Перейти на канал",
+  },
   about: {
     title: "Про лікаря",
     aboutDoctor: "Про лікаря",
@@ -84,13 +92,14 @@ export const uk = {
     site: "Сайт",
     social: "Соціальні мережі",
     phone: "Телефон",
-    license: "Ліцензія МОЗ України від 23.11.2019 №32454.112",
+    license: "Ліцензія МОЗ України від 24.10.2025 №1621",
     privacy: "Політика конфіденційності",
     socialLinks: {
       instagram: "Instagram",
       youtube: "Youtube",
       telegram: "Telegram",
       viber: "Viber",
+      whatsapp: "WhatsApp",
     },
   },
   consultation: {

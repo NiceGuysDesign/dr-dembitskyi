@@ -4,9 +4,7 @@ import {
   getPackageServiceBySlug,
   resolvePackageServiceSlugForLocale,
 } from "@/strapi/package-service";
-import { getCases } from "@/strapi/cases";
-import ServicePageClient from "@/components/services/service-page-client";
-import { ServiceData } from "@/strapi/services";
+import PackageServicePageClient from "@/components/services/package-service-page-client";
 
 type PackageServicePageProps = {
   params: Promise<{ slug: string; lang: string }>;
@@ -51,8 +49,6 @@ export default async function PackageServicePage({
 }: PackageServicePageProps) {
   const { slug, lang } = await params;
 
-  const cases = await getCases(lang);
-
   const resolved = await resolvePackageServiceSlugForLocale(slug, lang);
 
   if (resolved.kind === "fallback") {
@@ -70,14 +66,5 @@ export default async function PackageServicePage({
 
   if (!packageService) notFound();
 
-  // Type assertion для сумісності типів (структури даних ідентичні)
-  const serviceData = packageService as ServiceData;
-
-  return (
-    <ServicePageClient
-      service={serviceData}
-      casesData={cases}
-      showCases={false}
-    />
-  );
+  return <PackageServicePageClient service={packageService} />;
 }

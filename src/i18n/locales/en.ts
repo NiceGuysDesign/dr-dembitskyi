@@ -17,6 +17,14 @@ export const en = {
     title: "Dr. Dembitskyi",
     description: "Home page hero section",
   },
+  heroYoutube: {
+    title: "YouTube",
+    avatarAlt: "Avatar",
+    name: "Andrii Dembitskyi",
+    description:
+      "A chance to see my approach to work even before booking an appointment. No marketing promises — only real reviews, modern methods, and honest explanations.",
+    buttonText: "Go to the channel",
+  },
   about: {
     title: "About the doctor",
     aboutDoctor: "About the doctor",
@@ -85,13 +93,14 @@ export const en = {
     social: "Social networks",
     phone: "Phone",
     license:
-      "License of the Ministry of Health of Ukraine dated 23.11.2019 No. 32454.112",
+      "License of the Ministry of Health of Ukraine dated 24.10.2025 No. 1621",
     privacy: "Privacy policy",
     socialLinks: {
       instagram: "Instagram",
       youtube: "Youtube",
       telegram: "Telegram",
       viber: "Viber",
+      whatsapp: "WhatsApp",
     },
   },
   consultation: {

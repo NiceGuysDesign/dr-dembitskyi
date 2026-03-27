@@ -20,13 +20,14 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { key: "instagram", href: "#" },
-    { key: "youtube", href: "#" },
-    { key: "telegram", href: "#" },
-    { key: "viber", href: "#" },
+    { key: "viber", href: "viber://chat?number=%2B380988800688" },
+    { key: "instagram", href: "https://www.instagram.com/dr_dembitskyi_/" },
+    { key: "telegram", href: "https://t.me/dembitskyi_surgery?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnvYF0gOIMlvnVIdGNeBjMAofM2HrcPhEgPteUVkqk6c9EgXoVO7ClcBdgvfk_aem_9oX9RAhWebk8jNi2hi21eA" },
+    { key: "youtube", href: "https://www.youtube.com/@dr_dembitskyi" },
+    { key: "whatsapp", href: "https://wa.me/380988800688" },
   ];
 
-  const phoneNumbers = ["+38 066 777 33 22", "+38 066 777 33 22"];
+  const phoneNumbers = ["+38 063 88 006 88", "+38 098 88 006 88"];
 
   return (
     <footer className="relative w-full px-[10px] md:px-5 py-[48px]">
@@ -79,7 +80,9 @@ export default function Footer() {
                     <a
                       key={link.key}
                       href={link.href}
-                      className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-white uppercase hover:opacity-80 transition-opacity"
+                      target="_blank"
+                      referrerPolicy="no-referrer"
+                      className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-white uppercase hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       {t(`footer.socialLinks.${link.key}`)}
                     </a>
@@ -97,7 +100,7 @@ export default function Footer() {
                     <a
                       key={index}
                       href={`tel:${phone.replace(/\s/g, "")}`}
-                      className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-white uppercase hover:opacity-80 transition-opacity"
+                      className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-white uppercase hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       {phone}
                     </a>

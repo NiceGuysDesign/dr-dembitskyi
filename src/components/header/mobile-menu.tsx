@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import LenguageSwitcher from "./lenguage-switcher";
 import WhatsAppIcon from "../../../public/icons/whatsapp-icon";
 import TelegramIcon from "../../../public/icons/telegram-icon";
-import InstagramIcon from "../../../public/icons/instagram-icon";
+import InstagramIcon from "../../../public/icons/youtube-icon";
 import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
 import { useMobileMenu } from "./mobile-menu-provider";
@@ -110,37 +110,37 @@ export default function MobileMenu() {
                 </p>
                 <ul className="flex items-center gap-[10px]">
                   <li>
-                    <a  
-                    href="#"
-                    className="flex items-center justify-center hover:opacity-80 transition-opacity"
-                    aria-label="WhatsApp"
-                    referrerPolicy="no-referrer"
-                    target="_blank"
+                    <a
+                      href="#"
+                      className="flex items-center justify-center hover:opacity-80 transition-opacity"
+                      aria-label="WhatsApp"
+                      referrerPolicy="no-referrer"
+                      target="_blank"
                     >
                       <WhatsAppIcon />
                     </a>
                   </li>
                   <li>
-                  <a
-                    href="#"
-                    className="flex items-center justify-center hover:opacity-80 transition-opacity"
-                    aria-label="Instagram"
-                    referrerPolicy="no-referrer"
-                    target="_blank"
-                  >
-                    <InstagramIcon />
-                  </a>
+                    <a
+                      href="#"
+                      className="flex items-center justify-center hover:opacity-80 transition-opacity"
+                      aria-label="Instagram"
+                      referrerPolicy="no-referrer"
+                      target="_blank"
+                    >
+                      <InstagramIcon />
+                    </a>
                   </li>
                   <li>
                     <a
-                    href="#"
-                    className="flex items-center justify-center hover:opacity-80 transition-opacity"
-                    aria-label="Telegram"
-                    referrerPolicy="no-referrer"
-                    target="_blank"
-                  >
-                    <TelegramIcon />
-                  </a>
+                      href="#"
+                      className="flex items-center justify-center hover:opacity-80 transition-opacity"
+                      aria-label="Telegram"
+                      referrerPolicy="no-referrer"
+                      target="_blank"
+                    >
+                      <TelegramIcon />
+                    </a>
                   </li>
                 </ul>
               </div>

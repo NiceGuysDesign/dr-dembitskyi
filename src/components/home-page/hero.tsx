@@ -39,7 +39,7 @@ export default function Hero({ heroData }: HeroProps) {
           </h1>
 
           {/* Image in center */}
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-20 md:bottom-0 z-10 w-[460px] lg:w-[1021px] h-auto max-h-[calc(100vh-120px)] md:max-h-[calc(90vh-120px)] lg:max-h-[calc(100vh-60px)]">
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-20 md:bottom-0 z-10 w-[460px] md:w-[600px] lg:w-[1021px] h-auto max-h-[calc(100vh-120px)] md:max-h-[calc(90vh-120px)] lg:max-h-[calc(100vh-60px)]">
             <Image
               src={heroData.image}
               width={1021}
