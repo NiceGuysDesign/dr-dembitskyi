@@ -126,7 +126,7 @@ export default function ServicesSection() {
       <div
         ref={wrapRef}
         data-motionpath="wrap"
-        className="w-full min-h-[300vh] h-[calc(100vh*3.5)] relative"
+        className="w-full min-h-[300vh] relative"
       >
         {/* Sticky content container - matches motionpath-content */}
         <div className="flex justify-center items-center w-full h-[80vh] lg:h-screen sticky top-[110px] md:top-[100px] z-10">
@@ -142,7 +142,7 @@ export default function ServicesSection() {
           {/* Inner container - matches motionpath-content-inner */}
           <div className="flex justify-start items-start w-full h-full relative overflow-hidden">
             {/* SVG Path container - matches motionpath-content-path */}
-            <div className="w-[100vmax] h-full max-h-[55vh]">
+            <div className="w-[100vmax] h-full max-h-[45vh]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 1366 603"
