@@ -43,6 +43,7 @@ export interface StrapiImage {
 export interface StrapiDetailSection {
   id: number;
   textblock: RichTextNode[];
+  heading?: string | null;
 }
 
 export interface StrapiAdvantage {
@@ -53,7 +54,23 @@ export interface StrapiAdvantage {
 
 export interface StrapiAdvantagesSection {
   id: number;
+  heading?: string | null;
   advantages?: StrapiAdvantage[];
+}
+
+export interface StrapiSubService {
+  id: number;
+  documentId: string;
+  slug: string;
+  title: string;
+  description: string;
+  locale?: string;
+}
+
+export interface StrapiSubServicesSection {
+  id: number;
+  heading?: string | null;
+  sub_services?: StrapiSubService[];
 }
 
 export interface StrapiService {
@@ -64,11 +81,12 @@ export interface StrapiService {
   title: string;
   description: string;
   category: string; // "Plastic Surgery" | "Phlebology" | "Injection Cosmetology"
-  image: StrapiImage;
+  image?: StrapiImage;
   result: RichTextNode[]; // Rich Text для результатів
   symptoms: RichTextNode[]; // Rich Text для показань
   detailSection: StrapiDetailSection;
   advantagesSection: StrapiAdvantagesSection;
+  subSrvices?: StrapiSubServicesSection;
   seo?: {
     id: number;
     title: string;
@@ -117,12 +135,22 @@ export interface ServiceData {
   description: string;
   category: ServiceCategory;
   detailSection: {
+    heading?: string;
     textblock: RichTextNode[];
   };
   result: RichTextNode[]; // Rich Text для результатів
   symptoms: RichTextNode[]; // Rich Text для показань
   advantagesSection: {
+    heading?: string;
     advantages: Advantage[];
+  };
+  subServices?: {
+    heading?: string;
+    items: Array<{
+      slug: string;
+      title: string;
+      description: string;
+    }>;
   };
   seo?: {
     title: string;
@@ -206,11 +234,13 @@ function transformStrapiService(
     description: strapiService.description,
     category: mappedCategory,
     detailSection: {
+      heading: strapiService.detailSection?.heading ?? undefined,
       textblock: strapiService.detailSection?.textblock || [],
     },
     result: strapiService.result || [],
     symptoms: strapiService.symptoms || [],
     advantagesSection: {
+      heading: strapiService.advantagesSection?.heading ?? undefined,
       advantages: (strapiService.advantagesSection?.advantages || []).map(
         (advantage) => ({
           id: advantage.id.toString(),
@@ -219,6 +249,16 @@ function transformStrapiService(
         }),
       ),
     },
+    subServices: strapiService.subSrvices
+      ? {
+          heading: strapiService.subSrvices.heading ?? undefined,
+          items: (strapiService.subSrvices.sub_services || []).map((s) => ({
+            slug: s.slug,
+            title: s.title,
+            description: s.description,
+          })),
+        }
+      : undefined,
     seo: strapiService.seo
       ? {
           title: strapiService.seo.title,
@@ -245,8 +285,25 @@ function transformStrapiService(
   };
 }
 
+/**
+ * Build href for a sub-service page:
+ * `services/{serviceSlug}/{subServiceSlug}`
+ *
+ * Note: locale prefixing (if any) should be handled by the router layer.
+ */
+export function getSubServiceHref(serviceSlug: string, subServiceSlug: string) {
+  return `services/${serviceSlug}/${subServiceSlug}`;
+}
+
 // Export Rich Text parsing functions for use in components
 export { parseRichText };
+
+const servicesPopulateQuery =
+  "publicationState=live" +
+  "&populate[detailSection]=*" +
+  "&populate[advantagesSection][populate]=advantages" +
+  "&populate[subSrvices][populate]=sub_services" +
+  "&populate[seo][populate]=opengraphImage";
 
 // Fetch services from Strapi
 export async function getServices(
@@ -254,7 +311,7 @@ export async function getServices(
 ): Promise<ServiceData[]> {
   try {
     const response = await strapiFetch<StrapiServicesResponse>(
-      `/api/services?populate=deep&publicationState=live`,
+      `/api/services?${servicesPopulateQuery}`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
@@ -276,7 +333,7 @@ export async function getServiceBySlug(
 ): Promise<ServiceData | null> {
   try {
     const response = await strapiFetch<StrapiServicesResponse>(
-      `/api/services?filters[slug][$eq]=${slug}&populate=deep&publicationState=live`,
+      `/api/services?filters[slug][$eq]=${slug}&${servicesPopulateQuery}`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
