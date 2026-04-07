@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { getSubServiceHref, ServiceData } from "@/strapi/services";
+import { ServiceData } from "@/strapi/services";
 import { Case } from "@/strapi/cases";
 import CTASection2 from "./cta-section-2";
 import CasesSection from "../home-page/cases-section";
@@ -19,7 +18,7 @@ interface ServicePageClientProps {
 }
 
 export default function ServicePageClient({
-  lang,
+  // lang,
   service,
   casesData,
   showCases = true,
@@ -86,7 +85,7 @@ export default function ServicePageClient({
           </div>
 
           {/* Sub-services Section */}
-          {!!service.subServices?.items?.length && (
+          {/* {!!service.subServices?.items?.length && (
             <div className="px-[10px] md:px-5">
               <div className="h-[1px] w-full bg-[#1B1661] opacity-40 mb-16" />
 
@@ -110,7 +109,7 @@ export default function ServicePageClient({
                 </div>
               </section>
             </div>
-          )}
+          )} */}
 
           <div className="h-[1px] w-full bg-[#1B1661] opacity-40 mb-16" />
 
