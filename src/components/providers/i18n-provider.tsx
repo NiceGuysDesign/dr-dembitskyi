@@ -1,18 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import i18n from "@/i18n/i18n";
-import { useParams } from "next/navigation";
 
 export default function I18nProvider({
   children,
+  lang,
 }: {
   children: React.ReactNode;
+  lang: string;
 }) {
-  const [isClient, setIsClient] = useState(false);
-  const params = useParams();
-  const lang = params?.lang as string;
-
   useEffect(() => {
     if (!lang) return;
 
@@ -21,12 +18,7 @@ export default function I18nProvider({
     }
 
     i18n.changeLanguage(lang);
-    setIsClient(true);
   }, [lang]);
-
-  if (!isClient || !lang) {
-    return null;
-  }
 
   return <>{children}</>;
 }

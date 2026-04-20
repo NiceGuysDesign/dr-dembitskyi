@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 export interface ServiceItem {
@@ -16,14 +15,15 @@ export interface ServiceItem {
 interface ServiceCardProps {
   service: ServiceItem;
   showDivider?: boolean;
+  lang: string;
 }
 
 export default function ServiceCard({
   service,
   showDivider = false,
+  lang,
 }: ServiceCardProps) {
   const { t } = useTranslation();
-  const { lang } = useParams();
   return (
     <div className="relative">
       <div className="relative flex flex-col lg:flex-row items-start gap-6 lg:gap-8 py-6 lg:py-8">
@@ -42,7 +42,10 @@ export default function ServiceCard({
           </div>
 
           {/* Button */}
-          <Link href={`/${lang}/services/${service.slug}`} className="w-full md:w-auto">
+          <Link
+            href={`/${lang}/services/${service.slug}`}
+            className="w-full md:w-auto"
+          >
             <Button
               className="w-full md:w-[174px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-base leading-[100%] tracking-[-0.01em] text-white"
               style={{

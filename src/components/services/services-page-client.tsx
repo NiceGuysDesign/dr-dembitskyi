@@ -9,6 +9,7 @@ import { useLenis } from "@/components/providers/lenis-context";
 
 interface ServicesPageClientProps {
   servicesData: ServiceData[];
+  lang: string;
 }
 
 const serviceCategories: ServiceCategory[] = [
@@ -19,6 +20,7 @@ const serviceCategories: ServiceCategory[] = [
 
 export default function ServicesPageClient({
     servicesData: initialServices,
+    lang,
 }: ServicesPageClientProps) {
   const { lenis } = useLenis();
   const { t } = useTranslation();
@@ -78,7 +80,7 @@ export default function ServicesPageClient({
 
   return (
     <>
-      <ServicesList groupedServices={groupedServices} />
+      <ServicesList groupedServices={groupedServices} lang={lang} />
     </>
   );
 }

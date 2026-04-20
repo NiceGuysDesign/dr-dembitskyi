@@ -35,6 +35,8 @@ export default async function SubServicePage({ params }: PageProps) {
 
   if (!subService) notFound();
 
-  return <SubServicePageClient subService={subService} casesData={cases} />;
+  return (
+    <SubServicePageClient lang={lang} subService={subService} casesData={cases} />
+  );
 }
 

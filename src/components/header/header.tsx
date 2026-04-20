@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import LenguageSwitcher from "./lenguage-switcher";
 import Logo from "../../../public/icons/logo";
@@ -15,10 +14,8 @@ import { useConsultation } from "../consultation/consultation-provider";
 import InstagramIcon from "../../../public/icons/instagram-icon";
 import ViberIcon from "../../../public/icons/viber-icon";
 
-export default function Header() {
+export default function Header({ lang }: { lang: string }) {
   const { t } = useTranslation();
-  const params = useParams() as { lang?: string };
-  const lang = params?.lang ?? "uk";
   const [isScrolled, setIsScrolled] = useState(false);
   const { openMenu } = useMobileMenu();
   const { openConsultation } = useConsultation();

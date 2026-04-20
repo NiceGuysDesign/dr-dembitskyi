@@ -56,19 +56,19 @@ export default async function LangLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }>) {
-  await params; // Ensure params are resolved
+  const { lang } = await params;
 
   return (
     <>
       <PageLoader />
       <SmoothScrollProvider>
-        <I18nProvider>
+        <I18nProvider lang={lang}>
           <MobileMenuProvider>
             <ConsultationProvider>
-              <Header />
-              <MobileMenu />
+              <Header lang={lang} />
+              <MobileMenu lang={lang} />
               {children}
-              <Footer />
+              <Footer lang={lang} />
             </ConsultationProvider>
           </MobileMenuProvider>
         </I18nProvider>

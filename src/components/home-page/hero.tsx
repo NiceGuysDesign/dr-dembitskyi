@@ -6,18 +6,16 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { useConsultation } from "../consultation/consultation-provider";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { HeroData } from "@/strapi/hero";
 
 interface HeroProps {
   heroData: HeroData;
+  lang: string;
 }
 
-export default function Hero({ heroData }: HeroProps) {
+export default function Hero({ heroData, lang }: HeroProps) {
   const { t } = useTranslation();
   const { openConsultation } = useConsultation();
-  const params = useParams() as { lang?: string };
-  const lang = params?.lang ?? "uk";
 
   // Split title into first and last name
   const titleParts = heroData.title.split(" ");

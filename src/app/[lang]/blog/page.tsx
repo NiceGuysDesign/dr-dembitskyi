@@ -16,7 +16,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
       <div className="relative z-10 pt-24 md:pt-30 pb-16 md:pb-[60px]">
         <div className="px-[10px] md:px-5">
           <BlogHeader />
-          <BlogList posts={posts} />
+          <BlogList posts={posts} lang={lang} />
         </div>
       </div>
       <CTASection />

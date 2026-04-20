@@ -12,7 +12,7 @@ export default async function CasesPage({ params }: CasesPageProps) {
 
   return (
     <main className="relative w-full min-h-screen pt-20">
-      <CasesSection casesData={cases} />
+      <CasesSection casesData={cases} lang={lang} />
       <CTASection2 />
     </main>
   );

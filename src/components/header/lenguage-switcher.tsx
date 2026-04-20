@@ -32,16 +32,43 @@ export default function LanguageSwitcher() {
     }, 150); // Невелика затримка перед закриттям
   }
 
-  function switchLanguage(lang: Locale) {
+  async function switchLanguage(lang: Locale) {
     if (!pathname) return;
+
+    // Fast path: already on desired locale.
+    if (lang === currentLang) {
+      setIsHovered(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/i18n/resolve", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ pathname, targetLocale: lang }),
+      });
+
+      if (res.ok) {
+        const data = (await res.json()) as { pathname?: string };
+        const nextPath = data?.pathname;
+        if (typeof nextPath === "string" && nextPath.length > 0) {
+          router.push(nextPath);
+          setIsHovered(false);
+          return;
+        }
+      }
+    } catch {
+      // ignore and fall back
+    }
+
+    // Fallback: locale segment swap only
     const segments = pathname.split("/");
     if (segments[1] && locales.includes(segments[1] as Locale)) {
       segments[1] = lang;
     } else {
       segments.splice(1, 0, lang);
     }
-    const nextPath = segments.join("/") || `/${lang}`;
-    router.push(nextPath);
+    router.push(segments.join("/") || `/${lang}`);
     setIsHovered(false);
   }
 

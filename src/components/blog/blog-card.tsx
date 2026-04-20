@@ -2,17 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { BlogPost } from "@/strapi/blog";
 
 interface BlogCardProps {
   post: BlogPost;
+  lang: string;
 }
 
-export default function BlogCard({ post }: BlogCardProps) {
-  const params = useParams();
-  const lang = (params.lang as string) || "uk";
-
+export default function BlogCard({ post, lang }: BlogCardProps) {
   return (
     <Link href={`/${lang}/blog/${post.slug}`} className="block group">
       <div className="w-full flex flex-col">

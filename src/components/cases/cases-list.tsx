@@ -9,6 +9,7 @@ import type { CaseFilterType } from "./cases-filters";
 interface CasesListProps {
   cases: Case[];
   activeFilter: CaseFilterType;
+  lang: string;
 }
 
 // Map filter keys to Strapi category values
@@ -20,7 +21,7 @@ const categoryMap: Record<CaseFilterType, string | null> = {
   mammoplasty: "Mammoplasty",
 };
 
-export default function CasesList({ cases, activeFilter }: CasesListProps) {
+export default function CasesList({ cases, activeFilter, lang }: CasesListProps) {
   const { t } = useTranslation();
 
   // Filter cases based on active filter
@@ -54,7 +55,7 @@ export default function CasesList({ cases, activeFilter }: CasesListProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[10px]">
       {filteredCases.map((caseItem) => (
         <div key={caseItem.slug} className="w-full lg:mx-0">
-          <CaseCard caseItem={caseItem} />
+          <CaseCard caseItem={caseItem} lang={lang} />
         </div>
       ))}
     </div>

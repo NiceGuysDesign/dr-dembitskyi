@@ -24,11 +24,11 @@ export default async function Home({ params }: HomePageProps) {
 
   return (
     <main>
-      <Hero heroData={heroData} />
-      <ServicesSection />
+      <Hero heroData={heroData} lang={lang} />
+      <ServicesSection lang={lang} />
       <CTASection />
-      <PackagesSection packagesData={packagesData} />
-      <CasesSection casesData={cases} />
+      <PackagesSection packagesData={packagesData} lang={lang} />
+      <CasesSection casesData={cases} lang={lang} />
       <HeroImageSection />
     </main>
   );

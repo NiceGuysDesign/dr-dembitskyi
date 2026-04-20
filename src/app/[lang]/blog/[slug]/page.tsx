@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {otherPosts.length > 0 && (
             <div className="mt-12 md:mt-16 lg:mt-24">
               <BlogHeader />
-              <BlogList posts={otherPosts} />
+              <BlogList posts={otherPosts} lang={lang} />
             </div>
           )}
         </div>

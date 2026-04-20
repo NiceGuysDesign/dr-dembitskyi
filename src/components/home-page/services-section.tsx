@@ -4,12 +4,9 @@ import React, { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useParams } from "next/navigation";
 
-export default function ServicesSection() {
+export default function ServicesSection({ lang }: { lang: string }) {
   const { t } = useTranslation();
-  const params = useParams();
-  const lang = (params?.lang as string) || "uk";
 
   const servicesData = useMemo(
     () => [

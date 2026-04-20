@@ -18,7 +18,7 @@ interface ServicePageClientProps {
 }
 
 export default function ServicePageClient({
-  // lang,
+  lang,
   service,
   casesData,
   showCases = true,
@@ -177,7 +177,7 @@ export default function ServicePageClient({
         {showCases && (
           <div id="cases">
             {/* Cases Slider - Using CasesSection component */}
-            <CasesSection casesData={casesData} />
+            <CasesSection casesData={casesData} lang={lang} />
           </div>
         )}
       </div>

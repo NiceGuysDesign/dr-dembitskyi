@@ -3,7 +3,7 @@
 import { useState, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Case as StrapiCase } from "@/strapi/cases";
@@ -32,6 +32,7 @@ interface MappedCase {
 
 interface CasesSectionProps {
   casesData?: StrapiCase[];
+  lang: string;
 }
 
 // Категорії для фільтрів
@@ -54,11 +55,9 @@ const mapCategoryToFilter = (category?: string): CaseFilterType => {
   return "all";
 };
 
-export default function CasesSection({ casesData }: CasesSectionProps = {}) {
+export default function CasesSection({ casesData, lang }: CasesSectionProps) {
   const { t } = useTranslation();
-  const params = useParams() as { lang?: string };
   const pathname = usePathname();
-  const lang = params?.lang ?? "uk";
   const [activeFilter, setActiveFilter] = useState<CaseFilterType>("all");
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);

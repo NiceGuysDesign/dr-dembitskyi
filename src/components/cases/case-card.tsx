@@ -2,17 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { Case } from "@/strapi/cases";
 
 interface CaseCardProps {
   caseItem: Case;
+  lang: string;
 }
 
-export default function CaseCard({ caseItem }: CaseCardProps) {
-  const params = useParams();
-  const lang = (params.lang as string) || "uk";
-
+export default function CaseCard({ caseItem, lang }: CaseCardProps) {
   return (
     <Link href={`/${lang}/cases/${caseItem.slug}`} className="block group">
       <div className="w-full flex flex-col">

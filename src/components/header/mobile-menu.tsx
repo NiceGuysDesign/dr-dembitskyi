@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import LenguageSwitcher from "./lenguage-switcher";
@@ -13,7 +12,7 @@ import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
 import { useMobileMenu } from "./mobile-menu-provider";
 
-export default function MobileMenu() {
+export default function MobileMenu({ lang }: { lang: string }) {
   const { openConsultation } = useConsultation();
   const { isOpen, closeMenu } = useMobileMenu();
 
@@ -36,8 +35,6 @@ export default function MobileMenu() {
     }
   }, [isOpen]);
   const { t } = useTranslation();
-  const params = useParams() as { lang?: string };
-  const lang = params?.lang ?? "uk";
 
   const navigationItems = [
     { key: "home", href: `/${lang}` },

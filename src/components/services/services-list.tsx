@@ -8,9 +8,10 @@ interface GroupedService {
 
 interface ServicesListProps {
   groupedServices: GroupedService[];
+  lang: string;
 }
 
-export default function ServicesList({ groupedServices }: ServicesListProps) {
+export default function ServicesList({ groupedServices, lang }: ServicesListProps) {
   return (
     <div className="space-y-0">
       {groupedServices.map((group, groupIndex) => (
@@ -42,6 +43,7 @@ export default function ServicesList({ groupedServices }: ServicesListProps) {
                   <div key={service.slug}>
                     <ServiceCard
                       service={service}
+                      lang={lang}
                       showDivider={serviceIndex < group.services.length - 1}
                     />
                   </div>

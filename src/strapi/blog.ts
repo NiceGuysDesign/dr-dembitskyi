@@ -1,5 +1,6 @@
 import { strapiFetch } from "./client";
 import { StrapiImage } from "./services";
+import { defaultLocale, locales } from "@/i18n/config";
 
 // Content block types
 export interface BlogHeadingBlock {
@@ -274,4 +275,87 @@ export async function getBlogPostBySlug(
   } catch {
     return null;
   }
+}
+
+type StrapiBlogI18nLink = {
+  id: number;
+  attributes?: never;
+  slug: string;
+  locale: string;
+  localizations?: Array<{
+    id: number;
+    slug: string;
+    locale: string;
+  }>;
+};
+
+type StrapiBlogI18nLinkResponse = {
+  data: StrapiBlogI18nLink[];
+};
+
+async function getBlogI18nLinksBySlug(
+  slug: string,
+  locale: string,
+): Promise<StrapiBlogI18nLink | null> {
+  try {
+    const query =
+      `/api/blogs?filters[slug][$eq]=${slug}` +
+      `&fields[0]=slug&fields[1]=locale` +
+      `&populate[localizations][fields][0]=slug` +
+      `&populate[localizations][fields][1]=locale` +
+      `&publicationState=live`;
+
+    const response = await strapiFetch<StrapiBlogI18nLinkResponse>(
+      query,
+      locale,
+      { next: { revalidate: 60 } },
+    );
+    return response.data?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function getBlogBySlugInOtherLocales(
+  slug: string,
+  targetLocale: string,
+): Promise<{ link: StrapiBlogI18nLink; postLocale: string } | null> {
+  const otherLocales = locales.filter((l) => l !== targetLocale);
+  for (const locale of otherLocales) {
+    const link = await getBlogI18nLinksBySlug(slug, locale);
+    if (link) return { link, postLocale: locale };
+  }
+  return null;
+}
+
+export type ResolveBlogSlugResult =
+  | { kind: "found"; slug: string }
+  | { kind: "fallback"; slug: string; locale: string }
+  | { kind: "missing" };
+
+export async function resolveBlogSlugForLocale(
+  slug: string,
+  targetLocale: string,
+): Promise<ResolveBlogSlugResult> {
+  const direct = await getBlogPostBySlug(slug, targetLocale);
+  if (direct) return { kind: "found", slug: direct.slug };
+
+  const other = await getBlogBySlugInOtherLocales(slug, targetLocale);
+  if (!other) return { kind: "missing" };
+
+  const localizedSlug =
+    other.link.locale === targetLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === targetLocale)?.slug ??
+        null;
+  if (localizedSlug) return { kind: "found", slug: localizedSlug };
+
+  const defaultSlug =
+    other.link.locale === defaultLocale
+      ? other.link.slug
+      : other.link.localizations?.find((l) => l.locale === defaultLocale)?.slug ??
+        null;
+  if (defaultSlug) return { kind: "fallback", slug: defaultSlug, locale: defaultLocale };
+
+  return { kind: "missing" };
 }

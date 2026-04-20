@@ -6,9 +6,10 @@ import { useTranslation } from "react-i18next";
 
 interface BlogListProps {
   posts: BlogPost[];
+  lang: string;
 }
 
-export default function BlogList({ posts }: BlogListProps) {
+export default function BlogList({ posts, lang }: BlogListProps) {
   const { t } = useTranslation();
 
   if (posts.length === 0) {
@@ -25,7 +26,7 @@ export default function BlogList({ posts }: BlogListProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[10px]">
       {posts.map((post) => (
         <div key={post.slug} className="w-full lg:mx-0">
-          <BlogCard post={post} />
+          <BlogCard post={post} lang={lang} />
         </div>
       ))}
     </div>

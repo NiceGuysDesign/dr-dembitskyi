@@ -124,7 +124,7 @@ export default async function CasePage({ params }: CasePageProps) {
               <h4 className="font-manrope font-bold text-[11vw] md:text-[48px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-text-heading)] mb-6 md:mb-8">
                 {otherCasesTitle}
               </h4>
-              <CasesList cases={otherCases} activeFilter="all" />
+              <CasesList cases={otherCases} activeFilter="all" lang={lang} />
             </div>
           )}
         </div>

@@ -9,12 +9,14 @@ import CasesSection from "../home-page/cases-section";
 import { Case } from "@/strapi/cases";
 
 interface SubServicePageClientProps {
+  lang: string;
   subService: SubServiceData;
   showCases?: boolean;
   casesData?: Case[];
 }
 
 export default function SubServicePageClient({
+  lang,
   subService,
   showCases = true,
   casesData,
@@ -147,7 +149,7 @@ export default function SubServicePageClient({
 
       {showCases && (
         <div id="cases">
-          <CasesSection casesData={casesData} />
+          <CasesSection casesData={casesData} lang={lang} />
         </div>
       )}
 

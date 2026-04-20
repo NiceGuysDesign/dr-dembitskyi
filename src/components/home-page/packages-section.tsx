@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useParams } from "next/navigation";
 import { Button } from "../ui/button";
 import { Container } from "../ui/container";
 import { ServiceData } from "@/strapi/package-service";
@@ -14,6 +13,7 @@ import { cn } from "@/lib/utils";
 
 interface PackagesSectionProps {
   packagesData?: ServiceData[];
+  lang: string;
 }
 
 /**
@@ -47,11 +47,10 @@ function splitTitle(title: string): { title1: string; title2: string } {
 
 export default function PackagesSection({
   packagesData = [],
+  lang,
 }: PackagesSectionProps) {
   const { t } = useTranslation();
   const { openConsultation } = useConsultation();
-  const params = useParams() as { lang?: string };
-  const lang = params?.lang ?? "uk";
 
   useEffect(() => {
     // Невелика затримка для забезпечення того, що DOM оновився

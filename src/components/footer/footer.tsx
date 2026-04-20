@@ -1,14 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import Logo from "../../../public/icons/logo";
 
-export default function Footer() {
+export default function Footer({ lang }: { lang: string }) {
   const { t } = useTranslation();
-  const params = useParams() as { lang?: string };
-  const lang = params?.lang ?? "uk";
 
   const navigationItems = [
     { key: "home", href: `/${lang}` },

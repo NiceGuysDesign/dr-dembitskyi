@@ -32,11 +32,11 @@ export default async function ServicesPage({
       </div>
 
       <div className="relative z-10 px-[10px] md:px-5 pt-[120px] pb-10 md:pb-20">
-        <ServicesPageClient servicesData={servicesData} />
+        <ServicesPageClient servicesData={servicesData} lang={lang} />
       </div>
 
       {/* Packages Section */}
-      <PackagesSection packagesData={packagesData} />
+      <PackagesSection packagesData={packagesData} lang={lang} />
 
       {/* CTA Section 2 */}
       <CTASection2 />
