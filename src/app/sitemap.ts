@@ -74,6 +74,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       { path: "blog", priority: 0.8, changeFrequency: "daily" as const },
       { path: "about", priority: 0.7, changeFrequency: "monthly" as const },
       { path: "contacts", priority: 0.6, changeFrequency: "monthly" as const },
+      { path: "privacy", priority: 0.3, changeFrequency: "yearly" as const },
     ];
 
     for (const route of staticRoutes) {
