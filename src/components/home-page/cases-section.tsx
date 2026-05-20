@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useRef, useMemo } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import CaseCoverImage from "../cases/case-cover-image";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Case as StrapiCase } from "@/strapi/cases";
-import { CaseFilterType } from "../cases/cases-filters";
+import type { CaseCategory } from "@/strapi/case-categories";
+import type { CaseFilterOption, CaseFilterValue } from "../cases/cases-filters";
 import ArrowIcon from "../../../public/icons/arrow-icon";
 
 // Dynamic import для Swiper
@@ -23,8 +24,8 @@ import "swiper/css/effect-coverflow";
 interface MappedCase {
   id: string;
   slug: string;
-  categories: CaseFilterType[];
-  image: string;
+  categoryIds: string[];
+  image: string | null;
   imageAlt: string;
   title?: string;
   description: string;
@@ -32,33 +33,18 @@ interface MappedCase {
 
 interface CasesSectionProps {
   casesData?: StrapiCase[];
+  filterCategories?: CaseCategory[];
   lang: string;
 }
 
-// Категорії для фільтрів
-const caseCategories: { value: CaseFilterType; label: string }[] = [
-  { value: "all", label: "all" },
-  { value: "blepharoplasty", label: "blepharoplasty" },
-  { value: "facelift", label: "facelift" },
-  { value: "liposuction", label: "liposuction" },
-  { value: "mammoplasty", label: "mammoplasty" },
-];
-
-// Map Strapi category to filter type
-const mapCategoryToFilter = (category?: string): CaseFilterType => {
-  if (!category) return "all";
-  const normalized = category.trim().toLowerCase();
-  if (normalized.includes("blepharoplasty")) return "blepharoplasty";
-  if (normalized.includes("facelift")) return "facelift";
-  if (normalized.includes("liposuction")) return "liposuction";
-  if (normalized.includes("mammoplasty")) return "mammoplasty";
-  return "all";
-};
-
-export default function CasesSection({ casesData, lang }: CasesSectionProps) {
+export default function CasesSection({
+  casesData,
+  filterCategories,
+  lang,
+}: CasesSectionProps) {
   const { t } = useTranslation();
   const pathname = usePathname();
-  const [activeFilter, setActiveFilter] = useState<CaseFilterType>("all");
+  const [activeFilter, setActiveFilter] = useState<CaseFilterValue>("all");
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -68,13 +54,45 @@ export default function CasesSection({ casesData, lang }: CasesSectionProps) {
   const isOnServicePage =
     pathname?.includes("/services/") && pathname?.split("/").length > 3;
 
+  const filterOptions = useMemo<CaseFilterOption[]>(() => {
+    const allOption: CaseFilterOption = {
+      value: "all",
+      label: t("cases.filters.all"),
+    };
+
+    if (filterCategories && filterCategories.length > 0) {
+      return [
+        allOption,
+        ...filterCategories.map((cat) => ({
+          value: cat.documentId,
+          label: cat.name,
+        })),
+      ];
+    }
+
+    const unique = new Map<string, string>();
+    for (const caseItem of casesData ?? []) {
+      for (const cat of caseItem.categories ?? []) {
+        unique.set(cat.documentId, cat.name);
+      }
+    }
+
+    return [
+      allOption,
+      ...Array.from(unique.entries()).map(([documentId, name]) => ({
+        value: documentId,
+        label: name,
+      })),
+    ];
+  }, [filterCategories, casesData, t]);
+
   // Маппінг Strapi кейсів до формату компонента
   const mappedCases = useMemo<MappedCase[]>(() => {
     if (casesData && casesData.length > 0) {
       return casesData.map((caseItem, index) => ({
         id: caseItem.slug || `case-${index}`,
         slug: caseItem.slug,
-        categories: [mapCategoryToFilter(caseItem.category)],
+        categoryIds: (caseItem.categories ?? []).map((c) => c.documentId),
         image: caseItem.image,
         imageAlt: caseItem.title || caseItem.description || "Case image",
         title: caseItem.title,
@@ -84,13 +102,15 @@ export default function CasesSection({ casesData, lang }: CasesSectionProps) {
     return [];
   }, [casesData]);
 
-  // Фільтрація кейсів
+  // Фільтрація: «Усі» — усі кейси (включно без категорій); інші — лише з цією категорією
   const filteredCases = useMemo(() => {
     if (activeFilter === "all") {
       return mappedCases;
     }
-    return mappedCases.filter((caseItem: MappedCase) =>
-      caseItem.categories.includes(activeFilter)
+    return mappedCases.filter(
+      (caseItem: MappedCase) =>
+        caseItem.categoryIds.length > 0 &&
+        caseItem.categoryIds.includes(activeFilter),
     );
   }, [mappedCases, activeFilter]);
 
@@ -151,7 +171,7 @@ export default function CasesSection({ casesData, lang }: CasesSectionProps) {
             {/* Filters - приховуємо на сторінці послуги */}
             {!isOnServicePage && (
               <div className="mt-4 md:mt-6 lg:mt-8 flex flex-wrap gap-[8px] md:gap-[10px]">
-                {caseCategories.map((category) => {
+                {filterOptions.map((category) => {
                   const isActive = activeFilter === category.value;
                   return isActive ? (
                     <Button
@@ -175,7 +195,7 @@ export default function CasesSection({ casesData, lang }: CasesSectionProps) {
                       }}
                       className="font-inter font-medium text-xs sm:text-sm md:text-base leading-[120%] tracking-[-0.02em] md:h-[56px] md:min-h-[56px] md:px-10"
                     >
-                      {t(`cases.filters.${category.value}`)}
+                      {category.label}
                     </Button>
                   ) : (
                     <button
@@ -190,7 +210,7 @@ export default function CasesSection({ casesData, lang }: CasesSectionProps) {
                       }}
                       className="cursor-pointer px-6 py-3 h-[48px] md:px-10 md:py-4 md:h-[56px] rounded-[90px] font-inter font-medium text-xs sm:text-sm md:text-base leading-[120%] tracking-[-0.02em] transition-all border border-[var(--color-border-filter)] text-[var(--color-text-filter)] bg-transparent hover:border-[var(--color-gray)] hover:text-[var(--color-gray)]"
                     >
-                      {t(`cases.filters.${category.value}`)}
+                      {category.label}
                     </button>
                   );
                 })}
@@ -268,11 +288,11 @@ export default function CasesSection({ casesData, lang }: CasesSectionProps) {
                     className="relative w-full flex flex-col items-center"
                   >
                     <div className="relative w-[80vw] sm:w-[60vw] md:w-[50vw] lg:w-[35vw] h-[50vh] sm:h-[45vh] md:h-[40vh]">
-                      <Image
+                      <CaseCoverImage
                         src={caseItem.image}
-                        fill
                         alt={caseItem.imageAlt}
                         className="object-cover"
+                        containerClassName="relative w-full h-full"
                         unoptimized
                       />
                     </div>

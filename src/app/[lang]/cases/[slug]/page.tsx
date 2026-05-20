@@ -33,6 +33,7 @@ export async function generateMetadata({
 
   const title = caseItem.seo?.title || caseItem.title;
   const description = caseItem.seo?.description || caseItem.description || "";
+  const ogImageUrl = caseItem.seo?.opengraphImage || caseItem.image || undefined;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     ? process.env.NEXT_PUBLIC_SITE_URL
@@ -48,23 +49,18 @@ export async function generateMetadata({
       description,
       url: `${baseUrl}/${lang}/cases/${slug}`,
       siteName: "Dr. Dembitskyi",
-      images: caseItem.seo?.opengraphImage
-        ? [
-            {
-              url: caseItem.seo.opengraphImage,
-              width: 1200,
-              height: 630,
-              alt: title,
-            },
-          ]
-        : [
-            {
-              url: caseItem.image,
-              width: 1200,
-              height: 630,
-              alt: title,
-            },
-          ],
+      ...(ogImageUrl
+        ? {
+            images: [
+              {
+                url: ogImageUrl,
+                width: 1200,
+                height: 630,
+                alt: title,
+              },
+            ],
+          }
+        : {}),
       locale: lang === "uk" ? "uk_UA" : "en_US",
       type: "article",
     },
@@ -72,9 +68,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: caseItem.seo?.opengraphImage
-        ? [caseItem.seo.opengraphImage]
-        : [caseItem.image],
+      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
     },
   };
 }
@@ -121,9 +115,9 @@ export default async function CasePage({ params }: CasePageProps) {
           {/* Other Cases Section */}
           {otherCases.length > 0 && (
             <div className="mt-12 md:mt-16 lg:mt-24">
-              <h4 className="font-manrope font-bold text-[11vw] md:text-[48px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-text-heading)] mb-6 md:mb-8">
+              <h3 className="font-manrope font-bold text-[11vw] md:text-[48px] lg:text-[92px] leading-[100%] tracking-[-0.05em] text-[var(--color-text-heading)] mb-6 md:mb-8">
                 {otherCasesTitle}
-              </h4>
+              </h3>
               <CasesList cases={otherCases} activeFilter="all" lang={lang} />
             </div>
           )}

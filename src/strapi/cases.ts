@@ -1,6 +1,7 @@
 import { strapiFetch } from "./client";
 import { StrapiImage } from "./services";
 import { defaultLocale, locales } from "@/i18n/config";
+import type { CaseCategory } from "./case-categories";
 import type {
   BlogBeforeAfterBlock,
   BlogImageBlock,
@@ -18,8 +19,13 @@ export interface StrapiCase {
   slug: string;
   title: string;
   description?: string;
-  category?: string;
-  image: StrapiImage;
+  cases_categories?: Array<{
+    id: number;
+    documentId: string;
+    name: string;
+    locale?: string;
+  }>;
+  image?: StrapiImage | null;
   content: StrapiContentBlock[];
   publishedAt: string;
   createdAt: string;
@@ -56,8 +62,8 @@ export interface Case {
   slug: string;
   title: string;
   description?: string;
-  category?: string;
-  image: string;
+  categories: CaseCategory[];
+  image: string | null;
   content: BlogContentBlock[];
   publishedAt: string;
   seo?: {
@@ -83,6 +89,16 @@ function getImageUrl(image: StrapiImage, baseUrl?: string): string {
     return `${base}${image.url}`;
   }
   return `${base}/${image.url}`;
+}
+
+/** Case list/card cover — returns null when Strapi has no image (avoids empty `src`). */
+function resolveCaseCoverImage(
+  image: StrapiImage | null | undefined,
+  baseUrl?: string,
+): string | null {
+  if (!image?.url?.trim()) return null;
+  const url = getImageUrl(image, baseUrl);
+  return url.trim() ? url : null;
 }
 
 // Format date to DD.MM.YYYY
@@ -160,8 +176,11 @@ function transformStrapiCase(
     slug: strapiCase.slug,
     title: strapiCase.title,
     description: strapiCase.description,
-    category: strapiCase.category,
-    image: getImageUrl(strapiCase.image, baseUrl),
+    categories: (strapiCase.cases_categories || []).map((cat) => ({
+      documentId: cat.documentId,
+      name: cat.name,
+    })),
+    image: resolveCaseCoverImage(strapiCase.image, baseUrl),
     content: transformedContent,
     publishedAt: formatDate(strapiCase.publishedAt || strapiCase.createdAt),
     seo: strapiCase.seo
@@ -190,11 +209,69 @@ function transformStrapiCase(
   };
 }
 
+/** `populate=deep` alone — extra populate keys break image loading in Strapi */
+const casesPopulateQuery = "populate=deep";
+
+type StrapiCategoryWithCases = {
+  documentId: string;
+  name: string;
+  cases?: Array<{ slug: string }>;
+};
+
+type StrapiCaseCategoriesForEnrichResponse = {
+  data: StrapiCategoryWithCases[];
+};
+
+/**
+ * Merges many-to-many categories onto cases via `cases-categories`
+ * (separate request so we don't override `populate=deep` on cases).
+ */
+async function enrichCasesWithCategories(
+  cases: Case[],
+  locale: string,
+): Promise<Case[]> {
+  try {
+    const response = await strapiFetch<StrapiCaseCategoriesForEnrichResponse>(
+      "/api/cases-categories?fields[0]=name&fields[1]=documentId" +
+        "&populate[cases][fields][0]=slug&publicationState=live&sort=name:asc",
+      locale,
+      { next: { revalidate: 60 } },
+    );
+
+    const slugToCategories = new Map<string, CaseCategory[]>();
+
+    for (const cat of response.data) {
+      const category: CaseCategory = {
+        documentId: cat.documentId,
+        name: cat.name,
+      };
+      for (const linkedCase of cat.cases ?? []) {
+        if (!linkedCase.slug) continue;
+        const existing = slugToCategories.get(linkedCase.slug) ?? [];
+        if (!existing.some((c) => c.documentId === category.documentId)) {
+          existing.push(category);
+          slugToCategories.set(linkedCase.slug, existing);
+        }
+      }
+    }
+
+    return cases.map((caseItem) => {
+      const fromRelation = slugToCategories.get(caseItem.slug);
+      if (fromRelation && fromRelation.length > 0) {
+        return { ...caseItem, categories: fromRelation };
+      }
+      return caseItem;
+    });
+  } catch {
+    return cases;
+  }
+}
+
 // Fetch cases from Strapi
 export async function getCases(locale: string = "uk"): Promise<Case[]> {
   try {
     const response = await strapiFetch<StrapiCasesResponse>(
-      `/api/cases?populate=deep&publicationState=live&sort=publishedAt:desc`,
+      `/api/cases?${casesPopulateQuery}&publicationState=live&sort=publishedAt:desc`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
@@ -205,7 +282,7 @@ export async function getCases(locale: string = "uk"): Promise<Case[]> {
       transformStrapiCase(caseItem, locale)
     );
 
-    return cases;
+    return enrichCasesWithCategories(cases, locale);
   } catch {
     return [];
   }
@@ -221,7 +298,7 @@ export async function getCaseBySlug(
 
     // Спочатку шукаємо в поточній мові
     let response = await strapiFetch<StrapiCasesResponse>(
-      `/api/cases?filters[slug][$eq]=${encodedSlug}&populate=deep&publicationState=live`,
+      `/api/cases?filters[slug][$eq]=${encodedSlug}&${casesPopulateQuery}&publicationState=live`,
       locale,
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
@@ -232,7 +309,7 @@ export async function getCaseBySlug(
     if (response.data.length === 0) {
       const otherLocale = locale === "uk" ? "en" : "uk";
       response = await strapiFetch<StrapiCasesResponse>(
-        `/api/cases?filters[slug][$eq]=${encodedSlug}&populate=deep&publicationState=live`,
+        `/api/cases?filters[slug][$eq]=${encodedSlug}&${casesPopulateQuery}&publicationState=live`,
         otherLocale,
         {
           next: { revalidate: 60 },
@@ -248,7 +325,9 @@ export async function getCaseBySlug(
 
     // Якщо знайдений кейс в поточній мові - повертаємо його
     if (strapiCase.locale === locale) {
-      return transformStrapiCase(strapiCase, locale);
+      const caseItem = transformStrapiCase(strapiCase, locale);
+      const [enriched] = await enrichCasesWithCategories([caseItem], locale);
+      return enriched;
     }
 
     // Якщо знайдений кейс не в поточній мові, використовуємо documentId для пошуку локалізації
@@ -256,7 +335,7 @@ export async function getCaseBySlug(
     if (strapiCase.documentId) {
       // Шукаємо кейс з тим самим documentId в поточній мові
       const localizedResponse = await strapiFetch<StrapiCasesResponse>(
-        `/api/cases?filters[documentId][$eq]=${strapiCase.documentId}&populate=deep&publicationState=live`,
+        `/api/cases?filters[documentId][$eq]=${strapiCase.documentId}&${casesPopulateQuery}&publicationState=live`,
         locale,
         {
           next: { revalidate: 60 },
@@ -264,7 +343,9 @@ export async function getCaseBySlug(
       );
 
       if (localizedResponse.data.length > 0) {
-        return transformStrapiCase(localizedResponse.data[0], locale);
+        const caseItem = transformStrapiCase(localizedResponse.data[0], locale);
+        const [enriched] = await enrichCasesWithCategories([caseItem], locale);
+        return enriched;
       }
     }
 
@@ -278,7 +359,7 @@ export async function getCaseBySlug(
       if (targetLocalization) {
         const encodedTargetSlug = encodeURIComponent(targetLocalization.slug);
         const localizedResponse = await strapiFetch<StrapiCasesResponse>(
-          `/api/cases?filters[slug][$eq]=${encodedTargetSlug}&populate=deep&publicationState=live`,
+          `/api/cases?filters[slug][$eq]=${encodedTargetSlug}&${casesPopulateQuery}&publicationState=live`,
           locale,
           {
             next: { revalidate: 60 },
@@ -286,7 +367,15 @@ export async function getCaseBySlug(
         );
 
         if (localizedResponse.data.length > 0) {
-          return transformStrapiCase(localizedResponse.data[0], locale);
+          const caseItem = transformStrapiCase(
+            localizedResponse.data[0],
+            locale,
+          );
+          const [enriched] = await enrichCasesWithCategories(
+            [caseItem],
+            locale,
+          );
+          return enriched;
         }
       }
     }

@@ -4,40 +4,27 @@ import { useMemo } from "react";
 import { Case } from "@/strapi/cases";
 import CaseCard from "./case-card";
 import { useTranslation } from "react-i18next";
-import type { CaseFilterType } from "./cases-filters";
+import type { CaseFilterValue } from "./cases-filters";
 
 interface CasesListProps {
   cases: Case[];
-  activeFilter: CaseFilterType;
+  activeFilter: CaseFilterValue;
   lang: string;
 }
-
-// Map filter keys to Strapi category values
-const categoryMap: Record<CaseFilterType, string | null> = {
-  all: null,
-  blepharoplasty: "Blepharoplasty",
-  facelift: "Facelift",
-  liposuction: "Liposuction",
-  mammoplasty: "Mammoplasty",
-};
 
 export default function CasesList({ cases, activeFilter, lang }: CasesListProps) {
   const { t } = useTranslation();
 
-  // Filter cases based on active filter
   const filteredCases = useMemo(() => {
     if (activeFilter === "all") {
       return cases;
     }
-    const targetCategory = categoryMap[activeFilter];
-    if (!targetCategory) return cases;
 
+    // Кейси без категорії показуються лише у фільтрі «Усі»
     return cases.filter((caseItem) => {
-      if (!caseItem.category) return false;
-      // Нормалізуємо категорії для порівняння (trim пробілів, toLowerCase)
-      const normalizedCaseCategory = caseItem.category.trim().toLowerCase();
-      const normalizedTargetCategory = targetCategory.trim().toLowerCase();
-      return normalizedCaseCategory === normalizedTargetCategory;
+      const ids = caseItem.categories ?? [];
+      if (ids.length === 0) return false;
+      return ids.some((cat) => cat.documentId === activeFilter);
     });
   }, [cases, activeFilter]);
 

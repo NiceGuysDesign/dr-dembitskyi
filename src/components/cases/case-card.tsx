@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Case } from "@/strapi/cases";
+import CaseCoverImage from "./case-cover-image";
 
 interface CaseCardProps {
   caseItem: Case;
@@ -15,11 +15,11 @@ export default function CaseCard({ caseItem, lang }: CaseCardProps) {
       <div className="w-full flex flex-col">
         {/* Image container */}
         <div className="relative w-full h-[306px] overflow-hidden">
-          <Image
+          <CaseCoverImage
             src={caseItem.image}
             alt={caseItem.title}
-            fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
+            containerClassName="relative w-full h-full"
           />
 
           {/* Arrow button overlay */}
