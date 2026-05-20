@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/schema/json-ld";
+import { buildMedicalClinicJsonLd } from "@/lib/schema/medical-clinic";
 import Hero from "@/components/home-page/hero";
 import HeroImageSection from "@/components/home-page/hero-image-section";
 import ServicesSection from "@/components/home-page/services-section";
@@ -28,6 +30,7 @@ export default async function Home({ params }: HomePageProps) {
 
   return (
     <main>
+      <JsonLd data={buildMedicalClinicJsonLd(lang)} />
       <Hero heroData={heroData} lang={lang} />
       <ServicesSection lang={lang} />
       <CTASection />

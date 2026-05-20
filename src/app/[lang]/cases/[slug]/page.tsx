@@ -1,5 +1,8 @@
 import { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { withSeoAlternates } from "@/lib/seo";
+import { getBaseUrl } from "@/lib/site-url";
 import {
   getCaseBySlug,
   getCases,
@@ -35,19 +38,17 @@ export async function generateMetadata({
   const description = caseItem.seo?.description || caseItem.description || "";
   const ogImageUrl = caseItem.seo?.opengraphImage || caseItem.image || undefined;
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+  const baseUrl = getBaseUrl();
+  const pathname =
+    (await headers()).get("x-pathname") ?? `/${lang}/cases/${effectiveSlug}`;
 
-  return {
+  return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,
     description,
     openGraph: {
       title,
       description,
-      url: `${baseUrl}/${lang}/cases/${slug}`,
+      url: `${baseUrl}/${lang}/cases/${effectiveSlug}`,
       siteName: "Dr. Dembitskyi",
       ...(ogImageUrl
         ? {
@@ -70,7 +71,7 @@ export async function generateMetadata({
       description,
       ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
     },
-  };
+  });
 }
 
 export default async function CasePage({ params }: CasePageProps) {

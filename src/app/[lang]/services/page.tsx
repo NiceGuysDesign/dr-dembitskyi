@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/schema/json-ld";
+import { buildServicesCatalogJsonLd } from "@/lib/schema/service-schema";
 import CTASection2 from "@/components/services/cta-section-2";
 import PackagesSection from "@/components/home-page/packages-section";
 import ServicesPageClient from "@/components/services/services-page-client";
@@ -24,6 +26,7 @@ export default async function ServicesPage({
   
   return (
     <main className="relative w-full min-h-screen">
+      <JsonLd data={buildServicesCatalogJsonLd(lang, servicesData)} />
       {/* Large background title */}
       <div className="absolute top-[46px] right-0 w-fit pointer-events-none z-0">
         <h1 className="font-manrope font-bold text-[90px] md:text-[180px] lg:text-[212px] leading-[100%] tracking-[-0.05em] text-[#353556] opacity-[0.03] text-center">

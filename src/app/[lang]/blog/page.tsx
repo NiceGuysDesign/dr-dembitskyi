@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/schema/json-ld";
+import { buildBlogListingJsonLd } from "@/lib/schema/medical-web-page";
 import { getBlogPosts } from "@/strapi/blog";
 import BlogHeader from "@/components/blog/blog-header";
 import BlogList from "@/components/blog/blog-list";
@@ -13,6 +15,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
   return (
     <main className="relative w-full">
+      <JsonLd data={buildBlogListingJsonLd(lang)} />
       <div className="relative z-10 pt-24 md:pt-30 pb-16 md:pb-[60px]">
         <div className="px-[10px] md:px-5">
           <BlogHeader />

@@ -1,5 +1,7 @@
 import { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { withSeoAlternates } from "@/lib/seo";
 import {
   getPackageServiceBySlug,
   resolvePackageServiceSlugForLocale,
@@ -33,7 +35,10 @@ export async function generateMetadata({
   const description =
     packageService.seo?.description || packageService.description;
 
-  return {
+  const pathname =
+    (await headers()).get("x-pathname") ?? `/${lang}/package-service/${slug}`;
+
+  return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,
     description,
     openGraph: {
@@ -41,7 +46,7 @@ export async function generateMetadata({
       description,
       type: "website",
     },
-  };
+  });
 }
 
 export default async function PackageServicePage({

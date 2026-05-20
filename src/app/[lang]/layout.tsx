@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Header from "@/components/header/header";
+import { withSeoAlternates } from "@/lib/seo";
 import Footer from "@/components/footer/footer";
 import I18nProvider from "@/components/providers/i18n-provider";
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider";
@@ -24,7 +26,9 @@ export async function generateMetadata({
   const localeMessages = locale === "en" ? en : uk;
   const description = localeMessages.serviceCtaSection.description;
 
-  return {
+  const pathname = (await headers()).get("x-pathname") ?? `/${lang}`;
+
+  return withSeoAlternates(pathname, {
     title: "Dr. Dembitskyi",
     description,
     openGraph: {
@@ -46,7 +50,7 @@ export async function generateMetadata({
       description,
       images: [OG_IMAGE_URL],
     },
-  };
+  });
 }
 
 export default async function LangLayout({

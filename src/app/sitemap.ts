@@ -1,38 +1,10 @@
 import { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
+import { getBaseUrl } from "@/lib/site-url";
 import { getServices } from "@/strapi/services";
 import { getPackageServices } from "@/strapi/package-service";
 import { getCases } from "@/strapi/cases";
 import { getBlogPosts } from "@/strapi/blog";
-
-function getBaseUrl(): string {
-  // Check NEXT_PUBLIC_SITE_URL first
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    let url = process.env.NEXT_PUBLIC_SITE_URL.trim();
-    // Fix double https:// if present
-    url = url.replace(/^https:\/\/https:\/\//, "https://");
-    url = url.replace(/^http:\/\/http:\/\//, "http://");
-    // Remove trailing slash if present
-    return url.endsWith("/") ? url.slice(0, -1) : url;
-  }
-
-  // Fallback to VERCEL_URL
-  if (process.env.VERCEL_URL) {
-    let vercelUrl = process.env.VERCEL_URL.trim();
-    // Fix double https:// if present
-    vercelUrl = vercelUrl.replace(/^https:\/\/https:\/\//, "https://");
-    vercelUrl = vercelUrl.replace(/^http:\/\/http:\/\//, "http://");
-    // VERCEL_URL doesn't include protocol, so add https://
-    // But check if it already has protocol
-    if (vercelUrl.startsWith("http://") || vercelUrl.startsWith("https://")) {
-      return vercelUrl.endsWith("/") ? vercelUrl.slice(0, -1) : vercelUrl;
-    }
-    return `https://${vercelUrl}`;
-  }
-
-  // Default to localhost for development
-  return "http://localhost:3000";
-}
 
 function parseSitemapDate(value?: string): Date {
   if (!value) return new Date();
@@ -58,26 +30,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [];
 
+  const hubRoutesUk = [
+    { path: "services", priority: 0.9, changeFrequency: "daily" as const },
+    { path: "cases", priority: 0.9, changeFrequency: "daily" as const },
+    { path: "blog", priority: 0.9, changeFrequency: "daily" as const },
+    { path: "about", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "contacts", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "privacy", priority: 0.5, changeFrequency: "monthly" as const },
+  ];
+
+  const hubRoutesEn = [
+    { path: "services", priority: 0.8, changeFrequency: "daily" as const },
+    { path: "cases", priority: 0.8, changeFrequency: "daily" as const },
+    { path: "blog", priority: 0.8, changeFrequency: "daily" as const },
+    { path: "about", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "contacts", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "privacy", priority: 0.5, changeFrequency: "monthly" as const },
+  ];
+
   for (const locale of locales) {
-    // Homepage
+    const isUk = locale === "uk";
     staticPages.push({
       url: `${baseUrl}/${locale}`,
       lastModified: new Date(),
       changeFrequency: "daily",
-      priority: 1.0,
+      priority: isUk ? 1.0 : 0.9,
     });
 
-    // Static pages
-    const staticRoutes = [
-      { path: "services", priority: 0.9, changeFrequency: "weekly" as const },
-      { path: "cases", priority: 0.8, changeFrequency: "weekly" as const },
-      { path: "blog", priority: 0.8, changeFrequency: "daily" as const },
-      { path: "about", priority: 0.7, changeFrequency: "monthly" as const },
-      { path: "contacts", priority: 0.6, changeFrequency: "monthly" as const },
-      { path: "privacy", priority: 0.3, changeFrequency: "yearly" as const },
-    ];
-
-    for (const route of staticRoutes) {
+    const hubRoutes = isUk ? hubRoutesUk : hubRoutesEn;
+    for (const route of hubRoutes) {
       staticPages.push({
         url: `${baseUrl}/${locale}/${route.path}`,
         lastModified: new Date(),
@@ -97,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           url: `${baseUrl}/${locale}/services/${service.slug}`,
           lastModified: new Date(),
           changeFrequency: "weekly",
-          priority: 0.8,
+          priority: locale === "uk" ? 0.8 : 0.7,
         });
       }
     } catch (error) {
@@ -115,7 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           url: `${baseUrl}/${locale}/package-service/${service.slug}`,
           lastModified: new Date(),
           changeFrequency: "weekly",
-          priority: 0.8,
+          priority: locale === "uk" ? 0.8 : 0.7,
         });
       }
     } catch (error) {
@@ -137,8 +118,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         casePages.push({
           url: `${baseUrl}/${locale}/cases/${caseItem.slug}`,
           lastModified: parseSitemapDate(caseItem.publishedAt),
-          changeFrequency: "monthly",
-          priority: 0.7,
+          changeFrequency: "weekly",
+          priority: locale === "uk" ? 0.7 : 0.6,
         });
       }
     } catch (error) {

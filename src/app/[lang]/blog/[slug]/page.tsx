@@ -1,5 +1,10 @@
 import { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { withSeoAlternates } from "@/lib/seo";
+import { getBaseUrl } from "@/lib/site-url";
+import { JsonLd } from "@/components/schema/json-ld";
+import { buildBlogPostJsonLd } from "@/lib/schema/medical-web-page";
 import { getBlogPostBySlug, getBlogPosts } from "@/strapi/blog";
 import BlogPostClient from "@/components/blog/blog-post-client";
 import BlogList from "@/components/blog/blog-list";
@@ -26,13 +31,11 @@ export async function generateMetadata({
   const title = post.seo?.title || post.title;
   const description = post.seo?.description || post.description || "";
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+  const baseUrl = getBaseUrl();
+  const pathname =
+    (await headers()).get("x-pathname") ?? `/${lang}/blog/${slug}`;
 
-  return {
+  return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,
     description,
     openGraph: {
@@ -68,7 +71,7 @@ export async function generateMetadata({
         ? [post.seo.opengraphImage]
         : [post.image],
     },
-  };
+  });
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
@@ -85,6 +88,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <main className="relative w-full">
+      <JsonLd data={buildBlogPostJsonLd(lang, post)} />
       <div className="relative z-10 pt-[110px] md:pt-20 lg:pt-24 pb-12 md:pb-16 lg:pb-24">
         <div className="px-3 md:px-5">
           {/* Post Title */}

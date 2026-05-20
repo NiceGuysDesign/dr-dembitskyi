@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { defaultLocale } from "@/i18n/config";
+import { withSeoAlternates } from "@/lib/seo";
 import { uk } from "@/i18n/locales/uk";
 import { en } from "@/i18n/locales/en";
 
@@ -12,13 +14,16 @@ export async function generateMetadata({
   const locale = lang === "en" ? "en" : defaultLocale;
   const messages = locale === "en" ? en : uk;
 
-  return {
+  const pathname =
+    (await headers()).get("x-pathname") ?? `/${lang}/privacy`;
+
+  return withSeoAlternates(pathname, {
     title: `${messages.footer.privacy} | Dr. Dembitskyi`,
     description:
       locale === "en"
         ? "Privacy policy and personal data processing information."
         : "Політика конфіденційності та обробки персональних даних.",
-  };
+  });
 }
 
 export default async function PrivacyPage({
