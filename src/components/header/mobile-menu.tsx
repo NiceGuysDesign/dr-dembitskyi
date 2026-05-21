@@ -40,7 +40,7 @@ export default function MobileMenu({ lang }: { lang: string }) {
     { key: "home", href: `/${lang}` },
     { key: "services", href: `/${lang}/services` },
     { key: "about", href: `/${lang}/about` },
-    { key: "cases", href: `/${lang}/cases` },
+    // { key: "cases", href: `/${lang}/cases` },
     { key: "blog", href: `/${lang}/blog` },
     { key: "contacts", href: `/${lang}/contacts` },
   ];

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { ServiceData } from "@/strapi/services";
 import { Case } from "@/strapi/cases";
 import CTASection2 from "./cta-section-2";
-import CasesSection from "../home-page/cases-section";
+// import CasesSection from "../home-page/cases-section";
 import RichText from "../ui/rich-text";
 import LogoLoader from "../ui/logo-loader";
 
@@ -174,10 +174,11 @@ export default function ServicePageClient({
         <div className="h-[1px] w-full bg-[#1B1661] opacity-40 my-8 md:my-12" />
 
         {/* Cases Section - Only show if showCases is true */}
+
         {showCases && (
           <div id="cases">
             {/* Cases Slider - Using CasesSection component */}
-            <CasesSection casesData={casesData} lang={lang} />
+            {/* <CasesSection casesData={casesData} lang={lang} /> */}
           </div>
         )}
       </div>

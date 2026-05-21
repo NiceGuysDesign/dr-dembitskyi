@@ -31,11 +31,12 @@ export default function Header({ lang }: { lang: string }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Закоментовано кнопку "кейси"
   const navigationItems = [
     { key: "home", href: `/${lang}` },
     { key: "services", href: `/${lang}/services` },
     { key: "about", href: `/${lang}/about` },
-    { key: "cases", href: `/${lang}/cases` },
+    // { key: "cases", href: `/${lang}/cases` },
     { key: "blog", href: `/${lang}/blog` },
     { key: "contacts", href: `/${lang}/contacts` },
   ];
@@ -73,6 +74,16 @@ export default function Header({ lang }: { lang: string }) {
               </Link>
             </li>
           ))}
+          {/* 
+          <li key="cases">
+            <Link
+              href={`/${lang}/cases`}
+              className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-[#353556] uppercase hover:opacity-80 transition-opacity"
+            >
+              {t('navigation.cases')}
+            </Link>
+          </li>
+          */}
         </ul>
       </nav>
 
