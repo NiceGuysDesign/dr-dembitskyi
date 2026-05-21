@@ -1,3 +1,4 @@
+import { preload } from "react-dom";
 import { JsonLd } from "@/components/schema/json-ld";
 import { buildMedicalClinicJsonLd } from "@/lib/schema/medical-clinic";
 import Hero from "@/components/home-page/hero";
@@ -26,6 +27,10 @@ export default async function Home({ params }: HomePageProps) {
 
   if (!heroData) {
     return <div>Дані Hero не знайдено</div>;
+  }
+
+  if (heroData.image) {
+    preload(heroData.image, { as: "image", fetchPriority: "high" });
   }
 
   return (

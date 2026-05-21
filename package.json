@@ -10,8 +10,16 @@
     "analyze:unused": "ts-prune",
     "analyze:deps": "depcheck",
     "analyze:duplicates": "jscpd src --min-lines 5 --min-tokens 50 --format console",
-    "analyze:all": "npm run analyze:unused && npm run analyze:deps && npm run analyze:duplicates"
+    "analyze:all": "npm run analyze:unused && npm run analyze:deps && npm run analyze:duplicates",
+    "perf:audit": "node scripts/performance-audit.mjs",
+    "perf:audit:local": "node scripts/performance-audit.mjs --local"
   },
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 111",
+    "safari >= 16.4"
+  ],
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
@@ -37,7 +45,9 @@
     "@types/react-dom": "^19",
     "depcheck": "^1.4.7",
     "eslint": "^9",
+    "chrome-launcher": "^1.1.2",
     "eslint-config-next": "15.5.2",
+    "lighthouse": "^12.6.1",
     "jscpd": "^4.0.5",
     "tailwindcss": "^4",
     "ts-prune": "^0.10.3",

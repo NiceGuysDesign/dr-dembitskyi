@@ -17,21 +17,6 @@ export const inter = localFont({
       weight: "600",
       style: "normal",
     },
-    {
-      path: "../../public/fonts/inter/Inter-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/inter/Inter-ExtraBold.woff2",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/inter/Inter-Black.woff2",
-      weight: "900",
-      style: "normal",
-    },
   ],
   variable: "--font-inter",
   display: "swap",

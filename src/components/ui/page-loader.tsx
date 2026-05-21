@@ -61,10 +61,20 @@ export default function PageLoader() {
   function handleAnimationComplete() {
     setIsAnimating(false);
     if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
+    const fadeMs =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 767px)").matches
+        ? 350
+        : 500;
     fadeOutTimerRef.current = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, fadeMs);
   }
+
+  // Warm up lottie chunk early so mobile animation starts sooner
+  useEffect(() => {
+    void import("lottie-web");
+  }, []);
 
   useEffect(() => {
     // Mark that navigation has occurred (after first mount)
@@ -117,7 +127,7 @@ export default function PageLoader() {
         isAnimating ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="w-[442px] h-[120px] text-[#353556]">
+      <div className="w-[min(442px,85vw)] h-[120px] text-[#353556] px-4">
         <LogoLoader onComplete={handleAnimationComplete} />
       </div>
     </div>
