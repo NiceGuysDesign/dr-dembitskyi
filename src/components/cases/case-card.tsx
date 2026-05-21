@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Case } from "@/strapi/cases";
-import CaseCoverImage from "./case-cover-image";
+import CaseSensitiveCover from "./case-sensitive-cover";
 
 interface CaseCardProps {
   caseItem: Case;
@@ -11,19 +10,18 @@ interface CaseCardProps {
 
 export default function CaseCard({ caseItem, lang }: CaseCardProps) {
   return (
-    <Link href={`/${lang}/cases/${caseItem.slug}`} className="block group">
+    <div className="block group w-full">
       <div className="w-full flex flex-col">
-        {/* Image container */}
         <div className="relative w-full h-[306px] overflow-hidden">
-          <CaseCoverImage
+          <CaseSensitiveCover
             src={caseItem.image}
             alt={caseItem.title}
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            href={`/${lang}/cases/${caseItem.slug}`}
+            imageClassName="object-cover"
             containerClassName="relative w-full h-full"
           />
 
-          {/* Arrow button overlay */}
-          <div className="absolute top-[10px] right-[10px] z-10">
+          <div className="absolute top-[10px] right-[10px] z-30 pointer-events-none">
             <div className="rotate-0 group-hover:rotate-[45deg] transition-transform duration-300">
               <svg
                 width="56"
@@ -91,6 +89,6 @@ export default function CaseCard({ caseItem, lang }: CaseCardProps) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

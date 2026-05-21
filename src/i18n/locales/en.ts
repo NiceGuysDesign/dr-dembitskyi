@@ -87,6 +87,9 @@ export const en = {
       mammoplasty: "Mammoplasty",
     },
     noCasesFound: "No cases found for the selected filters",
+    clickToView: "Tap to preview",
+    clickToOpen: "Tap to open case",
+    showImage: "Show image",
   },
   footer: {
     site: "Site",

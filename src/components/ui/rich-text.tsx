@@ -4,10 +4,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { RichTextNode } from "@/strapi/services";
+import CaseSensitiveMedia from "../cases/case-sensitive-media";
 
 interface RichTextProps {
   content: RichTextNode[];
   className?: string;
+  /** Blur images until user clicks "Show image" (case pages). */
+  sensitive?: boolean;
 }
 
 // Helper function to get image URL
@@ -77,7 +80,11 @@ function renderTextNodes(children: RichTextNode[]): React.ReactNode {
   });
 }
 
-export default function RichText({ content, className = "" }: RichTextProps) {
+export default function RichText({
+  content,
+  className = "",
+  sensitive = false,
+}: RichTextProps) {
   if (!content || !Array.isArray(content)) return null;
 
   return (
@@ -172,17 +179,27 @@ export default function RichText({ content, className = "" }: RichTextProps) {
           const imageUrl = getImageUrl(node.image);
           if (!imageUrl) return null;
 
+          const imageBlock = (
+            <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
+              <Image
+                src={imageUrl}
+                alt={node.image.alternativeText || node.image.caption || ""}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+          );
+
           return (
             <div key={index} className="relative w-full my-6">
-              <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
-                <Image
-                  src={imageUrl}
-                  alt={node.image.alternativeText || node.image.caption || ""}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
+              {sensitive ? (
+                <CaseSensitiveMedia revealOnly className="w-full">
+                  {imageBlock}
+                </CaseSensitiveMedia>
+              ) : (
+                imageBlock
+              )}
               {node.image.caption && (
                 <p className="mt-2 font-manrope font-medium text-xs md:text-sm leading-[150%] text-black opacity-70 text-center">
                   {node.image.caption}
@@ -229,7 +246,7 @@ export default function RichText({ content, className = "" }: RichTextProps) {
                 if (item.type === "list") {
                   return (
                     <li key={itemIndex} className="list-none">
-                      <RichText content={[item]} />
+                      <RichText content={[item]} sensitive={sensitive} />
                     </li>
                   );
                 }

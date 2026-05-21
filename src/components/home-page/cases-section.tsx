@@ -2,7 +2,7 @@
 
 import { useState, useRef, useMemo } from "react";
 import Link from "next/link";
-import CaseCoverImage from "../cases/case-cover-image";
+import CaseSensitiveCover from "../cases/case-sensitive-cover";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
@@ -283,26 +283,23 @@ export default function CasesSection({
             >
               {filteredCases.map((caseItem, index) => (
                 <SwiperSlide key={caseItem.id}>
-                  <Link
-                    href={`/${lang}/cases/${caseItem.slug}`}
-                    className="relative w-full flex flex-col items-center"
-                  >
+                  <div className="relative w-full flex flex-col items-center">
                     <div className="relative w-[80vw] sm:w-[60vw] md:w-[50vw] lg:w-[35vw] h-[50vh] sm:h-[45vh] md:h-[40vh]">
-                      <CaseCoverImage
+                      <CaseSensitiveCover
                         src={caseItem.image}
                         alt={caseItem.imageAlt}
-                        className="object-cover"
+                        href={`/${lang}/cases/${caseItem.slug}`}
                         containerClassName="relative w-full h-full"
+                        imageClassName="object-cover"
                         unoptimized
                       />
                     </div>
-                    {/* Опис показується тільки для активного слайда */}
                     {activeSlideIndex === index && caseItem.description && (
                       <p className="mt-3 md:mt-4 font-inter font-medium text-xs sm:text-sm leading-[150%] text-[var(--color-text-primary)] text-center px-[10px]">
                         {caseItem.description}
                       </p>
                     )}
-                  </Link>
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>

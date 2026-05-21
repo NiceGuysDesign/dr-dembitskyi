@@ -87,6 +87,9 @@ export const uk = {
       mammoplasty: "Мамопластика",
     },
     noCasesFound: "За обраними фільтрами кейсів не знайдено",
+    clickToView: "Натисніть щоб переглянути",
+    clickToOpen: "Натисніть щоб відкрити кейс",
+    showImage: "Показати зображення",
   },
   footer: {
     site: "Сайт",

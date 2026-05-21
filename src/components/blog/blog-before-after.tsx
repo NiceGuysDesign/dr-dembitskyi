@@ -5,12 +5,17 @@ import Image from "next/image";
 import { BlogBeforeAfterBlock } from "@/strapi/blog";
 import GlassSurface from "../ui/glass-surface";
 import { useTranslation } from "react-i18next";
+import CaseSensitiveMedia from "../cases/case-sensitive-media";
 
 interface BlogBeforeAfterProps {
   block: BlogBeforeAfterBlock;
+  sensitive?: boolean;
 }
 
-export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
+export default function BlogBeforeAfter({
+  block,
+  sensitive = false,
+}: BlogBeforeAfterProps) {
   const { t } = useTranslation();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -71,9 +76,8 @@ export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
-  return (
-    <div className="space-y-4 md:space-y-6 my-8 md:my-12">
-      <div
+  const slider = (
+    <div
         ref={containerRef}
         className="relative w-full h-[600px] md:h-[700px] overflow-hidden cursor-col-resize select-none"
         onMouseMove={isDragging ? handleMouseMoveElement : undefined}
@@ -181,6 +185,17 @@ export default function BlogBeforeAfter({ block }: BlogBeforeAfterProps) {
           </div>
         </div>
       </div>
+  );
+
+  return (
+    <div className="space-y-4 md:space-y-6 my-8 md:my-12">
+      {sensitive ? (
+        <CaseSensitiveMedia revealOnly className="w-full">
+          {slider}
+        </CaseSensitiveMedia>
+      ) : (
+        slider
+      )}
       {block.caption && (
         <p className="font-manrope font-semibold text-sm md:text-base leading-[140%] tracking-[-0.02em] text-[var(--color-text-primary)] text-center">
           {block.caption}

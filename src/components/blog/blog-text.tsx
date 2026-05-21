@@ -1,11 +1,24 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { BlogTextBlock } from "@/strapi/blog";
+import { RichTextNode } from "@/strapi/services";
+import RichText from "../ui/rich-text";
+import CaseSensitiveInlineImage from "../cases/case-sensitive-inline-image";
 
 interface BlogTextProps {
   block: BlogTextBlock;
+  sensitive?: boolean;
+}
+
+function isRichTextContent(content: unknown): content is RichTextNode[] {
+  return (
+    Array.isArray(content) &&
+    content.length > 0 &&
+    typeof content[0] === "object" &&
+    content[0] !== null &&
+    "type" in content[0]
+  );
 }
 
 interface ImageMatch {
@@ -14,8 +27,40 @@ interface ImageMatch {
   index: number;
 }
 
+function splitTextWithImages(text: string, imageCounterStart: number) {
+  const parts: (string | ImageMatch)[] = [];
+  let imageCounter = imageCounterStart;
+
+  const combinedRegex =
+    /!\[([^\]]*)\]\(([^)]+)\)|<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*(?:\s+alt=["']([^"']*)["'])?[^>]*\/?>/gi;
+
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = combinedRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+
+    const isMarkdown = match[0].startsWith("!");
+    const imageMatch: ImageMatch = {
+      alt: isMarkdown ? match[1] || "" : match[4] || "",
+      url: isMarkdown ? match[2] : match[3],
+      index: imageCounter++,
+    };
+    parts.push(imageMatch);
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return { parts, imageCounter };
+}
+
 // Simple markdown parser for basic elements
-function parseMarkdown(content: string): React.ReactNode[] {
+function parseMarkdown(content: string, sensitive = false): React.ReactNode[] {
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
   let currentParagraph: string[] = [];
@@ -26,31 +71,11 @@ function parseMarkdown(content: string): React.ReactNode[] {
   const flushParagraph = () => {
     if (currentParagraph.length > 0) {
       const text = currentParagraph.join(" ");
-      // Extract images from text
-      const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
-      let match;
-      let lastIndex = 0;
-      const parts: (string | ImageMatch)[] = [];
-
-      while ((match = imageRegex.exec(text)) !== null) {
-        // Add text before image
-        if (match.index > lastIndex) {
-          parts.push(text.substring(lastIndex, match.index));
-        }
-        // Add image
-        const imageMatch: ImageMatch = {
-          alt: match[1] || "",
-          url: match[2],
-          index: imageCounter++,
-        };
-        parts.push(imageMatch);
-        lastIndex = match.index + match[0].length;
-      }
-
-      // Add remaining text
-      if (lastIndex < text.length) {
-        parts.push(text.substring(lastIndex));
-      }
+      const { parts, imageCounter: nextCounter } = splitTextWithImages(
+        text,
+        imageCounter,
+      );
+      imageCounter = nextCounter;
 
       // If no images, render as simple paragraph
       if (parts.length === 1 && typeof parts[0] === "string") {
@@ -77,20 +102,14 @@ function parseMarkdown(content: string): React.ReactNode[] {
               />
             );
           } else if (typeof part === "object") {
-            // Render image
             elements.push(
-              <div
+              <CaseSensitiveInlineImage
                 key={`img-${part.index}`}
-                className="relative w-full my-4 md:my-6 aspect-video rounded overflow-hidden max-h-[50vh]"
-              >
-                <Image
-                  src={part.url}
-                  alt={part.alt}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                />
-              </div>
+                src={part.url}
+                alt={part.alt}
+                imageKey={`img-${part.index}`}
+                sensitive={sensitive}
+              />,
             );
           }
         });
@@ -143,8 +162,11 @@ function parseMarkdown(content: string): React.ReactNode[] {
   };
 
   const processInlineMarkdown = (text: string): string => {
-    // Remove images from text (they are handled separately)
     text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, "");
+    text = text.replace(
+      /<img\b[^>]*\bsrc=["'][^"']+["'][^>]*\/?>/gi,
+      "",
+    );
     // Bold **text** - non-greedy match to handle multiple bold sections
     text = text.replace(
       /\*\*([^*]+)\*\*/g,
@@ -273,8 +295,18 @@ function parseMarkdown(content: string): React.ReactNode[] {
   return elements;
 }
 
-export default function BlogText({ block }: BlogTextProps) {
-  const elements = parseMarkdown(block.content);
+export default function BlogText({ block, sensitive = false }: BlogTextProps) {
+  const raw = block.content as string | RichTextNode[];
+
+  if (sensitive && isRichTextContent(raw)) {
+    return <RichText content={raw} sensitive className="space-y-4 md:space-y-6" />;
+  }
+
+  if (typeof raw !== "string") {
+    return null;
+  }
+
+  const elements = parseMarkdown(raw, sensitive);
 
   return <div className="space-y-4 md:space-y-6">{elements}</div>;
 }

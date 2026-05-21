@@ -1,3 +1,5 @@
+"use client";
+
 import { BlogContentBlock } from "@/strapi/blog";
 import BlogHeading from "@/components/blog/blog-heading";
 import BlogText from "@/components/blog/blog-text";
@@ -20,11 +22,13 @@ export default function CaseContent({ content }: CaseContentProps) {
           case "blog-blocks.heading":
             return <BlogHeading key={uniqueKey} block={block} />;
           case "blog-blocks.text":
-            return <BlogText key={uniqueKey} block={block} />;
+            return <BlogText key={uniqueKey} block={block} sensitive />;
           case "blog-blocks.before-after":
-            return <BlogBeforeAfter key={uniqueKey} block={block} />;
+            return (
+              <BlogBeforeAfter key={uniqueKey} block={block} sensitive />
+            );
           case "blog-blocks.image":
-            return <BlogImage key={uniqueKey} block={block} />;
+            return <BlogImage key={uniqueKey} block={block} sensitive />;
           case "blog-blocks.video":
             return <BlogVideo key={uniqueKey} block={block} />;
           default:
