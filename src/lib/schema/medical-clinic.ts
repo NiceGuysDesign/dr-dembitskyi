@@ -40,7 +40,7 @@ export function buildMedicalClinicJsonLd(lang: string) {
     areaServed,
     telephone: PHONE_PRIMARY,
     sameAs: [...SOCIAL_LINKS],
-    employee: { "@id": physician["@id"] },
+    founder: { "@id": physician["@id"] },
   };
 
   const webPage = {

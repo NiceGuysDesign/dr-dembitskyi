@@ -47,13 +47,13 @@ export function buildPhysicianNode(lang: string) {
   const copy = physicianCopy[locale];
 
   return {
-    "@type": "Physician",
+    "@type": ["Person", "Physician"],
     "@id": getPhysicianId(),
     name: copy.name,
     url: buildPageUrl(lang),
     image: OG_IMAGE_URL,
     description: copy.description,
-    worksFor: { "@id": getMedicalClinicId() },
+    hospitalAffiliation: { "@id": getMedicalClinicId() },
     medicalSpecialty: [
       "https://schema.org/PlasticSurgery",
       "https://schema.org/Cardiovascular",
