@@ -1,14 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 type CaseSensitiveMediaProps = {
   children: React.ReactNode;
   className?: string;
-  /** First click reveals; second click navigates to the case page. */
-  href?: string;
+  /** Card list: permanent blur (same strength as detail), no label, one tap opens the case. */
+  cardLink?: string;
   /** Single click removes blur (case detail page). */
   revealOnly?: boolean;
 };
@@ -16,44 +16,33 @@ type CaseSensitiveMediaProps = {
 export default function CaseSensitiveMedia({
   children,
   className = "",
-  href,
+  cardLink,
   revealOnly = false,
 }: CaseSensitiveMediaProps) {
   const { t } = useTranslation();
-  const router = useRouter();
   const [revealed, setRevealed] = useState(false);
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setRevealed(true);
+  }, []);
 
-      if (!revealed) {
-        setRevealed(true);
-        return;
-      }
+  if (cardLink) {
+    return (
+      <Link
+        href={cardLink}
+        className={`relative block w-full h-full overflow-hidden ${className}`}
+      >
+        <div className="relative w-full h-full blur-lg scale-[1.02]">
+          {children}
+        </div>
+      </Link>
+    );
+  }
 
-      if (!revealOnly && href) {
-        router.push(href);
-      }
-    },
-    [revealed, revealOnly, href, router],
-  );
-
-  const label = !revealed
-    ? revealOnly
-      ? t("cases.showImage")
-      : t("cases.clickToView")
-    : null;
-
-  const showOverlay = !revealed && !!label;
-
-  const ariaLabel =
-    !revealed
-      ? label
-      : !revealOnly && href
-        ? t("cases.clickToOpen")
-        : undefined;
+  const label = !revealed ? t("cases.showImage") : null;
+  const showOverlay = revealOnly && !revealed && !!label;
 
   const inner = (
     <>
@@ -88,7 +77,7 @@ export default function CaseSensitiveMedia({
       type="button"
       onClick={handleClick}
       className={`relative block w-full h-full overflow-hidden cursor-pointer border-0 p-0 bg-transparent text-left ${className}`}
-      aria-label={ariaLabel ?? undefined}
+      aria-label={label ?? undefined}
     >
       {inner}
     </button>

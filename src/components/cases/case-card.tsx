@@ -16,7 +16,7 @@ export default function CaseCard({ caseItem, lang }: CaseCardProps) {
           <CaseSensitiveCover
             src={caseItem.image}
             alt={caseItem.title}
-            href={`/${lang}/cases/${caseItem.slug}`}
+            cardHref={`/${lang}/cases/${caseItem.slug}`}
             imageClassName="object-cover"
             containerClassName="relative w-full h-full"
           />

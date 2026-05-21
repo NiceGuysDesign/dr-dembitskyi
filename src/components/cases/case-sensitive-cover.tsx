@@ -6,7 +6,9 @@ import CaseSensitiveMedia from "./case-sensitive-media";
 type CaseSensitiveCoverProps = {
   src: string | null | undefined;
   alt: string;
-  href?: string;
+  /** Card mode: permanent light blur + link to case page. */
+  cardHref?: string;
+  /** Detail page mode: click to reveal image. */
   revealOnly?: boolean;
   containerClassName?: string;
   imageClassName?: string;
@@ -16,7 +18,7 @@ type CaseSensitiveCoverProps = {
 export default function CaseSensitiveCover({
   src,
   alt,
-  href,
+  cardHref,
   revealOnly = false,
   containerClassName = "relative w-full h-full",
   imageClassName = "object-cover",
@@ -24,7 +26,7 @@ export default function CaseSensitiveCover({
 }: CaseSensitiveCoverProps) {
   return (
     <CaseSensitiveMedia
-      href={href}
+      cardLink={cardHref}
       revealOnly={revealOnly}
       className={containerClassName}
     >

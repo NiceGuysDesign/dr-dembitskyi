@@ -288,7 +288,7 @@ export default function CasesSection({
                       <CaseSensitiveCover
                         src={caseItem.image}
                         alt={caseItem.imageAlt}
-                        href={`/${lang}/cases/${caseItem.slug}`}
+                        cardHref={`/${lang}/cases/${caseItem.slug}`}
                         containerClassName="relative w-full h-full"
                         imageClassName="object-cover"
                         unoptimized
