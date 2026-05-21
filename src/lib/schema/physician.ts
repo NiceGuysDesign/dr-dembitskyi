@@ -1,7 +1,7 @@
 import {
   areaServed,
+  getMedicalClinicId,
   getPhysicianId,
-  localeToLanguageTag,
   OG_IMAGE_URL,
   PHONE_PRIMARY,
   postalAddress,
@@ -53,7 +53,7 @@ export function buildPhysicianNode(lang: string) {
     url: buildPageUrl(lang),
     image: OG_IMAGE_URL,
     description: copy.description,
-    inLanguage: localeToLanguageTag(lang),
+    worksFor: { "@id": getMedicalClinicId() },
     medicalSpecialty: [
       "https://schema.org/PlasticSurgery",
       "https://schema.org/Cardiovascular",

@@ -1,10 +1,5 @@
 import type { ServiceCategory, ServiceData } from "@/strapi/services";
-import {
-  areaServed,
-  buildPageUrl,
-  localeToLanguageTag,
-  OG_IMAGE_URL,
-} from "./constants";
+import { areaServed, buildPageUrl, OG_IMAGE_URL } from "./constants";
 import { physicianProviderRef } from "./physician";
 
 const catalogCopy = {
@@ -50,7 +45,6 @@ export function buildServicesCatalogJsonLd(
     "@type": "Service",
     serviceType: copy.serviceType,
     url: buildPageUrl(lang, "services"),
-    inLanguage: localeToLanguageTag(lang),
     description: copy.description,
     provider: physicianProviderRef(lang),
     areaServed,
@@ -87,7 +81,6 @@ export function buildSingleServiceJsonLd(
     serviceType,
     description: service.seo?.description || service.description,
     url: buildPageUrl(lang, `services/${service.slug}`),
-    inLanguage: localeToLanguageTag(lang),
     image,
     provider: physicianProviderRef(lang),
     areaServed,
@@ -112,7 +105,6 @@ export function buildSubServiceJsonLd(
     name: subService.title,
     description: subService.seo?.description || subService.description,
     url: buildPageUrl(lang, `services/${serviceSlug}/${subService.slug}`),
-    inLanguage: localeToLanguageTag(lang),
     image,
     provider: physicianProviderRef(lang),
     areaServed,

@@ -26,25 +26,35 @@ const clinicCopy = {
 export function buildMedicalClinicJsonLd(lang: string) {
   const locale = lang === "en" ? "en" : "uk";
   const copy = clinicCopy[locale];
+  const pageUrl = buildPageUrl(lang);
   const physician = buildPhysicianNode(lang);
 
   const medicalClinic = {
     "@type": "MedicalClinic",
     "@id": getMedicalClinicId(),
     name: copy.name,
-    url: buildPageUrl(lang),
+    url: pageUrl,
     image: OG_IMAGE_URL,
     description: copy.description,
-    inLanguage: localeToLanguageTag(lang),
     address: postalAddress,
     areaServed,
     telephone: PHONE_PRIMARY,
     sameAs: [...SOCIAL_LINKS],
-    physician: { "@id": physician["@id"] },
+    employee: { "@id": physician["@id"] },
+  };
+
+  const webPage = {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: copy.name,
+    description: copy.description,
+    inLanguage: localeToLanguageTag(lang),
+    mainEntity: { "@id": getMedicalClinicId() },
   };
 
   return {
     "@context": "https://schema.org",
-    "@graph": [physician, medicalClinic],
+    "@graph": [webPage, physician, medicalClinic],
   };
 }
