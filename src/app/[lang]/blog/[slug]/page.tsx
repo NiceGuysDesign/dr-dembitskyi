@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { withSeoAlternates } from "@/lib/seo";
+import { type Locale } from "@/i18n/config";
+import { buildPublicAbsoluteUrl, localePath } from "@/i18n/routing";
 import { getBaseUrl } from "@/lib/site-url";
 import { JsonLd } from "@/components/schema/json-ld";
 import { buildBlogPostJsonLd } from "@/lib/schema/medical-web-page";
@@ -32,8 +34,9 @@ export async function generateMetadata({
   const description = post.seo?.description || post.description || "";
 
   const baseUrl = getBaseUrl();
+  const locale = (lang === "en" ? "en" : "uk") as Locale;
   const pathname =
-    (await headers()).get("x-pathname") ?? `/${lang}/blog/${slug}`;
+    (await headers()).get("x-pathname") ?? localePath(locale, "blog", slug);
 
   return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,
@@ -41,7 +44,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `${baseUrl}/${lang}/blog/${slug}`,
+      url: buildPublicAbsoluteUrl(baseUrl, locale, ["blog", slug]),
       siteName: "Dr. Dembitskyi",
       images: post.seo?.opengraphImage
         ? [

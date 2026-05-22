@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { defaultLocale } from "@/i18n/config";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { withSeoAlternates } from "@/lib/seo";
 import { uk } from "@/i18n/locales/uk";
 import { en } from "@/i18n/locales/en";
@@ -15,7 +16,8 @@ export async function generateMetadata({
   const messages = locale === "en" ? en : uk;
 
   const pathname =
-    (await headers()).get("x-pathname") ?? `/${lang}/privacy`;
+    (await headers()).get("x-pathname") ??
+    localePath(locale as Locale, "privacy");
 
   return withSeoAlternates(pathname, {
     title: `${messages.footer.privacy} | Dr. Dembitskyi`,

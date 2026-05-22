@@ -9,11 +9,7 @@ export default function LangAttributeSetter() {
 
   useEffect(() => {
     // Extract lang from pathname
-    const pathSegments = pathname.split("/").filter(Boolean);
-    const lang =
-      pathSegments[0] && ["uk", "en"].includes(pathSegments[0])
-        ? pathSegments[0]
-        : defaultLocale;
+    const lang = pathname.startsWith("/en") ? "en" : defaultLocale;
 
     // Update html lang attribute
     if (typeof document !== "undefined") {

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { withSeoAlternates } from "@/lib/seo";
 import {
   getPackageServiceBySlug,
@@ -35,8 +37,10 @@ export async function generateMetadata({
   const description =
     packageService.seo?.description || packageService.description;
 
+  const locale = (lang === "en" ? "en" : "uk") as Locale;
   const pathname =
-    (await headers()).get("x-pathname") ?? `/${lang}/package-service/${slug}`;
+    (await headers()).get("x-pathname") ??
+    localePath(locale, "package-service", effectiveSlug);
 
   return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,
@@ -57,11 +61,15 @@ export default async function PackageServicePage({
   const resolved = await resolvePackageServiceSlugForLocale(slug, lang);
 
   if (resolved.kind === "fallback") {
-    redirect(`/${resolved.locale}/package-service/${resolved.slug}`);
+    redirect(
+      localePath(resolved.locale as Locale, "package-service", resolved.slug),
+    );
   }
 
   if (resolved.kind === "found" && resolved.slug !== slug) {
-    redirect(`/${lang}/package-service/${resolved.slug}`);
+    redirect(
+      localePath(lang as Locale, "package-service", resolved.slug),
+    );
   }
 
   const packageService =

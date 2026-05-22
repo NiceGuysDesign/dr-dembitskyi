@@ -13,8 +13,11 @@ import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
 import InstagramIcon from "../../../public/icons/instagram-icon";
 import ViberIcon from "../../../public/icons/viber-icon";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 export default function Header({ lang }: { lang: string }) {
+  const locale = lang as Locale;
   const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const { openMenu } = useMobileMenu();
@@ -33,12 +36,12 @@ export default function Header({ lang }: { lang: string }) {
 
   // Закоментовано кнопку "кейси"
   const navigationItems = [
-    { key: "home", href: `/${lang}` },
-    { key: "services", href: `/${lang}/services` },
-    { key: "about", href: `/${lang}/about` },
-    // { key: "cases", href: `/${lang}/cases` },
-    { key: "blog", href: `/${lang}/blog` },
-    { key: "contacts", href: `/${lang}/contacts` },
+    { key: "home", href: localePath(locale) },
+    { key: "services", href: localePath(locale, "services") },
+    { key: "about", href: localePath(locale, "about") },
+    // { key: "cases", href: localePath(locale, "cases") },
+    { key: "blog", href: localePath(locale, "blog") },
+    { key: "contacts", href: localePath(locale, "contacts") },
   ];
 
   return (
@@ -56,7 +59,7 @@ export default function Header({ lang }: { lang: string }) {
     >
       {/* Logo */}
       <div className="flex-shrink-0">
-        <Link href={`/${lang}`}>
+        <Link href={localePath(locale)}>
           <Logo className="fill-[#353556]" />
         </Link>
       </div>
@@ -77,7 +80,7 @@ export default function Header({ lang }: { lang: string }) {
           {/* 
           <li key="cases">
             <Link
-              href={`/${lang}/cases`}
+              href={localePath(locale, "cases")}
               className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-[#353556] uppercase hover:opacity-80 transition-opacity"
             >
               {t('navigation.cases')}

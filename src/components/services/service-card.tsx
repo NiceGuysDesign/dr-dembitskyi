@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 export interface ServiceItem {
   slug: string;
@@ -43,7 +45,7 @@ export default function ServiceCard({
 
           {/* Button */}
           <Link
-            href={`/${lang}/services/${service.slug}`}
+            href={localePath(lang as Locale, "services", service.slug)}
             className="w-full md:w-auto"
           >
             <Button

@@ -10,6 +10,8 @@ import { Case as StrapiCase } from "@/strapi/cases";
 import type { CaseCategory } from "@/strapi/case-categories";
 import type { CaseFilterOption, CaseFilterValue } from "../cases/cases-filters";
 import ArrowIcon from "../../../public/icons/arrow-icon";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 // Dynamic import для Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -288,7 +290,11 @@ export default function CasesSection({
                       <CaseSensitiveCover
                         src={caseItem.image}
                         alt={caseItem.imageAlt}
-                        cardHref={`/${lang}/cases/${caseItem.slug}`}
+                        cardHref={localePath(
+                          lang as Locale,
+                          "cases",
+                          caseItem.slug,
+                        )}
                         containerClassName="relative w-full h-full"
                         imageClassName="object-cover"
                         unoptimized
@@ -330,7 +336,7 @@ export default function CasesSection({
             </div>
             {/* All cases button - показуємо тільки якщо не на сторінці /cases */}
             {!isOnCasesPage && (
-              <Link href={`/${lang}/cases`}>
+              <Link href={localePath(lang as Locale, "cases")}>
                 <Button
                   variant="default"
                   style={{ background: "var(--gradient-button)" }}

@@ -1,3 +1,5 @@
+import { type Locale } from "@/i18n/config";
+import { buildPublicAbsoluteUrl } from "@/i18n/routing";
 import { getBaseUrl } from "@/lib/site-url";
 
 export const OG_IMAGE_URL =
@@ -29,11 +31,10 @@ export function localeToLanguageTag(lang: string): "uk-UA" | "en-US" {
 
 export function buildPageUrl(lang: string, path = ""): string {
   const base = getBaseUrl();
-  if (!path) {
-    return `${base}/${lang}/`;
-  }
+  const locale: Locale = lang === "en" ? "en" : "uk";
   const normalized = path.startsWith("/") ? path.slice(1) : path;
-  return `${base}/${lang}/${normalized}`;
+  const segments = normalized ? normalized.split("/").filter(Boolean) : [];
+  return buildPublicAbsoluteUrl(base, locale, segments);
 }
 
 export const postalAddress = {

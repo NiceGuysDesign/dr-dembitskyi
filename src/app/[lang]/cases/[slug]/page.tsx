@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { type Locale } from "@/i18n/config";
+import { buildPublicAbsoluteUrl, localePath } from "@/i18n/routing";
 import { withSeoAlternates } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/site-url";
 import {
@@ -39,8 +41,10 @@ export async function generateMetadata({
   const ogImageUrl = caseItem.seo?.opengraphImage || caseItem.image || undefined;
 
   const baseUrl = getBaseUrl();
+  const locale = (lang === "en" ? "en" : "uk") as Locale;
   const pathname =
-    (await headers()).get("x-pathname") ?? `/${lang}/cases/${effectiveSlug}`;
+    (await headers()).get("x-pathname") ??
+    localePath(locale, "cases", effectiveSlug);
 
   return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,
@@ -48,7 +52,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `${baseUrl}/${lang}/cases/${effectiveSlug}`,
+      url: buildPublicAbsoluteUrl(baseUrl, locale, ["cases", effectiveSlug]),
       siteName: "Dr. Dembitskyi",
       ...(ogImageUrl
         ? {
@@ -79,11 +83,13 @@ export default async function CasePage({ params }: CasePageProps) {
   const resolved = await resolveCaseSlugForLocale(slug, lang);
 
   if (resolved.kind === "fallback") {
-    redirect(`/${resolved.locale}/cases/${resolved.slug}`);
+    redirect(
+      localePath(resolved.locale as Locale, "cases", resolved.slug),
+    );
   }
 
   if (resolved.kind === "found" && resolved.slug !== slug) {
-    redirect(`/${lang}/cases/${resolved.slug}`);
+    redirect(localePath(lang as Locale, "cases", resolved.slug));
   }
 
   const caseItem =

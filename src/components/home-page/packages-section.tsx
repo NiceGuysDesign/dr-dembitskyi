@@ -10,6 +10,8 @@ import { ServiceData } from "@/strapi/package-service";
 import { initEffect031 } from "@/animations/sections/effect031";
 import { useConsultation } from "../consultation/consultation-provider";
 import { cn } from "@/lib/utils";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 interface PackagesSectionProps {
   packagesData?: ServiceData[];
@@ -102,7 +104,11 @@ export default function PackagesSection({
         <div className={cn("w-full", PACKAGE_CARD_LAYOUT.slideList)}>
           {packagesData.map((pkg) => {
             const { title1, title2 } = splitTitle(pkg.title);
-            const packageHref = `/${lang}/package-service/${pkg.slug}`;
+            const packageHref = localePath(
+              lang as Locale,
+              "package-service",
+              pkg.slug,
+            );
             return (
               <Link
                 key={pkg.slug}

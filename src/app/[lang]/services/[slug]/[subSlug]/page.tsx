@@ -3,6 +3,8 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/schema/json-ld";
 import { buildSubServiceJsonLd } from "@/lib/schema/service-schema";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { withSeoAlternates } from "@/lib/seo";
 import { getSubServiceBySlug } from "@/strapi/sub-services";
 import { getCases } from "@/strapi/cases";
@@ -25,9 +27,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = subService.seo?.title || subService.title;
   const description = subService.seo?.description || subService.description;
 
+  const locale = (lang === "en" ? "en" : "uk") as Locale;
   const pathname =
     (await headers()).get("x-pathname") ??
-    `/${lang}/services/${slug}/${subSlug}`;
+    localePath(locale, "services", slug, subSlug);
 
   return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,

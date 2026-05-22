@@ -97,7 +97,12 @@ export default function ServicePageClient({
                   {service.subServices.items.map((subService) => (
                     <Link
                       key={subService.slug}
-                      href={`/${lang}/${getSubServiceHref(service.slug, subService.slug)}`}
+                      href={localePath(
+                        lang as Locale,
+                        ...getSubServiceHref(service.slug, subService.slug).split(
+                          "/",
+                        ),
+                      )}
                       onClick={() => setIsNavigatingToSubService(true)}
                       className="bg-[#6163AC] min-h-[134px] p-4 md:p-6 flex flex-col gap-3 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B1661] focus-visible:ring-offset-2"
                     >

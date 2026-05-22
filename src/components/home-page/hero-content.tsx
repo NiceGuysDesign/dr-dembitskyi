@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { useConsultation } from "../consultation/consultation-provider";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 type HeroContentProps = {
   title: string;
@@ -43,7 +45,7 @@ export default function HeroContent({ title, description, lang }: HeroContentPro
           >
             {t("header.consultation")}
           </Button>
-          <Link href={`/${lang}/services`}>
+          <Link href={localePath(lang as Locale, "services")}>
             <Button
               variant="link"
               className="flex flex-col gap-2 items-start sm:items-center"

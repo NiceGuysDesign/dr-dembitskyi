@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { BlogPost } from "@/strapi/blog";
 
 interface BlogCardProps {
@@ -11,7 +13,10 @@ interface BlogCardProps {
 
 export default function BlogCard({ post, lang }: BlogCardProps) {
   return (
-    <Link href={`/${lang}/blog/${post.slug}`} className="block group">
+    <Link
+      href={localePath(lang as Locale, "blog", post.slug)}
+      className="block group"
+    >
       <div className="w-full flex flex-col">
         {/* Image container */}
         <div className="relative w-full h-[306px] overflow-hidden">

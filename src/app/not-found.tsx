@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { defaultLocale } from "@/i18n/config";
+import { getLocaleFromPathname, localePath } from "@/i18n/routing";
 import i18n from "@/i18n/i18n";
 import { uk } from "@/i18n/locales/uk";
 import { en } from "@/i18n/locales/en";
@@ -38,12 +39,7 @@ export default function GlobalNotFound() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
 
-  // Extract lang from pathname or use default
-  const pathSegments = pathname.split("/").filter(Boolean);
-  const lang =
-    pathSegments[0] && ["uk", "en"].includes(pathSegments[0])
-      ? pathSegments[0]
-      : defaultLocale;
+  const lang = getLocaleFromPathname(pathname);
 
   useEffect(() => {
     // Initialize i18n if not already initialized
@@ -181,7 +177,7 @@ export default function GlobalNotFound() {
             ref={buttonsRef}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Link href={`/${lang}`}>
+            <Link href={localePath(lang)}>
               <Button
                 variant="default"
                 style={{ background: "var(--gradient-button)" }}

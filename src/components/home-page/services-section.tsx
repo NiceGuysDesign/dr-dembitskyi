@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 export default function ServicesSection({ lang }: { lang: string }) {
   const { t } = useTranslation();
@@ -166,7 +168,7 @@ export default function ServicesSection({ lang }: { lang: string }) {
                 >
                   {/* Card container with white background - wrapped in Link */}
                   <Link
-                    href={`/${lang}/services#category-${service.categoryKey}`}
+                    href={`${localePath(lang as Locale, "services")}#category-${service.categoryKey}`}
                     className="block relative w-[240px] h-[320px] md:w-[320px] md:h-[460px] lg:w-[320px] lg:h-[344px] xl:w-[320px] xl:h-[364px] 2xl:w-[460px] 2xl:h-[600px] bg-white hover:opacity-90 transition-opacity cursor-pointer"
                   > 
                     {/* Image container */}

@@ -33,8 +33,7 @@ function addVisitedPage(pathname: string): void {
 }
 
 function isHomePage(pathname: string): boolean {
-  // Check if pathname is home page (e.g., "/uk", "/en", or just "/")
-  return pathname === "/" || /^\/[a-z]{2}$/.test(pathname);
+  return pathname === "/" || pathname === "/en";
 }
 
 function isPageReload(): boolean {

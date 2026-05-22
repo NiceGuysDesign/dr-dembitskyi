@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { defaultLocale, locales, type Locale } from "@/i18n/config";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import {
+  buildPublicAbsoluteUrl,
+  getLocaleFromPathname,
+  getSegmentsFromPathname,
+} from "@/i18n/routing";
 import { getBaseUrl } from "./site-url";
 import { resolveServiceSlugForLocale } from "@/strapi/services";
 import { resolveSubServiceSlugForLocale } from "@/strapi/sub-services";
@@ -8,19 +13,6 @@ import { resolvePackageServiceSlugForLocale } from "@/strapi/package-service";
 import { resolveBlogSlugForLocale } from "@/strapi/blog";
 
 type PathSegment = string;
-
-function isLocale(value: string): value is Locale {
-  return locales.includes(value as Locale);
-}
-
-/** Builds absolute URL; homepage uses trailing slash per SEO audit. */
-export function buildAbsoluteUrl(lang: Locale, segments: PathSegment[]): string {
-  const base = getBaseUrl();
-  if (segments.length === 0) {
-    return `${base}/${lang}/`;
-  }
-  return `${base}/${lang}/${segments.join("/")}`;
-}
 
 async function resolveSlugForLocale(
   section: "services" | "cases" | "package-service" | "blog",
@@ -116,30 +108,29 @@ async function resolveLocalizedPaths(
     };
   }
 
-  // Static hub pages: same path in both locales
   return { uk: [...segments], en: [...segments] };
 }
 
 export async function buildAlternatesFromPathname(
   pathname: string,
 ): Promise<NonNullable<Metadata["alternates"]>> {
-  const parts = pathname.split("/").filter(Boolean);
-  const currentLang = parts[0] && isLocale(parts[0]) ? parts[0] : defaultLocale;
-  const segments = parts[0] && isLocale(parts[0]) ? parts.slice(1) : parts;
+  const base = getBaseUrl();
+  const currentLang = getLocaleFromPathname(pathname);
+  const segments = getSegmentsFromPathname(pathname);
 
   const { uk: ukSegments, en: enSegments } = await resolveLocalizedPaths(
     currentLang,
     segments,
   );
 
-  const canonical = buildAbsoluteUrl(currentLang, segments);
+  const canonical = buildPublicAbsoluteUrl(base, currentLang, segments);
 
   return {
     canonical,
     languages: {
-      uk: buildAbsoluteUrl("uk", ukSegments),
-      en: buildAbsoluteUrl("en", enSegments),
-      "x-default": buildAbsoluteUrl(defaultLocale, ukSegments),
+      uk: buildPublicAbsoluteUrl(base, "uk", ukSegments),
+      en: buildPublicAbsoluteUrl(base, "en", enSegments),
+      "x-default": buildPublicAbsoluteUrl(base, defaultLocale, ukSegments),
     },
   };
 }

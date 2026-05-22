@@ -6,6 +6,8 @@ import { getCases } from "@/strapi/cases";
 import ServicePageClient from "@/components/services/service-page-client";
 import { JsonLd } from "@/components/schema/json-ld";
 import { buildSingleServiceJsonLd } from "@/lib/schema/service-schema";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { withSeoAlternates } from "@/lib/seo";
 
 type ServicesPageProps = {
@@ -28,8 +30,10 @@ export async function generateMetadata({
   const title = service.seo?.title || service.title;
   const description = service.seo?.description || service.description;
 
+  const locale = (lang === "en" ? "en" : "uk") as Locale;
   const pathname =
-    (await headers()).get("x-pathname") ?? `/${lang}/services/${slug}`;
+    (await headers()).get("x-pathname") ??
+    localePath(locale, "services", slug);
 
   return withSeoAlternates(pathname, {
     title: `${title} | Dr. Dembitskyi`,

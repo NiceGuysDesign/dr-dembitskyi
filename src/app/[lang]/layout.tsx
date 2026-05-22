@@ -9,7 +9,8 @@ import ConsultationProvider from "@/components/consultation/consultation-provide
 import { MobileMenuProvider } from "@/components/header/mobile-menu-provider";
 import MobileMenu from "@/components/header/mobile-menu";
 import PageLoader from "@/components/ui/page-loader";
-import { defaultLocale } from "@/i18n/config";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { uk } from "@/i18n/locales/uk";
 import { en } from "@/i18n/locales/en";
 
@@ -26,7 +27,8 @@ export async function generateMetadata({
   const localeMessages = locale === "en" ? en : uk;
   const description = localeMessages.serviceCtaSection.description;
 
-  const pathname = (await headers()).get("x-pathname") ?? `/${lang}`;
+  const pathname =
+    (await headers()).get("x-pathname") ?? localePath(locale as Locale);
 
   return withSeoAlternates(pathname, {
     title: "Dr. Dembitskyi",

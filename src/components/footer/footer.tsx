@@ -3,17 +3,20 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import Logo from "../../../public/icons/logo";
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 
 export default function Footer({ lang }: { lang: string }) {
   const { t } = useTranslation();
+  const locale = lang as Locale;
 
   const navigationItems = [
-    { key: "home", href: `/${lang}` },
-    { key: "services", href: `/${lang}/services` },
-    { key: "about", href: `/${lang}/about` },
-    // { key: "cases", href: `/${lang}/cases` },
-    { key: "blog", href: `/${lang}/blog` },
-    { key: "contacts", href: `/${lang}/contacts` },
+    { key: "home", href: localePath(locale) },
+    { key: "services", href: localePath(locale, "services") },
+    { key: "about", href: localePath(locale, "about") },
+    // { key: "cases", href: localePath(locale, "cases") },
+    { key: "blog", href: localePath(locale, "blog") },
+    { key: "contacts", href: localePath(locale, "contacts") },
   ];
 
   const socialLinks = [
@@ -114,7 +117,7 @@ export default function Footer({ lang }: { lang: string }) {
             {t("footer.license")}
           </p>
           <Link
-            href={`/${lang}/privacy`}
+            href={localePath(locale, "privacy")}
             className="font-manrope font-semibold text-base leading-[130%] tracking-[-0.02em] text-white uppercase opacity-40 hover:opacity-60 transition-opacity m-0"
           >
             {t("footer.privacy")}

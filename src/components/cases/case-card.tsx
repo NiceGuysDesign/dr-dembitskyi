@@ -1,5 +1,7 @@
 "use client";
 
+import { type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routing";
 import { Case } from "@/strapi/cases";
 import CaseSensitiveCover from "./case-sensitive-cover";
 
@@ -16,7 +18,7 @@ export default function CaseCard({ caseItem, lang }: CaseCardProps) {
           <CaseSensitiveCover
             src={caseItem.image}
             alt={caseItem.title}
-            cardHref={`/${lang}/cases/${caseItem.slug}`}
+            cardHref={localePath(lang as Locale, "cases", caseItem.slug)}
             imageClassName="object-cover"
             containerClassName="relative w-full h-full"
           />

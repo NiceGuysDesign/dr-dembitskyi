@@ -1,7 +1,11 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { locales, type Locale } from "@/i18n/config";
+import { type Locale } from "@/i18n/config";
+import {
+  getSegmentsFromPathname,
+  localePath,
+} from "@/i18n/routing";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -29,13 +33,12 @@ export default function LanguageSwitcher() {
   function handleMouseLeave() {
     timeoutRef.current = setTimeout(() => {
       setIsHovered(false);
-    }, 150); // Невелика затримка перед закриттям
+    }, 150);
   }
 
   async function switchLanguage(lang: Locale) {
     if (!pathname) return;
 
-    // Fast path: already on desired locale.
     if (lang === currentLang) {
       setIsHovered(false);
       return;
@@ -61,14 +64,8 @@ export default function LanguageSwitcher() {
       // ignore and fall back
     }
 
-    // Fallback: locale segment swap only
-    const segments = pathname.split("/");
-    if (segments[1] && locales.includes(segments[1] as Locale)) {
-      segments[1] = lang;
-    } else {
-      segments.splice(1, 0, lang);
-    }
-    router.push(segments.join("/") || `/${lang}`);
+    const segments = getSegmentsFromPathname(pathname);
+    router.push(localePath(lang, ...segments));
     setIsHovered(false);
   }
 
@@ -78,12 +75,10 @@ export default function LanguageSwitcher() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Current language button */}
       <button className="w-[40px] h-[40px] cursor-pointer rounded-full border border-black flex items-center justify-center font-manrope font-semibold text-sm leading-[130%] tracking-[-0.02em] text-[#353556] hover:opacity-80 transition-opacity">
         {currentLang === "uk" ? "UK" : "EN"}
       </button>
 
-      {/* Popup menu */}
       {isHovered && (
         <div className="absolute top-full right-0 mt-1 bg-white border border-black rounded-lg shadow-lg overflow-hidden z-50 min-w-[80px]">
           <button
