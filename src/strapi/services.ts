@@ -24,6 +24,7 @@ export interface RichTextNode {
   level?: number; // For headings (1-6)
   url?: string; // For links
   image?: RichTextImage; // For images
+  bold?: boolean;
 }
 
 // Strapi types
