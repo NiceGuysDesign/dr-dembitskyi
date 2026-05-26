@@ -38,6 +38,7 @@ export default function CaseCoverImage({
         alt={alt}
         className={className}
         unoptimized={unoptimized}
+        draggable={false}
       />
     </div>
   );

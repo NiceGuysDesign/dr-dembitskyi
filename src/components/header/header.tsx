@@ -39,7 +39,7 @@ export default function Header({ lang }: { lang: string }) {
     { key: "home", href: localePath(locale) },
     { key: "services", href: localePath(locale, "services") },
     { key: "about", href: localePath(locale, "about") },
-    // { key: "cases", href: localePath(locale, "cases") },
+    { key: "cases", href: localePath(locale, "cases") },
     { key: "blog", href: localePath(locale, "blog") },
     { key: "contacts", href: localePath(locale, "contacts") },
   ];

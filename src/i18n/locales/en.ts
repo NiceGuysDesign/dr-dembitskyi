@@ -90,6 +90,9 @@ export const en = {
     clickToView: "Tap to preview",
     clickToOpen: "Tap to open case",
     showImage: "Show image",
+    sensitiveContentLine1: "Sensitive content.",
+    sensitiveContentLine2: "To view — go to the case page",
+    sensitiveRevealLine2: "Tap to view",
   },
   footer: {
     site: "Site",

@@ -95,9 +95,40 @@ body {
   font-family: var(--font-manrope);
 }
 
-/* Прибираємо затемнення на неактивних слайдах в coverflow */
+/* Cases carousel — Swiper coverflow 3D */
+.cases-swiper {
+  overflow: visible !important;
+  touch-action: pan-x pan-y;
+  cursor: grab;
+}
+
+.cases-swiper:active {
+  cursor: grabbing;
+}
+
+.cases-swiper .swiper-wrapper {
+  touch-action: pan-x pan-y;
+}
+
 .cases-swiper .swiper-slide {
   opacity: 1 !important;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+/* Контент слайда = ширина комірки Swiper (не vw, щоб фото не вилазило) */
+.cases-swiper .swiper-slide > button {
+  width: 100%;
+}
+
+.cases-swiper .swiper-slide img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.cases-swiper .swiper-slide:not(.swiper-slide-active) {
+  cursor: pointer;
 }
 
 .cases-swiper .swiper-slide-shadow-left,

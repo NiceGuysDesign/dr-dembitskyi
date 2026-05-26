@@ -14,7 +14,7 @@ export default function Footer({ lang }: { lang: string }) {
     { key: "home", href: localePath(locale) },
     { key: "services", href: localePath(locale, "services") },
     { key: "about", href: localePath(locale, "about") },
-    // { key: "cases", href: localePath(locale, "cases") },
+    { key: "cases", href: localePath(locale, "cases") },
     { key: "blog", href: localePath(locale, "blog") },
     { key: "contacts", href: localePath(locale, "contacts") },
   ];
@@ -57,7 +57,7 @@ export default function Footer({ lang }: { lang: string }) {
                 <p className="font-inter font-medium text-sm leading-[120%] tracking-[-0.02em] text-white opacity-50 m-0">
                   {t("footer.site")}
                 </p>
-                <nav className="flex flex-col gap-[3px]">
+                <nav className="flex flex-col gap-[6px]">
                   {navigationItems.map((item) => (
                     <Link
                       key={item.key}
@@ -75,7 +75,7 @@ export default function Footer({ lang }: { lang: string }) {
                 <p className="font-inter font-medium text-sm leading-[120%] tracking-[-0.02em] text-white opacity-50 m-0">
                   {t("footer.social")}
                 </p>
-                <div className="flex flex-col gap-[4px]">
+                <div className="flex flex-col gap-[6px]">
                   {socialLinks.map((link) => (
                     <a
                       key={link.key}
@@ -95,7 +95,7 @@ export default function Footer({ lang }: { lang: string }) {
                 <p className="font-inter font-medium text-sm leading-[120%] tracking-[-0.02em] text-white opacity-50 m-0">
                   {t("footer.phone")}
                 </p>
-                <div className="flex flex-col gap-[2px]">
+                <div className="flex flex-col gap-[6px]">
                   {phoneNumbers.map((phone, index) => (
                     <a
                       key={index}

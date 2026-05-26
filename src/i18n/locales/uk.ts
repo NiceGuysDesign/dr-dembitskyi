@@ -90,6 +90,9 @@ export const uk = {
     clickToView: "Натисніть щоб переглянути",
     clickToOpen: "Натисніть щоб відкрити кейс",
     showImage: "Показати зображення",
+    sensitiveContentLine1: "Чутливий контент.",
+    sensitiveContentLine2: "Для перегляду — перейдіть на сторінку кейсу",
+    sensitiveRevealLine2: "Натисніть для перегляду",
   },
   footer: {
     site: "Сайт",

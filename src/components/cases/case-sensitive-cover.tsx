@@ -10,6 +10,8 @@ type CaseSensitiveCoverProps = {
   cardHref?: string;
   /** Detail page mode: click to reveal image. */
   revealOnly?: boolean;
+  /** Carousel slide: no Link wrapper — carousel handles drag. */
+  swipeable?: boolean;
   containerClassName?: string;
   imageClassName?: string;
   unoptimized?: boolean;
@@ -20,6 +22,7 @@ export default function CaseSensitiveCover({
   alt,
   cardHref,
   revealOnly = false,
+  swipeable = false,
   containerClassName = "relative w-full h-full",
   imageClassName = "object-cover",
   unoptimized = false,
@@ -28,6 +31,7 @@ export default function CaseSensitiveCover({
     <CaseSensitiveMedia
       cardLink={cardHref}
       revealOnly={revealOnly}
+      swipeable={swipeable}
       className={containerClassName}
     >
       <CaseCoverImage
