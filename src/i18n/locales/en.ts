@@ -123,6 +123,7 @@ export const en = {
     successMessage:
       "Your message has been successfully sent. We will contact you soon.",
     errorMessage: "Error sending. Please try again.",
+    phoneInvalid: "Enter a valid phone number in the format +38 (0XX) XXX XX XX",
     close: "Close",
   },
   ctaSection: {

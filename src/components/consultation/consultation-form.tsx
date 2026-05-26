@@ -2,6 +2,11 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  isCompleteUkrainianPhone,
+  toInternationalUkrainianPhone,
+} from "@/lib/phone";
+import UkrainianPhoneInput from "./ukrainian-phone-input";
 
 interface ConsultationFormProps {
   onClose: () => void;
@@ -12,6 +17,7 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,8 +25,18 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isCompleteUkrainianPhone(formData.phone)) {
+      setPhoneError(
+        t("consultation.phoneInvalid") ||
+          "Введіть коректний номер телефону у форматі +38 (0XX) XXX XX XX"
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
+    setPhoneError(null);
 
     try {
       // TODO: Replace with your actual API endpoint
@@ -33,7 +49,8 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
+          name: formData.name,
+          phone: toInternationalUkrainianPhone(formData.phone),
           source: "consultation-form",
         }),
       });
@@ -71,12 +88,17 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
     });
   };
 
+  const handlePhoneChange = (value: string) => {
+    setPhoneError(null);
+    setFormData({ ...formData, phone: value });
+  };
+
   return (
     <div className="h-full w-full flex flex-col bg-[#F4F4F5] relative">
       {/* Close Button - Top Right */}
       <button
         onClick={onClose}
-        className="absolute top-[43px] right-[10px] md:right-[30px] w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] flex items-center justify-center hover:opacity-70 transition-opacity z-10"
+        className="cursor-pointer absolute top-[43px] right-[10px] md:right-[30px] w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] flex items-center justify-center hover:opacity-70 transition-opacity z-10"
         aria-label="Close"
       >
         <svg
@@ -138,7 +160,7 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
                 </p>
                 <button
                   onClick={onClose}
-                  className="w-[246px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-[16px] leading-[100%] tracking-[-0.01em] text-white flex items-center justify-center"
+                  className="cursor-pointer w-[246px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-[16px] leading-[100%] tracking-[-0.01em] text-white flex items-center justify-center"
                   style={{
                     background:
                       "radial-gradient(114.39% 151.52% at 50% 151.52%, #000000 0%, #3A3A45 100%)",
@@ -190,18 +212,17 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
                 >
                   {t("consultation.phone") || "Телефон"}
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
+                <UkrainianPhoneInput
                   value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-[18px] bg-[rgba(138,140,193,0.2)] font-inter font-medium text-[14px] leading-[120%] tracking-[-0.02em] text-[#353556] placeholder:text-[#353556] placeholder:opacity-50 focus:outline-none focus:bg-[rgba(138,140,193,0.3)] transition-colors"
+                  onValueChange={handlePhoneChange}
+                  aria-invalid={phoneError ? true : undefined}
                   placeholder={
                     t("consultation.phonePlaceholder") || "+38 (0XX) XXX XX XX"
                   }
                 />
+                {phoneError && (
+                  <p className="text-sm text-red-600">{phoneError}</p>
+                )}
               </div>
 
               {/* Error Message */}
@@ -217,7 +238,7 @@ export default function ConsultationForm({ onClose }: ConsultationFormProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-[246px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-[16px] leading-[100%] tracking-[-0.01em] text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                className="cursor-pointer w-[246px] h-[66px] min-h-[54px] rounded-[50px] font-inter font-medium text-[16px] leading-[100%] tracking-[-0.01em] text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   background:
                     "radial-gradient(114.39% 151.52% at 50% 151.52%, #000000 0%, #3A3A45 100%)",

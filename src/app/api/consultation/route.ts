@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isCompleteUkrainianPhone } from "@/lib/phone";
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,6 +9,13 @@ export async function POST(request: NextRequest) {
     if (!body.name || !body.phone) {
       return NextResponse.json(
         { message: "Ім'я та телефон є обов'язковими полями" },
+        { status: 400 }
+      );
+    }
+
+    if (!isCompleteUkrainianPhone(String(body.phone))) {
+      return NextResponse.json(
+        { message: "Введіть коректний номер телефону" },
         { status: 400 }
       );
     }
