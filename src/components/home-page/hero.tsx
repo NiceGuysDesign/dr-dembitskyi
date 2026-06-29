@@ -9,9 +9,9 @@ interface HeroProps {
 
 export default function Hero({ heroData, lang }: HeroProps) {
   return (
-    <section className="relative w-full h-[100vh] md:h-[90vh] lg:h-screen overflow-hidden pt-[100px] md:pt-[120px]">
-      <div className="relative px-[10px] md:px-5 h-full">
-        <div className="relative flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-0 h-full">
+    <section className="relative w-full overflow-hidden pt-[100px] pb-10 md:pb-0 md:h-[90vh] lg:h-screen md:pt-[120px]">
+      <div className="relative px-[10px] md:px-5 md:h-full">
+        <div className="relative flex flex-col md:flex-row justify-center items-stretch md:items-start gap-6 md:gap-0 md:h-full">
           <HeroContent
             title={heroData.title}
             description={heroData.description}
@@ -20,7 +20,6 @@ export default function Hero({ heroData, lang }: HeroProps) {
           <HeroLcpImage src={heroData.image} alt={heroData.imageAlt} />
         </div>
       </div>
-      <div className="absolute bottom-20 md:bottom-0 bg-gradient-to-t from-[var(--color-bg-light)] to-transparent w-full h-[60vh] md:h-[300px] z-10" />
     </section>
   );
 }

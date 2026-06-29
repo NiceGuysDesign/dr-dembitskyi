@@ -13,7 +13,11 @@ type HeroContentProps = {
   lang: string;
 };
 
-export default function HeroContent({ title, description, lang }: HeroContentProps) {
+export default function HeroContent({
+  title,
+  description,
+  lang,
+}: HeroContentProps) {
   const { t } = useTranslation();
   const { openConsultation } = useConsultation();
 
@@ -22,17 +26,17 @@ export default function HeroContent({ title, description, lang }: HeroContentPro
   const lastName = titleParts.slice(1).join(" ") || "";
 
   return (
-    <>
+    <div className="relative z-30 flex w-full flex-col pt-[min(52vw,400px)] md:pb-0 md:contents">
       <h1 className="hidden md:flex relative font-manrope font-bold leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] text-[18vw] md:text-[18vw] xl:text-[19vw] flex-col md:mt-20 xl:mt-0 pointer-events-none">
         {firstName}
         {lastName && <span className="relative z-20">{lastName}</span>}
       </h1>
 
-      <h1 className="mb-10 relative z-30 md:hidden font-manrope font-bold leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] text-[17vw] md:text-[18vw] xl:text-[19vw] flex flex-col md:mt-20 xl:mt-0">
+      <h1 className="mb-6 font-manrope font-bold leading-[100%] tracking-[-0.05em] text-[var(--color-gray)] text-[17vw] flex flex-col md:hidden">
         {title}
       </h1>
 
-      <div className="absolute bottom-0 left-0 lg:bottom-auto md:right-5 lg:top-[5%] lg:left-auto z-30 md:max-w-[50%] lg:max-w-[30%] flex flex-col gap-4 py-10 lg:py-0">
+      <div className="flex flex-col gap-4 md:absolute md:bottom-0 md:left-0 lg:bottom-auto md:right-5 lg:top-[5%] lg:left-auto md:max-w-[50%] lg:max-w-[30%] md:py-10 lg:py-0">
         <p className="font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black">
           {description}
         </p>
@@ -56,6 +60,6 @@ export default function HeroContent({ title, description, lang }: HeroContentPro
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }

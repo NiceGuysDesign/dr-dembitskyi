@@ -145,20 +145,34 @@ export const en = {
     title: "Plastic surgery",
     subtitle: "where the main thing is not the form,",
     subtitle2: "but the person",
+    sectionDescription:
+      "We work in three areas: plastic surgery of the face and body, phlebology — treatment of varicose veins and vascular changes, and injection cosmetology. Each area has its own consultation and rehabilitation protocol, so we always start with an honest conversation about what is right for you.",
     services: {
       phlebology: {
         title: "Phlebology",
+        description:
+          "Treatment of varicose veins and vascular conditions in Kyiv - from diagnosis to full recovery of leg mobility.",
         imageAlt: "Phlebology",
       },
       plasticSurgery: {
         title: "Plastic surgery",
+        description:
+          "Surgical correction of the face and body in Kyiv with a focus on natural, harmonious results.",
         imageAlt: "Plastic surgery",
       },
       injectionCosmetology: {
         title: "Injection cosmetology",
+        description:
+          "Gentle rejuvenation without surgery in Kyiv — for those who want to softly enhance their natural beauty.",
         imageAlt: "Injection cosmetology",
       },
     },
+  },
+  trustSection: {
+    title: "Experience you can trust",
+  },
+  faqSection: {
+    title: "Frequently asked questions",
   },
   servicePage: {
     procedureMain: "Key points about the procedure",

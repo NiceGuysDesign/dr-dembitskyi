@@ -102,6 +102,9 @@ export default function CasesCarousel({ cases, lang }: CasesCarouselProps) {
         simulateTouch: true,
         allowTouchMove: true,
         touchStartPreventDefault: false,
+        touchReleaseOnEdges: true,
+        resistanceRatio: 0.85,
+        threshold: 8,
         watchSlidesProgress: true,
         coverflowEffect: {
           rotate: 60,
@@ -182,7 +185,10 @@ export default function CasesCarousel({ cases, lang }: CasesCarouselProps) {
 
   return (
     <>
-      <div className="relative w-full py-6 md:py-8 lg:py-10" data-lenis-prevent>
+      <div
+        className="relative w-full py-6 md:py-8 lg:py-10 touch-pan-y"
+        data-lenis-prevent-touch
+      >
         <div
           key={casesKey}
           ref={containerRef}

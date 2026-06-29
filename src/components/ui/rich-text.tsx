@@ -13,7 +13,15 @@ interface RichTextProps {
   sensitive?: boolean;
   /** Larger vertical gaps for legal/docs content (privacy policy, etc.). */
   spacing?: "default" | "document";
+  /** Body copy typography — `inter` for cards/FAQ, `manrope` elsewhere. */
+  bodyVariant?: "manrope" | "inter";
 }
+
+const BODY_TEXT_CLASS = {
+  manrope:
+    "font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black",
+  inter: "font-inter font-medium text-base leading-[150%] text-black",
+} as const;
 
 function isEmptyParagraph(node: RichTextNode): boolean {
   if (node.type !== "paragraph" || !node.children?.length) return true;
@@ -117,8 +125,11 @@ export default function RichText({
   className = "",
   sensitive = false,
   spacing = "default",
+  bodyVariant = "manrope",
 }: RichTextProps) {
   if (!content || !Array.isArray(content)) return null;
+
+  const bodyTextClass = BODY_TEXT_CLASS[bodyVariant];
 
   const spacerClass = SPACER_CLASS[spacing];
   const isDocument = spacing === "document";
@@ -144,7 +155,7 @@ export default function RichText({
           return (
             <p
               key={index}
-              className={`font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black ${blockGap} ${
+              className={`${bodyTextClass} ${blockGap} ${
                 isDocument ? "mb-0" : "mb-4"
               }`}
             >
@@ -282,10 +293,7 @@ export default function RichText({
                   if (!hasContent) return null;
 
                   return (
-                    <li
-                      key={itemIndex}
-                      className="font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black"
-                    >
+                    <li key={itemIndex} className={bodyTextClass}>
                       {item.children
                         ? renderTextNodes(item.children)
                         : item.text || ""}
@@ -296,7 +304,12 @@ export default function RichText({
                 if (item.type === "list") {
                   return (
                     <li key={itemIndex} className="list-none">
-                      <RichText content={[item]} sensitive={sensitive} />
+                      <RichText
+                        content={[item]}
+                        sensitive={sensitive}
+                        bodyVariant={bodyVariant}
+                        spacing={spacing}
+                      />
                     </li>
                   );
                 }
@@ -312,7 +325,7 @@ export default function RichText({
           return (
             <blockquote
               key={index}
-              className={`mt-4 border-l-4 bg-gray-200 p-4 border-[#353556] pl-4 font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black italic ${blockGap} ${
+              className={`mt-4 border-l-4 bg-gray-200 p-4 border-[#353556] pl-4 italic ${bodyTextClass} ${blockGap} ${
                 isDocument ? "mb-0" : "my-6"
               }`}
             >
@@ -325,10 +338,7 @@ export default function RichText({
         if (node.type === "list-item") {
           if (!node.children || node.children.length === 0) return null;
           return (
-            <li
-              key={index}
-              className="font-manrope font-semibold text-sm md:text-base leading-[150%] tracking-[-0.03em] text-black"
-            >
+            <li key={index} className={bodyTextClass}>
               {renderTextNodes(node.children)}
             </li>
           );
