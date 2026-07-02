@@ -74,7 +74,15 @@ function handleLocaleRouting(
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  if (pathname === "/robots.txt" || pathname === "/sitemap.xml") {
+  if (
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname === "/site.webmanifest" ||
+    pathname === "/favicon.svg" ||
+    pathname === "/apple-touch-icon.png" ||
+    pathname === "/favicon-96x96.png" ||
+    pathname.startsWith("/web-app-manifest-")
+  ) {
     return NextResponse.next();
   }
 

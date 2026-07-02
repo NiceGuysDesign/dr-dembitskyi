@@ -11,6 +11,14 @@ import {
 export const metadata: Metadata = {
   title: "Dr. Dembitskyi",
   description: "Dr. Dembitskyi",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
   verification: {
     google: "EKIqjIvaIK-_6y0orY2IQflLWOE0Kd4c4nX3rF6EXdI",
   },
